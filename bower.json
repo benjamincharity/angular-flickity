@@ -1,0 +1,33 @@
+{
+    "name": "angular-flickity",
+    "homepage": "https://github.com/benjamincharity/angular-flickity",
+    "authors": [
+        "Benjamin Charity <ben@benjamincharity.com>"
+    ],
+    "description": "Angular integration for Flickity.js",
+    "keywords": [
+        "angular",
+        "angular-flickity",
+        "flickity",
+        "flickity.js",
+        "angular.js",
+        "swipe",
+        "slideshow",
+        "slider",
+        "carousel",
+        "touch"
+    ],
+    "license": "MIT",
+    "main": "dist/angular-flickity.js",
+    "dependencies": {
+        "angular": "~1.4.0",
+        "flickity": "~1.1.2"
+    },
+    "ignore": [
+        "**/.*",
+        "src",
+        "gulpfile.js",
+        "package.json"
+    ]
+}
+

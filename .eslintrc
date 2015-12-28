@@ -1,0 +1,21 @@
+{
+    "extends": "./node_modules/eslint-config-moment/index.js",
+    "plugins": ["angular"],
+    "env": {
+      "browser": true
+    },
+    "globals": {
+      "angular": true,
+      "Velocity": false,
+      "analytics": false,
+      "StatusBar": false
+    },
+    "rules": {
+        // Needed for angular
+        "no-use-before-define": 0,
+        // Needed for angular
+        "no-unused-vars": 0,
+        "angular/log": 0
+    }
+}
+
