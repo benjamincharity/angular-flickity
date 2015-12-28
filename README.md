@@ -4,9 +4,9 @@
 
 > _Demo images from http://deathtothestockphoto.com/_
 
-Plnkr demo: http://plnkr.co/edit/gFwwJf?p=preview
+**Plnkr demo:** http://plnkr.co/edit/gFwwJf?p=preview
 
-Local Demo:
+**Local Demo:**
 
 - Clone the repo
 
