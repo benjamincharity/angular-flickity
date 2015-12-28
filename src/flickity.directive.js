@@ -56,8 +56,6 @@ export function FlickityDirective(
      */
     function linkFunction($scope, $element) {
 
-        console.log('in link: ', $element);
-
         const defaultInitialIndex = 0;
         const defaultFriction = .2;
         const defaultCellAlign = 'center';
