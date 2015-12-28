@@ -44,4 +44,5 @@ http://localhost:3000/
 ## TODO
 
 - Enable [Flickity methods](http://flickity.metafizzy.co/api.html)
+- Better docs
 
