@@ -5,6 +5,10 @@
         "Benjamin Charity <ben@benjamincharity.com>"
     ],
     "description": "Angular integration for Flickity.js",
+    "moduleType": [
+        "amd",
+        "globals"
+    ],
     "keywords": [
         "angular",
         "angular-flickity",
