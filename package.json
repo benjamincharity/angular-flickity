@@ -1,6 +1,6 @@
 {
   "name": "angular-flickity",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Angular integration for Flickity.js",
   "main": "dist/angular-flickity.js",
   "scripts": {
