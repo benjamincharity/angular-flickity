@@ -1,41 +1,51 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("angular-flickity", [], factory);
+	else if(typeof exports === 'object')
+		exports["angular-flickity"] = factory();
+	else
+		root["angular-flickity"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -45,17 +55,23 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _flickityDirective = __webpack_require__(1);
-
-	angular.module('bc.Flickity', []).directive('bcFlickity', _flickityDirective.FlickityDirective);
+	
+	var _flickity = __webpack_require__(1);
+	
+	angular.module('bc.Flickity', []).directive('bcFlickity', _flickity.FlickityDirective);
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityDirective = FlickityDirective;
 	/* global Flickity */
-
+	
 	/**
 	 * Flickity.js
 	 * http://flickity.metafizzy.co/options.html
@@ -69,17 +85,9 @@
 	 * </div>
 	 *
 	 */
-	'use strict';
-
-	FlickityDirective.$inject = ["$timeout"];
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-	exports.FlickityDirective = FlickityDirective;
-
 	function FlickityDirective($timeout) {
 	    'ngInject';
-
+	
 	    var directive = {
 	        restrict: 'A',
 	        scope: {
@@ -109,20 +117,18 @@
 	        },
 	        link: linkFunction
 	    };
-
+	
 	    return directive;
-
+	
 	    /**
 	     * Link
 	     */
 	    function linkFunction($scope, $element) {
-
-	        console.log('in link: ', $element);
-
+	
 	        var defaultInitialIndex = 0;
 	        var defaultFriction = .2;
 	        var defaultCellAlign = 'center';
-
+	
 	        // Define the option object using any user defined options while falling back to defaults
 	        var flickityOptions = {
 	            accessibility: angular.isDefined($scope.flickityAccessibility) ? $scope.flickityAccessibility : true,
@@ -148,11 +154,11 @@
 	            imagesLoaded: angular.isDefined($scope.flickityImagesLoaded) ? $scope.flickityImagesLoaded : true,
 	            asNavFor: angular.isDefined($scope.flickityAsNavFor) ? $scope.flickityAsNavFor : true
 	        };
-
+	
 	        if (angular.isDefined($scope.flickityArrowShape)) {
 	            flickityOptions.arrowShape = $scope.flickityArrowShape;
 	        }
-
+	
 	        // Initialize Flickity
 	        $timeout(function () {
 	            new Flickity($element[0], flickityOptions);
@@ -161,4 +167,7 @@
 	}
 
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
+//# sourceMappingURL=angular-flickity.js.map
