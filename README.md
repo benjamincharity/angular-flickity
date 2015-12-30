@@ -3,9 +3,7 @@
 
 ## Demo
 
-> _Demo images from http://deathtothestockphoto.com/_
-
-**Plnkr demo:** http://plnkr.co/edit/gFwwJf?p=preview
+http://plnkr.co/edit/gFwwJf?p=preview
 
 
 ## Flickity
