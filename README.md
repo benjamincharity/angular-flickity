@@ -1,15 +1,18 @@
 # Angular Flickity
 
+
 ## Demo
 
 > _Demo images from http://deathtothestockphoto.com/_
 
 **Plnkr demo:** http://plnkr.co/edit/gFwwJf?p=preview
 
+
 ## Scripts
 
 * `npm run build` - produces production version of your library under the `lib` folder
 * `npm run dev` - produces development version of your library and runs a watcher
+
 
 ## Details
 
@@ -18,7 +21,6 @@
 * Exports in a [umd](https://github.com/umdjs/umd)
 * Linting with [ESLint](http://eslint.org/).
 
-- - -
 
 ## Flickity
 
@@ -26,6 +28,7 @@
 
 - [Flickity on Github](https://github.com/metafizzy/flickity)
 - [Flickity Docs](http://flickity.metafizzy.co/)
+
 
 ## TODO
 
