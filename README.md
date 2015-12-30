@@ -6,31 +6,17 @@
 
 **Plnkr demo:** http://plnkr.co/edit/gFwwJf?p=preview
 
-**Local Demo:**
+## Scripts
 
-- Clone the repo
+* `npm run build` - produces production version of your library under the `lib` folder
+* `npm run dev` - produces development version of your library and runs a watcher
 
-```
-$ git clone https://github.com/benjamincharity/angular-flickity.git
-```
+## Details
 
-- Install dependencies
-
-```
-$ bower install && npm install
-```
-
-- Start local server
-
-```
-$ gulp serve
-```
-
-- Access the demo in your browser:
-
-```
-http://localhost:3000/
-```
+* Webpack based ([source](https://github.com/krasimir/webpack-library-starter)).
+* ES6 as a source.
+* Exports in a [umd](https://github.com/umdjs/umd)
+* Linting with [ESLint](http://eslint.org/).
 
 - - -
 
