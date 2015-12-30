@@ -8,6 +8,14 @@
 **Plnkr demo:** http://plnkr.co/edit/gFwwJf?p=preview
 
 
+## Flickity
+
+> Touch, responsive, flickable galleries.
+
+- [Flickity on Github](https://github.com/metafizzy/flickity)
+- [Flickity Docs](http://flickity.metafizzy.co/)
+
+
 ## Scripts
 
 * `npm run build` - produces production version of your library under the `lib` folder
@@ -20,14 +28,6 @@
 * ES6 as a source.
 * Exports in a [umd](https://github.com/umdjs/umd)
 * Linting with [ESLint](http://eslint.org/).
-
-
-## Flickity
-
-> Touch, responsive, flickable galleries.
-
-- [Flickity on Github](https://github.com/metafizzy/flickity)
-- [Flickity Docs](http://flickity.metafizzy.co/)
 
 
 ## TODO
