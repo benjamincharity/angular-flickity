@@ -3,33 +3,80 @@
 
 ## Demo
 
-http://plnkr.co/edit/gFwwJf?p=preview
+[http://plnkr.co/edit/gFwwJf?p=preview](http://plnkr.co/edit/gFwwJf?p=preview)
 
 
-## Flickity
+## Options
 
-> Touch, responsive, flickable galleries.
+This directive supports all options for version `1.1.2` of Flickity. A full list of options can be
+found here: [Flickity Options](http://flickity.metafizzy.co/options.html).
 
-- [Flickity on Github](https://github.com/metafizzy/flickity)
-- [Flickity Docs](http://flickity.metafizzy.co/)
+The naming convention is to simply take the option name (eg. `cellSelector`), convert it to
+[kebab-case](http://stackoverflow.com/a/12273101/722367) (eg. `cell-selector`) and add the
+`flickity-` prefix.
+
+Setting the option `initialIndex` would look like this:
+
+```
+<div
+  bc-angular-flickity
+  flickity-initial-index="3"
+>
+  <!-- slides -->
+</div>
+```
 
 
-## Scripts
+## Methods
+
+### Next
+
+The directive `bc-flickity-next` is provided to call the `next()` method on the Flickity instance.
+
+```
+<button bc-flickity-next>Next</button>
+```
+
+You can also pass in an optional parameter to control the looping.
+
+```
+// If true, the first cell will be selected if at the last cell.
+// If false, it will do nothing when at the last cell.
+<button bc-flickity-next="true">Next</button>
+```
+
+### Previous
+
+The directive `bc-flickity-previous` is provided to call the `previous()` method on the Flickity
+instance.
+
+```
+<button bc-flickity-previous>Previous</button>
+```
+
+You can also pass in an optional parameter to control the looping.
+
+```
+// If true, the last cell will be selected if at the first cell.
+// If false, it will do nothing when at the first cell.
+<button bc-flickity-previous="true">Previous</button>
+```
+
+
+- - -
+
+
+### Scripts
 
 * `npm run build` - produces production version of your library under the `lib` folder
 * `npm run dev` - produces development version of your library and runs a watcher
 
 
-## Details
+### About Flickity.js
 
-* Webpack based ([source](https://github.com/krasimir/webpack-library-starter)).
-* ES6 as a source.
-* Exports in a [umd](https://github.com/umdjs/umd)
-* Linting with [ESLint](http://eslint.org/).
+> _Touch, responsive, flickable galleries._
 
+- [Flickity on Github](https://github.com/metafizzy/flickity)
+- [Flickity Docs](http://flickity.metafizzy.co/)
 
-## TODO
-
-- Enable [Flickity methods](http://flickity.metafizzy.co/api.html)
-- Better docs
 
