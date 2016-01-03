@@ -118,7 +118,7 @@ export function FlickityDirective(
 
         // Initialize Flickity
         $timeout(() => {
-            new Flickity($element[0], flickityOptions);
+            vm.Flickity = new Flickity($element[0], flickityOptions);
         });
 
     }
@@ -129,7 +129,29 @@ export function FlickityDirective(
      */
     function FlickityController() {
 
+        this.next = next;
+        this.previous = previous;
+
+
+
+
+        /**
+         * Move to the next slide
+         */
+        function next(isWrapped) {
+            this.Flickity.next(isWrapped);
+        }
+
+
+        /**
+         * Move to the next slide
+         */
+        function previous(isWrapped) {
+            this.Flickity.previous(isWrapped);
+        }
+
     }
 
 }
+
 
