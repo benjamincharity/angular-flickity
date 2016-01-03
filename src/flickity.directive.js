@@ -20,7 +20,8 @@ export function FlickityDirective(
 
     const directive = {
         restrict: 'A',
-        scope: {
+        scope: {},
+        bindToController: {
             flickityAccessibility: '=?',
             flickityAutoPlay: '=?',
             flickityCellAlign: '=?',
@@ -46,6 +47,8 @@ export function FlickityDirective(
             flickityFreeScrollFriction: '=?',
         },
         link: linkFunction,
+        controller: FlickityController,
+        controllerAs: 'vm',
     };
 
     return directive;
@@ -54,7 +57,7 @@ export function FlickityDirective(
     /**
      * Link
      */
-    function linkFunction($scope, $element) {
+    function linkFunction($scope, $element, $attrs, vm) {
 
         const defaultInitialIndex = 0;
         const defaultFriction = .2;
@@ -62,54 +65,54 @@ export function FlickityDirective(
 
         // Define the option object using any user defined options while falling back to defaults
         const flickityOptions = {
-            accessibility: angular.isDefined($scope.flickityAccessibility) ?
-                $scope.flickityAccessibility : true,
-            autoPlay: angular.isDefined($scope.flickityAutoPlay) ?
-                $scope.flickityAutoPlay : false,
-            cellAlign: angular.isDefined($scope.flickityCellAlign) ?
-                $scope.flickityCellAlign : defaultCellAlign,
-            cellSelector: angular.isDefined($scope.flickityCellSelector) ?
-                $scope.flickityCellSelector : undefined,
-            contain: angular.isDefined($scope.flickityContain) ?
-                $scope.flickityContain : false,
-            draggable: angular.isDefined($scope.flickityDraggable) ?
-                $scope.flickityDraggable : true,
-            freeScroll: angular.isDefined($scope.flickityFreeScroll) ?
-                $scope.flickityFreeScroll : false,
-            freeScrollFriction: angular.isDefined($scope.flickityFreeScrollFriction) ?
-                $scope.flickityFreeScrollFriction : false,
-            selectedAttraction: angular.isDefined($scope.flickitySelectedAttraction) ?
-                $scope.flickitySelectedAttraction : true,
-            friction: angular.isDefined($scope.flickityFriction) ?
-                $scope.flickityFriction : defaultFriction,
-            initialIndex: angular.isDefined($scope.flickityInitialIndex) ?
-                $scope.flickityInitialIndex : defaultInitialIndex,
-            lazyLoad: angular.isDefined($scope.flickityLazyLoad) ?
-                $scope.flickityLazyLoad : true,
-            percentPosition: angular.isDefined($scope.flickityPercentPosition) ?
-                $scope.flickityPercentPosition : true,
-            prevNextButtons: angular.isDefined($scope.flickityPrevNextButton) ?
-                $scope.flickityPrevNextButton : true,
-            pageDots: angular.isDefined($scope.flickityPageDots) ?
-                $scope.flickityPageDots : true,
-            resize: angular.isDefined($scope.flickityResize) ?
-                $scope.flickityResize : true,
-            rightToLeft: angular.isDefined($scope.flickityRightToLeft) ?
-                $scope.flickityRightToLeft : false,
-            setGallerySize: angular.isDefined($scope.flickitySetGallerySize) ?
-                $scope.flickitySetGallerySize : true,
-            watchCSS: angular.isDefined($scope.flickityWatchCss) ?
-                $scope.flickityWatchCss : false,
-            wrapAround: angular.isDefined($scope.flickityWrapAround) ?
-                $scope.flickityWrapAround : false,
-            imagesLoaded: angular.isDefined($scope.flickityImagesLoaded) ?
-                $scope.flickityImagesLoaded : true,
-            asNavFor: angular.isDefined($scope.flickityAsNavFor) ?
-                $scope.flickityAsNavFor : true,
+            accessibility: angular.isDefined(vm.flickityAccessibility) ?
+                vm.flickityAccessibility : true,
+            autoPlay: angular.isDefined(vm.flickityAutoPlay) ?
+                vm.flickityAutoPlay : false,
+            cellAlign: angular.isDefined(vm.flickityCellAlign) ?
+                vm.flickityCellAlign : defaultCellAlign,
+            cellSelector: angular.isDefined(vm.flickityCellSelector) ?
+                vm.flickityCellSelector : undefined,
+            contain: angular.isDefined(vm.flickityContain) ?
+                vm.flickityContain : false,
+            draggable: angular.isDefined(vm.flickityDraggable) ?
+                vm.flickityDraggable : true,
+            freeScroll: angular.isDefined(vm.flickityFreeScroll) ?
+                vm.flickityFreeScroll : false,
+            freeScrollFriction: angular.isDefined(vm.flickityFreeScrollFriction) ?
+                vm.flickityFreeScrollFriction : false,
+            selectedAttraction: angular.isDefined(vm.flickitySelectedAttraction) ?
+                vm.flickitySelectedAttraction : true,
+            friction: angular.isDefined(vm.flickityFriction) ?
+                vm.flickityFriction : defaultFriction,
+            initialIndex: angular.isDefined(vm.flickityInitialIndex) ?
+                vm.flickityInitialIndex : defaultInitialIndex,
+            lazyLoad: angular.isDefined(vm.flickityLazyLoad) ?
+                vm.flickityLazyLoad : true,
+            percentPosition: angular.isDefined(vm.flickityPercentPosition) ?
+                vm.flickityPercentPosition : true,
+            prevNextButtons: angular.isDefined(vm.flickityPrevNextButton) ?
+                vm.flickityPrevNextButton : true,
+            pageDots: angular.isDefined(vm.flickityPageDots) ?
+                vm.flickityPageDots : true,
+            resize: angular.isDefined(vm.flickityResize) ?
+                vm.flickityResize : true,
+            rightToLeft: angular.isDefined(vm.flickityRightToLeft) ?
+                vm.flickityRightToLeft : false,
+            setGallerySize: angular.isDefined(vm.flickitySetGallerySize) ?
+                vm.flickitySetGallerySize : true,
+            watchCSS: angular.isDefined(vm.flickityWatchCss) ?
+                vm.flickityWatchCss : false,
+            wrapAround: angular.isDefined(vm.flickityWrapAround) ?
+                vm.flickityWrapAround : false,
+            imagesLoaded: angular.isDefined(vm.flickityImagesLoaded) ?
+                vm.flickityImagesLoaded : true,
+            asNavFor: angular.isDefined(vm.flickityAsNavFor) ?
+                vm.flickityAsNavFor : true,
         };
 
-        if (angular.isDefined($scope.flickityArrowShape)) {
-            flickityOptions.arrowShape = $scope.flickityArrowShape;
+        if (angular.isDefined(vm.flickityArrowShape)) {
+            flickityOptions.arrowShape = vm.flickityArrowShape;
         }
 
 
@@ -117,6 +120,14 @@ export function FlickityDirective(
         $timeout(() => {
             new Flickity($element[0], flickityOptions);
         });
+
+    }
+
+
+    /**
+     * Controller
+     */
+    function FlickityController() {
 
     }
 
