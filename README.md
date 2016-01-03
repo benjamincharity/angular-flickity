@@ -68,7 +68,7 @@ You can also pass in an optional parameter to control the looping.
 
 ### Scripts
 
-* `npm run build` - produces production version of your library under the `lib` folder
+* `npm run build` - produces production version of your library under the `dist` folder
 * `npm run dev` - produces development version of your library and runs a watcher
 
 
