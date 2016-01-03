@@ -144,7 +144,7 @@ export function FlickityDirective(
 
 
         /**
-         * Move to the next slide
+         * Move to the previous slide
          */
         function previous(isWrapped) {
             this.Flickity.previous(isWrapped);

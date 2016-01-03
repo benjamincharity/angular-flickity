@@ -58,7 +58,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(1);
 	
-	angular.module('bc.Flickity', []).directive('bcFlickity', _flickity.FlickityDirective);
+	var _flickityNext = __webpack_require__(2);
+	
+	var _flickityPrevious = __webpack_require__(3);
+	
+	angular.module('bc.Flickity', []).directive('bcFlickity', _flickity.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
 /* 1 */
@@ -164,14 +168,114 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Initialize Flickity
 	        $timeout(function () {
-	            new Flickity($element[0], flickityOptions);
+	            vm.Flickity = new Flickity($element[0], flickityOptions);
 	        });
 	    }
 	
 	    /**
 	     * Controller
 	     */
-	    function FlickityController() {}
+	    function FlickityController() {
+	
+	        this.next = next;
+	        this.previous = previous;
+	
+	        /**
+	         * Move to the next slide
+	         */
+	        function next(isWrapped) {
+	            this.Flickity.next(isWrapped);
+	        }
+	
+	        /**
+	         * Move to the previous slide
+	         */
+	        function previous(isWrapped) {
+	            this.Flickity.previous(isWrapped);
+	        }
+	    }
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityNextDirective = FlickityNextDirective;
+	function FlickityNextDirective() {
+	    'ngInject';
+	
+	    var directive = {
+	        restrict: 'A',
+	        require: '^bcFlickity',
+	        scope: {
+	            bcFlickityNext: '=?'
+	        },
+	        link: linkFunction
+	    };
+	
+	    return directive;
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, $ctrl) {
+	
+	        // If no boolean was passed in, set to a default
+	        if (typeof $scope.bcFlickityNext !== 'boolean') {
+	            $scope.bcFlickityNext = true;
+	        }
+	
+	        // Bind the click up to the required controller
+	        $element.on('click', function () {
+	            $ctrl.next($scope.bcFlickityNext);
+	        });
+	    }
+	}
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityPreviousDirective = FlickityPreviousDirective;
+	function FlickityPreviousDirective() {
+	    'ngInject';
+	
+	    var directive = {
+	        restrict: 'A',
+	        require: '^bcFlickity',
+	        scope: {
+	            bcFlickityPrevious: '=?'
+	        },
+	        link: linkFunction
+	    };
+	
+	    return directive;
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, $ctrl) {
+	
+	        // If no boolean was passed in, set to a default
+	        if (typeof $scope.bcFlickityPrevious !== 'boolean') {
+	            $scope.bcFlickityPrevious = true;
+	        }
+	
+	        // Bind the click up to the required controller
+	        $element.on('click', function () {
+	            $ctrl.previous($scope.bcFlickityPrevious);
+	        });
+	    }
 	}
 
 /***/ }
