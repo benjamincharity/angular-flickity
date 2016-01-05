@@ -58,11 +58,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(1);
 	
+	var _flickity2 = __webpack_require__(4);
+	
 	var _flickityNext = __webpack_require__(2);
 	
 	var _flickityPrevious = __webpack_require__(3);
 	
-	angular.module('bc.Flickity', []).directive('bcFlickity', _flickity.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
+	angular.module('bc.Flickity', []).directive('bcFlickity', _flickity.FlickityDirective).service('FlickityService', _flickity2.FlickityService).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
 /* 1 */
@@ -89,13 +91,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * </div>
 	 *
 	 */
-	function FlickityDirective($timeout) {
+	function FlickityDirective($timeout, FlickityService) {
 	    'ngInject';
 	
 	    var directive = {
 	        restrict: 'A',
 	        scope: {},
 	        bindToController: {
+	            flickityId: '=?',
 	            flickityAccessibility: '=?',
 	            flickityAutoPlay: '=?',
 	            flickityCellAlign: '=?',
@@ -130,7 +133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Link
 	     */
-	    function linkFunction($scope, $element, $attrs, vm) {
+	    function linkFunction($scope, $element, $attrs, $controller) {
 	
 	        var defaultInitialIndex = 0;
 	        var defaultFriction = .2;
@@ -138,62 +141,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Define the option object using any user defined options while falling back to defaults
 	        var flickityOptions = {
-	            accessibility: angular.isDefined(vm.flickityAccessibility) ? vm.flickityAccessibility : true,
-	            autoPlay: angular.isDefined(vm.flickityAutoPlay) ? vm.flickityAutoPlay : false,
-	            cellAlign: angular.isDefined(vm.flickityCellAlign) ? vm.flickityCellAlign : defaultCellAlign,
-	            cellSelector: angular.isDefined(vm.flickityCellSelector) ? vm.flickityCellSelector : undefined,
-	            contain: angular.isDefined(vm.flickityContain) ? vm.flickityContain : false,
-	            draggable: angular.isDefined(vm.flickityDraggable) ? vm.flickityDraggable : true,
-	            freeScroll: angular.isDefined(vm.flickityFreeScroll) ? vm.flickityFreeScroll : false,
-	            freeScrollFriction: angular.isDefined(vm.flickityFreeScrollFriction) ? vm.flickityFreeScrollFriction : false,
-	            selectedAttraction: angular.isDefined(vm.flickitySelectedAttraction) ? vm.flickitySelectedAttraction : true,
-	            friction: angular.isDefined(vm.flickityFriction) ? vm.flickityFriction : defaultFriction,
-	            initialIndex: angular.isDefined(vm.flickityInitialIndex) ? vm.flickityInitialIndex : defaultInitialIndex,
-	            lazyLoad: angular.isDefined(vm.flickityLazyLoad) ? vm.flickityLazyLoad : true,
-	            percentPosition: angular.isDefined(vm.flickityPercentPosition) ? vm.flickityPercentPosition : true,
-	            prevNextButtons: angular.isDefined(vm.flickityPrevNextButton) ? vm.flickityPrevNextButton : true,
-	            pageDots: angular.isDefined(vm.flickityPageDots) ? vm.flickityPageDots : true,
-	            resize: angular.isDefined(vm.flickityResize) ? vm.flickityResize : true,
-	            rightToLeft: angular.isDefined(vm.flickityRightToLeft) ? vm.flickityRightToLeft : false,
-	            setGallerySize: angular.isDefined(vm.flickitySetGallerySize) ? vm.flickitySetGallerySize : true,
-	            watchCSS: angular.isDefined(vm.flickityWatchCss) ? vm.flickityWatchCss : false,
-	            wrapAround: angular.isDefined(vm.flickityWrapAround) ? vm.flickityWrapAround : false,
-	            imagesLoaded: angular.isDefined(vm.flickityImagesLoaded) ? vm.flickityImagesLoaded : true,
-	            asNavFor: angular.isDefined(vm.flickityAsNavFor) ? vm.flickityAsNavFor : true
+	            accessibility: angular.isDefined($controller.flickityAccessibility) ? $controller.flickityAccessibility : true,
+	            autoPlay: angular.isDefined($controller.flickityAutoPlay) ? $controller.flickityAutoPlay : false,
+	            cellAlign: angular.isDefined($controller.flickityCellAlign) ? $controller.flickityCellAlign : defaultCellAlign,
+	            cellSelector: angular.isDefined($controller.flickityCellSelector) ? $controller.flickityCellSelector : undefined,
+	            contain: angular.isDefined($controller.flickityContain) ? $controller.flickityContain : false,
+	            draggable: angular.isDefined($controller.flickityDraggable) ? $controller.flickityDraggable : true,
+	            freeScroll: angular.isDefined($controller.flickityFreeScroll) ? $controller.flickityFreeScroll : false,
+	            freeScrollFriction: angular.isDefined($controller.flickityFreeScrollFriction) ? $controller.flickityFreeScrollFriction : false,
+	            selectedAttraction: angular.isDefined($controller.flickitySelectedAttraction) ? $controller.flickitySelectedAttraction : true,
+	            friction: angular.isDefined($controller.flickityFriction) ? $controller.flickityFriction : defaultFriction,
+	            initialIndex: angular.isDefined($controller.flickityInitialIndex) ? $controller.flickityInitialIndex : defaultInitialIndex,
+	            lazyLoad: angular.isDefined($controller.flickityLazyLoad) ? $controller.flickityLazyLoad : true,
+	            percentPosition: angular.isDefined($controller.flickityPercentPosition) ? $controller.flickityPercentPosition : true,
+	            prevNextButtons: angular.isDefined($controller.flickityPrevNextButton) ? $controller.flickityPrevNextButton : true,
+	            pageDots: angular.isDefined($controller.flickityPageDots) ? $controller.flickityPageDots : true,
+	            resize: angular.isDefined($controller.flickityResize) ? $controller.flickityResize : true,
+	            rightToLeft: angular.isDefined($controller.flickityRightToLeft) ? $controller.flickityRightToLeft : false,
+	            setGallerySize: angular.isDefined($controller.flickitySetGallerySize) ? $controller.flickitySetGallerySize : true,
+	            watchCSS: angular.isDefined($controller.flickityWatchCss) ? $controller.flickityWatchCss : false,
+	            wrapAround: angular.isDefined($controller.flickityWrapAround) ? $controller.flickityWrapAround : false,
+	            imagesLoaded: angular.isDefined($controller.flickityImagesLoaded) ? $controller.flickityImagesLoaded : true,
+	            asNavFor: angular.isDefined($controller.flickityAsNavFor) ? $controller.flickityAsNavFor : true
 	        };
 	
-	        if (angular.isDefined(vm.flickityArrowShape)) {
-	            flickityOptions.arrowShape = vm.flickityArrowShape;
+	        if (angular.isDefined($controller.flickityArrowShape)) {
+	            flickityOptions.arrowShape = $controller.flickityArrowShape;
 	        }
 	
 	        // Initialize Flickity
+	        // Using a timeout ensures that any ng-repeats can finish running before we initialize
 	        $timeout(function () {
-	            vm.Flickity = new Flickity($element[0], flickityOptions);
+	            var flickityInstance = FlickityService.create($element[0], $controller.flickityId, flickityOptions);
+	
+	            // Expose the Flickity instance and ID
+	            $controller.Flickity = flickityInstance.instance;
+	            $controller.flickityId = flickityInstance.id;
 	        });
 	    }
 	
 	    /**
 	     * Controller
 	     */
-	    function FlickityController() {
-	
-	        this.next = next;
-	        this.previous = previous;
-	
-	        /**
-	         * Move to the next slide
-	         */
-	        function next(isWrapped) {
-	            this.Flickity.next(isWrapped);
-	        }
-	
-	        /**
-	         * Move to the previous slide
-	         */
-	        function previous(isWrapped) {
-	            this.Flickity.previous(isWrapped);
-	        }
-	    }
+	    function FlickityController() {}
 	}
 
 /***/ },
@@ -206,7 +196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 	exports.FlickityNextDirective = FlickityNextDirective;
-	function FlickityNextDirective() {
+	function FlickityNextDirective(FlickityService) {
 	    'ngInject';
 	
 	    var directive = {
@@ -223,7 +213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Link
 	     */
-	    function linkFunction($scope, $element, $attrs, $ctrl) {
+	    function linkFunction($scope, $element, $attrs, $controller) {
 	
 	        // If no boolean was passed in, set to a default
 	        if (typeof $scope.bcFlickityNext !== 'boolean') {
@@ -232,7 +222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Bind the click up to the required controller
 	        $element.on('click', function () {
-	            $ctrl.next($scope.bcFlickityNext);
+	            FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
 	        });
 	    }
 	}
@@ -247,7 +237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 	exports.FlickityPreviousDirective = FlickityPreviousDirective;
-	function FlickityPreviousDirective() {
+	function FlickityPreviousDirective(FlickityService) {
 	    'ngInject';
 	
 	    var directive = {
@@ -264,7 +254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Link
 	     */
-	    function linkFunction($scope, $element, $attrs, $ctrl) {
+	    function linkFunction($scope, $element, $attrs, $controller) {
 	
 	        // If no boolean was passed in, set to a default
 	        if (typeof $scope.bcFlickityPrevious !== 'boolean') {
@@ -273,10 +263,178 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Bind the click up to the required controller
 	        $element.on('click', function () {
-	            $ctrl.previous($scope.bcFlickityPrevious);
+	            FlickityService.previous($controller.flickityId, $scope.bcFlickityPrevious);
 	        });
 	    }
 	}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/* global Flickity */
+	
+	var FlickityService = exports.FlickityService = (function () {
+	    function FlickityService($timeout) {
+	        'ngInject';
+	
+	        _classCallCheck(this, FlickityService);
+	
+	        this.$timeout = $timeout;
+	
+	        this.instances = [];
+	    }
+	
+	    _createClass(FlickityService, [{
+	        key: 'create',
+	        value: function create(element, id, options) {
+	            var instance = {
+	                id: id || this.createId(),
+	                instance: new Flickity(element, options)
+	            };
+	
+	            // Save this instance to the array
+	            this.instances.push(instance);
+	
+	            console.log('created new flickity: ', this.instances);
+	
+	            return instance;
+	        }
+	
+	        /**
+	         * Helper function to create a random ID
+	         *
+	         * @return {String} id
+	         */
+	
+	    }, {
+	        key: 'createId',
+	        value: function createId() {
+	            var hexNumber = 0x10000;
+	            var radix = 16;
+	
+	            return s4() + s4() + s4() + s4() + s4();
+	
+	            function s4() {
+	                return Math.floor((1 + Math.random()) * hexNumber).toString(radix).substring(1);
+	            }
+	        }
+	
+	        /**
+	         * Destroy a Flickity instance
+	         *
+	         * @param {String} id
+	         */
+	
+	    }, {
+	        key: 'destroy',
+	        value: function destroy(id) {
+	
+	            var flickityIndex = _.findIndex(this.instances, {
+	                id: id
+	            });
+	
+	            if (flickityIndex < 0) {
+	                console.warn('Flickity instance not found!', flickityIndex);
+	
+	                return false;
+	            }
+	
+	            // Destroy the Flickity instance
+	            this.instances[flickityIndex].instance.destroy();
+	
+	            // Remove the instance from the array
+	            this.instances.splice(flickityIndex, 1);
+	        }
+	
+	        /**
+	         * Move to the next slide
+	         *
+	         * @param {Bool} isWrapped
+	         */
+	
+	    }, {
+	        key: 'next',
+	        value: function next(id, isWrapped) {
+	            var flickityIndex = _.findIndex(this.instances, {
+	                id: id
+	            });
+	
+	            if (flickityIndex < 0) {
+	                console.warn('Flickity instance not found!', flickityIndex);
+	
+	                return false;
+	            }
+	
+	            // Trigger the next slide
+	            this.instances[flickityIndex].instance.next(isWrapped);
+	        }
+	
+	        /**
+	         * Move to the previous slide
+	         *
+	         * @param {Bool} isWrapped
+	         */
+	
+	    }, {
+	        key: 'previous',
+	        value: function previous(id, isWrapped) {
+	            var flickityIndex = _.findIndex(this.instances, {
+	                id: id
+	            });
+	
+	            if (flickityIndex < 0) {
+	                console.warn('Flickity instance not found!', flickityIndex);
+	
+	                return false;
+	            }
+	
+	            // Trigger the next slide
+	            this.instances[flickityIndex].instance.previous(isWrapped);
+	        }
+	
+	        /**
+	         * Select a slide
+	         *
+	         * @param {String} id
+	         * @param {Int} index
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         */
+	
+	    }, {
+	        key: 'select',
+	        value: function select(id, index) {
+	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	
+	            var flickityIndex = _.findIndex(this.instances, {
+	                id: id
+	            });
+	
+	            if (flickityIndex < 0) {
+	                console.warn('Flickity instance not found!', flickityIndex);
+	
+	                return false;
+	            }
+	
+	            // Trigger the next slide
+	            this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
+	        }
+	    }]);
+	
+	    return FlickityService;
+	})();
 
 /***/ }
 /******/ ])
