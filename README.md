@@ -6,6 +6,12 @@
 [http://plnkr.co/edit/gFwwJf?p=preview](http://plnkr.co/edit/gFwwJf?p=preview)
 
 
+## Dependencies
+
+- [Flickity.js (1.1.2)](http://flickity.metafizzy.co/)
+- [Lodash (3.10.1)](https://lodash.com/)
+
+
 ## Options
 
 This directive supports all options for version `1.1.2` of Flickity. A full list of options can be
@@ -29,6 +35,7 @@ Setting the option `initialIndex` would look like this:
 
 ## Methods
 
+
 ### Next
 
 The directive `bc-flickity-next` is provided to call the `next()` method on the Flickity instance.
@@ -44,6 +51,7 @@ You can also pass in an optional parameter to control the looping.
 // If false, it will do nothing when at the last cell.
 <button bc-flickity-next="true">Next</button>
 ```
+
 
 ### Previous
 
