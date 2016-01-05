@@ -1,4 +1,5 @@
 export function FlickityPreviousDirective(
+    FlickityService
 ) {
     'ngInject';
 
@@ -17,7 +18,7 @@ export function FlickityPreviousDirective(
     /**
      * Link
      */
-    function linkFunction($scope, $element, $attrs, $ctrl) {
+    function linkFunction($scope, $element, $attrs, $controller) {
 
         // If no boolean was passed in, set to a default
         if (typeof $scope.bcFlickityPrevious !== 'boolean') {
@@ -26,7 +27,7 @@ export function FlickityPreviousDirective(
 
         // Bind the click up to the required controller
         $element.on('click', () => {
-            $ctrl.previous($scope.bcFlickityPrevious);
+            FlickityService.previous($controller.flickityId, $scope.bcFlickityPrevious);
         });
 
     }
