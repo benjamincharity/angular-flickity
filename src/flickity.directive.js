@@ -129,6 +129,12 @@ export function FlickityDirective(
             $controller.flickityId = flickityInstance.id;
         });
 
+
+        // Clean up when being destroyed
+        const onDestroy = $scope.$on('$destroy', (event) => {
+            FlickityService.destroy($controller.flickityId);
+        });
+
     }
 
 
@@ -136,7 +142,6 @@ export function FlickityDirective(
      * Controller
      */
     function FlickityController() {
-
 
 
 
