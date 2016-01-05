@@ -1,3 +1,4 @@
+/* global Flickity */
 export class FlickityService {
 
     constructor(
@@ -24,10 +25,6 @@ export class FlickityService {
 
         console.log('created new flickity: ', this.instances);
 
-        this.$timeout(() => {
-            this.destroy(instance.id);
-        }, 5000);
-
         return instance;
     }
 
@@ -38,10 +35,13 @@ export class FlickityService {
      * @return {String} id
      */
     createId() {
+        const hexNumber = 0x10000;
+        const radix = 16;
+
         return s4() + s4() + s4() + s4() + s4();
 
         function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+            return Math.floor((1 + Math.random()) * hexNumber).toString(radix).substring(1);
         }
     }
 
@@ -114,6 +114,14 @@ export class FlickityService {
     }
 
 
+    /**
+     * Select a slide
+     *
+     * @param {String} id
+     * @param {Int} index
+     * @param {Bool} isWrapped
+     * @param {Bool} isInstant
+     */
     select(id, index, isWrapped = false, isInstant = false) {
         const flickityIndex = _.findIndex(this.instances, {
             id: id,
