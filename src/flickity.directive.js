@@ -14,7 +14,8 @@
  *
  */
 export function FlickityDirective(
-    $timeout
+    $timeout,
+    FlickityService
 ) {
     'ngInject';
 
@@ -22,6 +23,7 @@ export function FlickityDirective(
         restrict: 'A',
         scope: {},
         bindToController: {
+            flickityId: '=?',
             flickityAccessibility: '=?',
             flickityAutoPlay: '=?',
             flickityCellAlign: '=?',
@@ -117,8 +119,13 @@ export function FlickityDirective(
 
 
         // Initialize Flickity
+        // Using a timeout ensures that any ng-repeats can finish running before we initialize
         $timeout(() => {
-            $controller.Flickity = $controller.create($element[0], flickityOptions);
+            const flickityInstance = FlickityService.create($element[0], $controller.flickityId, flickityOptions);
+
+            // Expose the Flickity instance and ID
+            $controller.Flickity = flickityInstance.instance;
+            $controller.flickityId = flickityInstance.id;
         });
 
     }
@@ -129,57 +136,11 @@ export function FlickityDirective(
      */
     function FlickityController() {
 
-        const self = this;
-
-        return {
-            create: create,
-            next: next,
-            previous: previous,
-        };
 
 
-
-
-
-
-        /**
-         * Create a new Flickity instance
-         *
-         * @param {Element} element
-         * @param {Object} options
-         * @return {Object} instance
-         */
-        function create(element, options) {
-
-            // Create a new Flickity instance
-            self.Flickity = new Flickity(element, options);
-
-            // Return the instance
-            return self.Flickity;
-
-        }
-
-
-        /**
-         * Move to the next slide
-         *
-         * @param {Bool} isWrapped
-         */
-        function next(isWrapped) {
-            this.Flickity.next(isWrapped);
-        }
-
-
-        /**
-         * Move to the previous slide
-         *
-         * @param {Bool} isWrapped
-         */
-        function previous(isWrapped) {
-            this.Flickity.previous(isWrapped);
-        }
 
     }
+
 
 }
 
