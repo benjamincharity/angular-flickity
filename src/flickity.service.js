@@ -14,35 +14,28 @@ export class FlickityService {
 
 
 
-    create(element, id, options) {
+
+    /**
+     * Create a new Flickity instance
+     *
+     * @param {Element} element
+     * @param {String} id
+     * @param {Object} options
+     * @return {Element} element
+     */
+    create(element, id = this.instances.length + 1, options) {
+
+        // Define the new instance
         const instance = {
-            id: id || this.createId(),
+            id: id,
             instance: new Flickity(element, options),
         };
 
         // Save this instance to the array
         this.instances.push(instance);
 
-        console.log('created new flickity: ', this.instances);
-
         return instance;
-    }
 
-
-    /**
-     * Helper function to create a random ID
-     *
-     * @return {String} id
-     */
-    createId() {
-        const hexNumber = 0x10000;
-        const radix = 16;
-
-        return s4() + s4() + s4() + s4() + s4();
-
-        function s4() {
-            return Math.floor((1 + Math.random()) * hexNumber).toString(radix).substring(1);
-        }
     }
 
 
@@ -52,22 +45,25 @@ export class FlickityService {
      * @param {String} id
      */
     destroy(id) {
+        const pauseBeforeDestruction = 3000;
+        const flickityIndex = this._getFlickityIndex(id);
 
-        const flickityIndex = _.findIndex(this.instances, {
-            id: id,
-        });
-
-        if (flickityIndex < 0) {
-            console.warn('Flickity instance not found!', flickityIndex);
-
+        if (!flickityIndex) {
             return false;
         }
 
-        // Destroy the Flickity instance
-        this.instances[flickityIndex].instance.destroy();
+        // Pause to allow other scope cleanup to occur
+        // NOTE: Without this pause, Flickity is being destroyed before the view containing the
+        // directive can leave view
+        this.$timeout(() => {
 
-        // Remove the instance from the array
-        this.instances.splice(flickityIndex, 1);
+            // Destroy the Flickity instance
+            this.instances[flickityIndex].instance.destroy();
+
+            // Remove the instance from the array
+            this.instances.splice(flickityIndex, 1);
+
+        }, pauseBeforeDestruction);
 
     }
 
@@ -78,13 +74,9 @@ export class FlickityService {
      * @param {Bool} isWrapped
      */
     next(id, isWrapped) {
-        const flickityIndex = _.findIndex(this.instances, {
-            id: id,
-        });
+        const flickityIndex = this._getFlickityIndex(id);
 
-        if (flickityIndex < 0) {
-            console.warn('Flickity instance not found!', flickityIndex);
-
+        if (!flickityIndex) {
             return false;
         }
 
@@ -99,13 +91,9 @@ export class FlickityService {
      * @param {Bool} isWrapped
      */
     previous(id, isWrapped) {
-        const flickityIndex = _.findIndex(this.instances, {
-            id: id,
-        });
+        const flickityIndex = this._getFlickityIndex(id);
 
-        if (flickityIndex < 0) {
-            console.warn('Flickity instance not found!', flickityIndex);
-
+        if (!flickityIndex) {
             return false;
         }
 
@@ -118,24 +106,77 @@ export class FlickityService {
      * Select a slide
      *
      * @param {String} id
-     * @param {Int} index
+     * @param {Number} index
      * @param {Bool} isWrapped
      * @param {Bool} isInstant
      */
     select(id, index, isWrapped = false, isInstant = false) {
-        const flickityIndex = _.findIndex(this.instances, {
-            id: id,
-        });
+        const flickityIndex = this._getFlickityIndex(id);
 
-        if (flickityIndex < 0) {
-            console.warn('Flickity instance not found!', flickityIndex);
-
+        if (!flickityIndex) {
             return false;
         }
 
         // Trigger the next slide
         this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
     }
+
+
+    /**
+     * Get the current slide index
+     *
+     * @param {String} id
+     * @return {Number} index
+     */
+    getSelectedIndex(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        if (!flickityIndex) {
+            return false;
+        }
+
+        // Return the current index
+        return this.instances[flickityIndex].instance.selectedIndex;
+    }
+
+
+
+
+    //
+    // Helper methods
+    //
+
+
+    /**
+     * Find the index for a Flickity instance
+     *
+     * @param {String} id
+     * @return {Number} flickityIndex
+     */
+    _getFlickityIndex(id) {
+
+        // If no instances exist, cancel
+        if (this.instances.length < 1) {
+
+            return false;
+
+        } else {
+            // Try to find the instance by ID
+            let flickityIndex = _.findIndex(this.instances, {
+                id: id,
+            });
+
+            // If not found, return the first instance
+            if (!flickityIndex) {
+                flickityIndex = 0;
+            }
+
+            return flickityIndex;
+
+        }
+
+    }
+
 
 }
 
