@@ -25,7 +25,7 @@ export function FlickityNextDirective(
             $scope.bcFlickityNext = true;
         }
 
-        // Bind the click up to the required controller
+        // Trigger next() method
         $element.on('click', () => {
             FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
         });
