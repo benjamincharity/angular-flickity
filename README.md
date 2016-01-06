@@ -9,7 +9,6 @@
 ## Dependencies
 
 - [Flickity.js (1.1.2)](http://flickity.metafizzy.co/)
-- [Lodash (3.10.1)](https://lodash.com/)
 
 
 ## Options
