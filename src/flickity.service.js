@@ -45,7 +45,7 @@ export class FlickityService {
      * @param {String} id
      */
     destroy(id) {
-        const pauseBeforeDestruction = 3000;
+        const pauseBeforeDestruction = 2000;
         const flickityIndex = this._getFlickityIndex(id);
 
         if (!flickityIndex) {
@@ -169,6 +169,10 @@ export class FlickityService {
             // If not found, return the first instance
             if (!flickityIndex) {
                 flickityIndex = 0;
+            }
+
+            if (flickityIndex < 0) {
+                flickityIndex = null;
             }
 
             return flickityIndex;

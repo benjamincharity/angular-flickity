@@ -178,6 +178,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            $controller.Flickity = flickityInstance.instance;
 	            $controller.flickityId = flickityInstance.id;
 	        });
+	
+	        // Clean up when being destroyed
+	        var onDestroy = $scope.$on('$destroy', function (event) {
+	            FlickityService.destroy($controller.flickityId);
+	        });
 	    }
 	
 	    /**
@@ -295,39 +300,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.instances = [];
 	    }
 	
+	    /**
+	     * Create a new Flickity instance
+	     *
+	     * @param {Element} element
+	     * @param {String} id
+	     * @param {Object} options
+	     * @return {Element} element
+	     */
+	
 	    _createClass(FlickityService, [{
 	        key: 'create',
-	        value: function create(element, id, options) {
+	        value: function create(element) {
+	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
+	            var options = arguments[2];
+	
+	            // Define the new instance
 	            var instance = {
-	                id: id || this.createId(),
+	                id: id,
 	                instance: new Flickity(element, options)
 	            };
 	
 	            // Save this instance to the array
 	            this.instances.push(instance);
 	
-	            console.log('created new flickity: ', this.instances);
-	
 	            return instance;
-	        }
-	
-	        /**
-	         * Helper function to create a random ID
-	         *
-	         * @return {String} id
-	         */
-	
-	    }, {
-	        key: 'createId',
-	        value: function createId() {
-	            var hexNumber = 0x10000;
-	            var radix = 16;
-	
-	            return s4() + s4() + s4() + s4() + s4();
-	
-	            function s4() {
-	                return Math.floor((1 + Math.random()) * hexNumber).toString(radix).substring(1);
-	            }
 	        }
 	
 	        /**
@@ -339,22 +336,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'destroy',
 	        value: function destroy(id) {
+	            var _this = this;
 	
-	            var flickityIndex = _.findIndex(this.instances, {
-	                id: id
-	            });
+	            var pauseBeforeDestruction = 2000;
+	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                console.warn('Flickity instance not found!', flickityIndex);
-	
+	            if (!flickityIndex) {
 	                return false;
 	            }
 	
-	            // Destroy the Flickity instance
-	            this.instances[flickityIndex].instance.destroy();
+	            // Pause to allow other scope cleanup to occur
+	            // NOTE: Without this pause, Flickity is being destroyed before the view containing the
+	            // directive can leave view
+	            this.$timeout(function () {
 	
-	            // Remove the instance from the array
-	            this.instances.splice(flickityIndex, 1);
+	                // Destroy the Flickity instance
+	                _this.instances[flickityIndex].instance.destroy();
+	
+	                // Remove the instance from the array
+	                _this.instances.splice(flickityIndex, 1);
+	            }, pauseBeforeDestruction);
 	        }
 	
 	        /**
@@ -366,13 +367,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'next',
 	        value: function next(id, isWrapped) {
-	            var flickityIndex = _.findIndex(this.instances, {
-	                id: id
-	            });
+	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                console.warn('Flickity instance not found!', flickityIndex);
-	
+	            if (!flickityIndex) {
 	                return false;
 	            }
 	
@@ -389,13 +386,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'previous',
 	        value: function previous(id, isWrapped) {
-	            var flickityIndex = _.findIndex(this.instances, {
-	                id: id
-	            });
+	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                console.warn('Flickity instance not found!', flickityIndex);
-	
+	            if (!flickityIndex) {
 	                return false;
 	            }
 	
@@ -407,7 +400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Select a slide
 	         *
 	         * @param {String} id
-	         * @param {Int} index
+	         * @param {Number} index
 	         * @param {Bool} isWrapped
 	         * @param {Bool} isInstant
 	         */
@@ -418,18 +411,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
-	            var flickityIndex = _.findIndex(this.instances, {
-	                id: id
-	            });
+	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                console.warn('Flickity instance not found!', flickityIndex);
-	
+	            if (!flickityIndex) {
 	                return false;
 	            }
 	
 	            // Trigger the next slide
 	            this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
+	        }
+	
+	        /**
+	         * Get the current slide index
+	         *
+	         * @param {String} id
+	         * @return {Number} index
+	         */
+	
+	    }, {
+	        key: 'getSelectedIndex',
+	        value: function getSelectedIndex(id) {
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            if (!flickityIndex) {
+	                return false;
+	            }
+	
+	            // Return the current index
+	            return this.instances[flickityIndex].instance.selectedIndex;
+	        }
+	
+	        //
+	        // Helper methods
+	        //
+	
+	        /**
+	         * Find the index for a Flickity instance
+	         *
+	         * @param {String} id
+	         * @return {Number} flickityIndex
+	         */
+	
+	    }, {
+	        key: '_getFlickityIndex',
+	        value: function _getFlickityIndex(id) {
+	
+	            // If no instances exist, cancel
+	            if (this.instances.length < 1) {
+	
+	                return false;
+	            } else {
+	                // Try to find the instance by ID
+	                var flickityIndex = _.findIndex(this.instances, {
+	                    id: id
+	                });
+	
+	                // If not found, return the first instance
+	                if (!flickityIndex) {
+	                    flickityIndex = 0;
+	                }
+	
+	                if (flickityIndex < 0) {
+	                    flickityIndex = null;
+	                }
+	
+	                return flickityIndex;
+	            }
 	        }
 	    }]);
 	
