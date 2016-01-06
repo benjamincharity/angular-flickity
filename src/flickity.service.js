@@ -48,7 +48,7 @@ export class FlickityService {
         const pauseBeforeDestruction = 2000;
         const flickityIndex = this._getFlickityIndex(id);
 
-        if (!flickityIndex) {
+        if (flickityIndex < 0) {
             return false;
         }
 
@@ -76,7 +76,7 @@ export class FlickityService {
     next(id, isWrapped) {
         const flickityIndex = this._getFlickityIndex(id);
 
-        if (!flickityIndex) {
+        if (flickityIndex < 0) {
             return false;
         }
 
@@ -93,7 +93,7 @@ export class FlickityService {
     previous(id, isWrapped) {
         const flickityIndex = this._getFlickityIndex(id);
 
-        if (!flickityIndex) {
+        if (flickityIndex < 0) {
             return false;
         }
 
@@ -113,7 +113,7 @@ export class FlickityService {
     select(id, index, isWrapped = false, isInstant = false) {
         const flickityIndex = this._getFlickityIndex(id);
 
-        if (!flickityIndex) {
+        if (flickityIndex < 0) {
             return false;
         }
 
@@ -131,7 +131,7 @@ export class FlickityService {
     getSelectedIndex(id) {
         const flickityIndex = this._getFlickityIndex(id);
 
-        if (!flickityIndex) {
+        if (flickityIndex < 0) {
             return false;
         }
 
@@ -154,29 +154,31 @@ export class FlickityService {
      * @return {Number} flickityIndex
      */
     _getFlickityIndex(id) {
+        const negativeIndexForUnfound = -1;
 
         // If no instances exist, cancel
         if (this.instances.length < 1) {
 
-            return false;
+            return negativeIndexForUnfound;
 
         } else {
-            // Try to find the instance by ID
-            let flickityIndex = _.findIndex(this.instances, {
-                id: id,
-            });
 
-            // If not found, return the first instance
-            if (!flickityIndex) {
-                flickityIndex = 0;
+            // Find the instance by ID
+            const index = this.instances.findIndex(matchesId);
+
+            if (index === false) {
+                return negativeIndexForUnfound;
+            } else {
+                return index;
             }
 
-            if (flickityIndex < 0) {
-                flickityIndex = null;
+        }
+
+        // Test to match an item in an array based on the id
+        function matchesId(item, index, array) {
+            if (item.id === id) {
+                return item;
             }
-
-            return flickityIndex;
-
         }
 
     }
