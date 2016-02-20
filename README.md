@@ -19,22 +19,41 @@ found here: [Flickity Options](http://flickity.metafizzy.co/options.html).
 Simply pass in an object containing any options you'd like to set.
 
 ```javascript
+// ES5 example
 angular.module('myModule')
   .controller('MyController', ($scope) => {
+
     $scope.myCustomOptions = {
+      cellSelector: '.mySlideClassName',
       initialIndex: 3,
       prevNextButtons: false,
     };
-  });
+
+  })
+;
+
+
+// ES6 example
+export class MyController() {
+  constructor() {
+
+    this.flickityOptions = {
+      cellSelector: '.mySlideClassName',
+      initialIndex: 3,
+      prevNextButtons: false,
+    };
+
+  }
+}
 ```
 
-`myCustom.template.js`:
+`my.template.html`:
 ```html
 <!-- In your template -->
-<div
-  bc-flickity="{{ myCustomOptions }}"
->
-  <!-- slides -->
+<div bc-flickity="{{ myCustomOptions }}">
+  <div class="mySlideClassName"></div>
+  <div class="mySlideClassName"></div>
+  ...
 </div>
 ```
 
@@ -43,7 +62,7 @@ angular.module('myModule')
 
 The `FlickityService` uses IDs to manage multiple instances of the directive. An ID is automatically
 created and assigned at initialization. However, at times you may need to access your instances in a
-programmatic way. There are two ways for IDs to be assigned.
+programmatic way. There are two ways for IDs to be defined by your module.
 
 #### Element ID
 
@@ -73,6 +92,37 @@ pass the ID in directly as a string using `bc-flickity-id`.
 >
   <!-- slides -->
 </div>
+```
+
+
+## Global Defaults
+
+This module exposes `FlickityConfigProvider` which can be used to set project-wide defaults for
+Flickity. Simply set any options here using options that match the original [Flickity
+Options](http://flickity.metafizzy.co/options.html).
+
+```javascript
+// ES6 Config Example
+export function config(FlickityConfigProvider) {
+    'ngInject';
+
+    FlickityConfigProvider.prevNextButtons = false;
+    FlickityConfigProvider.draggable = false;
+
+}
+```
+
+```javascript
+// ES5 Config Example
+angular.module('myModule')
+  .config((FlickityConfigProvider) => {
+    'ngInject';
+
+    FlickityConfigProvider.prevNextButtons = false;
+    FlickityConfigProvider.draggable = false;
+
+  })
+;
 ```
 
 
@@ -118,7 +168,7 @@ selected if at the first cell. If `false`, it will do nothing when at the first 
 ### Scripts
 
 * `npm run build`
-  - Produces uncompressed (`.js`) and minified (`.min.js`) versions of your library under the `dist` folder.
+  - Produces uncompressed (`.js`) and minified (`.min.js`) versions of the library under the `dist` folder.
 * `npm run watch`
   - Watches for changes inside `/src` and calls `npm run build` when changes are detected.
 
@@ -128,6 +178,5 @@ selected if at the first cell. If `false`, it will do nothing when at the first 
 > _Touch, responsive, flickable galleries._
 
 - [Flickity on Github](https://github.com/metafizzy/flickity)
-- [Flickity Docs](http://flickity.metafizzy.co/)
-
+- [Flickity Documentation](http://flickity.metafizzy.co/)
 
