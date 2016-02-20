@@ -1,9 +1,34 @@
 # Angular Flickity
 
+**NOTE:** This project is still in **alpha**. I reserve the right to make potentially breaking changes
+until this reaches `1.0.0` (although, of course I will try not to).
 
-## Demo
+[**Plunker Demo**](http://plnkr.co/edit/gFwwJf?p=preview)
 
-[http://plnkr.co/edit/gFwwJf?p=preview](http://plnkr.co/edit/gFwwJf?p=preview)
+
+#### Note when using Flickity via bower
+
+In my experience, including Flickity through bower often doesn't work out of the box. By default,
+bower pulls in the unpackaged files as the Flickity `bower.json` specifies rather than packaged
+files which seems to be what we need.
+
+The trick is to specify which files bower should use in your own `bower.json`.
+
+```json
+// inside your bower.json specify which Flickity files to use
+{
+  "name": "myProject",
+  "version": "0.0.0",
+  "overrides": {
+    "flickity": {
+      "main": [
+        "dist/flickity.pkgd.js",
+        "dist/flickity.min.css"
+      ]
+    }
+  }
+}
+```
 
 
 ## Dependencies
