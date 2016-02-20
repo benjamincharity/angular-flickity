@@ -140,7 +140,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * Required markup
 	 *
-	 * <div bc-flickity flickity-options="{{ vm.options }}">
+	 * <div bc-flickity flickity-options="{{ vm.myCustomOptions }}">
 	 *   <div>
 	 *   <div>
 	 *   ...
@@ -155,7 +155,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        restrict: 'A',
 	        scope: {},
 	        bindToController: {
-	            bcFlickity: '@?'
+	            bcFlickity: '@?',
+	            bcFlickityId: '@?'
 	        },
 	        link: linkFunction,
 	        controller: FlickityController,
@@ -170,20 +171,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function linkFunction($scope, $element, $attrs, $controller) {
 	        'ngInject';
 	
-	        // Initialize Flickity
-	        // Using a timeout ensures that any ng-repeats can finish running before we initialize
+	        // If no ID was passed in
 	
+	        if (!$controller.bcFlickityId) {
+	            // Use the element's ID if one exists
+	            if ($attrs.id) {
+	                $controller.bcFlickityId = $attrs.id;
+	            }
+	        }
+	
+	        // Using a timeout ensures that any ng-repeats can finish running before we initialize
 	        $timeout(function () {
-	            var flickityInstance = FlickityService.create($element[0], $controller.flickityId, $controller.options);
+	            // Initialize Flickity
+	            var flickityInstance = FlickityService.create($element[0], $controller.bcFlickityId, $controller.options);
 	
 	            // Expose the Flickity instance and ID
 	            $controller.Flickity = flickityInstance.instance;
-	            $controller.flickityId = flickityInstance.id;
+	            $controller.bcFlickityId = flickityInstance.id;
 	        });
 	
 	        // Clean up when being destroyed
 	        var onDestroy = $scope.$on('$destroy', function (event) {
-	            FlickityService.destroy($controller.flickityId);
+	            FlickityService.destroy($controller.bcFlickityId);
 	        });
 	    }
 	
