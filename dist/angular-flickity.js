@@ -58,13 +58,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(1);
 	
-	var _flickity2 = __webpack_require__(4);
+	var _flickity2 = __webpack_require__(2);
 	
-	var _flickityNext = __webpack_require__(2);
+	var _flickity3 = __webpack_require__(3);
 	
-	var _flickityPrevious = __webpack_require__(3);
+	var _flickityNext = __webpack_require__(4);
 	
-	angular.module('bc.Flickity', []).directive('bcFlickity', _flickity.FlickityDirective).service('FlickityService', _flickity2.FlickityService).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
+	var _flickityPrevious = __webpack_require__(5);
+	
+	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).directive('bcFlickity', _flickity2.FlickityDirective).service('FlickityService', _flickity3.FlickityService).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
 /* 1 */
@@ -72,6 +74,60 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var FlickityConfigProvider = exports.FlickityConfigProvider = (function () {
+	    function FlickityConfigProvider() {
+	        _classCallCheck(this, FlickityConfigProvider);
+	
+	        // Define Flickity defaults
+	        this.accessibility = true;
+	        this.autoPlay = false;
+	        this.cellAlign = 'center';
+	        this.cellSelector = undefined;
+	        this.contain = false;
+	        this.draggable = true;
+	        this.freeScroll = false;
+	        this.freeScrollFriction = false;
+	        this.selectedAttraction = .025;
+	        this.friction = .28;
+	        this.initialIndex = 0;
+	        this.lazyLoad = true;
+	        this.percentPosition = true;
+	        this.prevNextButtons = true;
+	        this.pageDots = true;
+	        this.resize = true;
+	        this.rightToLeft = false;
+	        this.setGallerySize = true;
+	        this.watchCSS = false;
+	        this.wrapAround = false;
+	        this.imagesLoaded = true;
+	        this.asNavFor = true;
+	    }
+	
+	    _createClass(FlickityConfigProvider, [{
+	        key: '$get',
+	        value: function $get() {
+	            return this;
+	        }
+	    }]);
+	
+	    return FlickityConfigProvider;
+	})();
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	FlickityDirective.$inject = ["$timeout", "FlickityConfig", "FlickityService"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -84,44 +140,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * Required markup
 	 *
-	 * <div bc-flickity flickity-draggable="true" ...>
+	 * <div bc-flickity flickity-options="{{ vm.options }}">
 	 *   <div>
 	 *   <div>
 	 *   ...
 	 * </div>
 	 *
 	 */
-	function FlickityDirective($timeout, FlickityService) {
+	function FlickityDirective($timeout, FlickityConfig, FlickityService) {
 	    'ngInject';
 	
+	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
 	    var directive = {
 	        restrict: 'A',
 	        scope: {},
 	        bindToController: {
-	            flickityId: '=?',
-	            flickityAccessibility: '=?',
-	            flickityAutoPlay: '=?',
-	            flickityCellAlign: '=?',
-	            flickityCellSelector: '=?',
-	            flickityContain: '=?',
-	            flickityDraggable: '=?',
-	            flickityFreeScroll: '=?',
-	            flickityFriction: '=?',
-	            flickityInitialIndex: '=?',
-	            flickityLazyLoad: '=?',
-	            flickityPercentPosition: '=?',
-	            flickityPrevNextButton: '=?',
-	            flickityArrowShape: '=?',
-	            flickityPageDots: '=?',
-	            flickityResize: '=?',
-	            flickityRightToLeft: '=?',
-	            flickitySetGallerySize: '=?',
-	            flickityWatchCss: '=?',
-	            flickityWrapAround: '=?',
-	            flickityImagesLoaded: '=?',
-	            flickityAsNavFor: '=?',
-	            flickitySelectedAttraction: '=?',
-	            flickityFreeScrollFriction: '=?'
+	            bcFlickity: '@?'
 	        },
 	        link: linkFunction,
 	        controller: FlickityController,
@@ -134,45 +168,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Link
 	     */
 	    function linkFunction($scope, $element, $attrs, $controller) {
-	
-	        var defaultInitialIndex = 0;
-	        var defaultFriction = .2;
-	        var defaultCellAlign = 'center';
-	
-	        // Define the option object using any user defined options while falling back to defaults
-	        var flickityOptions = {
-	            accessibility: angular.isDefined($controller.flickityAccessibility) ? $controller.flickityAccessibility : true,
-	            autoPlay: angular.isDefined($controller.flickityAutoPlay) ? $controller.flickityAutoPlay : false,
-	            cellAlign: angular.isDefined($controller.flickityCellAlign) ? $controller.flickityCellAlign : defaultCellAlign,
-	            cellSelector: angular.isDefined($controller.flickityCellSelector) ? $controller.flickityCellSelector : undefined,
-	            contain: angular.isDefined($controller.flickityContain) ? $controller.flickityContain : false,
-	            draggable: angular.isDefined($controller.flickityDraggable) ? $controller.flickityDraggable : true,
-	            freeScroll: angular.isDefined($controller.flickityFreeScroll) ? $controller.flickityFreeScroll : false,
-	            freeScrollFriction: angular.isDefined($controller.flickityFreeScrollFriction) ? $controller.flickityFreeScrollFriction : false,
-	            selectedAttraction: angular.isDefined($controller.flickitySelectedAttraction) ? $controller.flickitySelectedAttraction : true,
-	            friction: angular.isDefined($controller.flickityFriction) ? $controller.flickityFriction : defaultFriction,
-	            initialIndex: angular.isDefined($controller.flickityInitialIndex) ? $controller.flickityInitialIndex : defaultInitialIndex,
-	            lazyLoad: angular.isDefined($controller.flickityLazyLoad) ? $controller.flickityLazyLoad : true,
-	            percentPosition: angular.isDefined($controller.flickityPercentPosition) ? $controller.flickityPercentPosition : true,
-	            prevNextButtons: angular.isDefined($controller.flickityPrevNextButton) ? $controller.flickityPrevNextButton : true,
-	            pageDots: angular.isDefined($controller.flickityPageDots) ? $controller.flickityPageDots : true,
-	            resize: angular.isDefined($controller.flickityResize) ? $controller.flickityResize : true,
-	            rightToLeft: angular.isDefined($controller.flickityRightToLeft) ? $controller.flickityRightToLeft : false,
-	            setGallerySize: angular.isDefined($controller.flickitySetGallerySize) ? $controller.flickitySetGallerySize : true,
-	            watchCSS: angular.isDefined($controller.flickityWatchCss) ? $controller.flickityWatchCss : false,
-	            wrapAround: angular.isDefined($controller.flickityWrapAround) ? $controller.flickityWrapAround : false,
-	            imagesLoaded: angular.isDefined($controller.flickityImagesLoaded) ? $controller.flickityImagesLoaded : true,
-	            asNavFor: angular.isDefined($controller.flickityAsNavFor) ? $controller.flickityAsNavFor : true
-	        };
-	
-	        if (angular.isDefined($controller.flickityArrowShape)) {
-	            flickityOptions.arrowShape = $controller.flickityArrowShape;
-	        }
+	        'ngInject';
 	
 	        // Initialize Flickity
 	        // Using a timeout ensures that any ng-repeats can finish running before we initialize
+	
 	        $timeout(function () {
-	            var flickityInstance = FlickityService.create($element[0], $controller.flickityId, flickityOptions);
+	            var flickityInstance = FlickityService.create($element[0], $controller.flickityId, $controller.options);
 	
 	            // Expose the Flickity instance and ID
 	            $controller.Flickity = flickityInstance.instance;
@@ -188,93 +190,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Controller
 	     */
-	    function FlickityController() {}
-	}
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	'use strict';
+	    function FlickityController() {
 	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.FlickityNextDirective = FlickityNextDirective;
-	function FlickityNextDirective(FlickityService) {
-	    'ngInject';
-	
-	    var directive = {
-	        restrict: 'A',
-	        require: '^bcFlickity',
-	        scope: {
-	            bcFlickityNext: '=?'
-	        },
-	        link: linkFunction
-	    };
-	
-	    return directive;
-	
-	    /**
-	     * Link
-	     */
-	    function linkFunction($scope, $element, $attrs, $controller) {
-	
-	        // If no boolean was passed in, set to a default
-	        if (typeof $scope.bcFlickityNext !== 'boolean') {
-	            $scope.bcFlickityNext = true;
-	        }
-	
-	        // Trigger next() method
-	        $element.on('click', function () {
-	            FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
-	        });
+	        // Extend the default options with user configuration
+	        this.options = angular.extend({}, FlickityConfig, angular.fromJson(this.bcFlickity));
 	    }
 	}
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.FlickityPreviousDirective = FlickityPreviousDirective;
-	function FlickityPreviousDirective(FlickityService) {
-	    'ngInject';
-	
-	    var directive = {
-	        restrict: 'A',
-	        require: '^bcFlickity',
-	        scope: {
-	            bcFlickityPrevious: '=?'
-	        },
-	        link: linkFunction
-	    };
-	
-	    return directive;
-	
-	    /**
-	     * Link
-	     */
-	    function linkFunction($scope, $element, $attrs, $controller) {
-	
-	        // If no boolean was passed in, set to a default
-	        if (typeof $scope.bcFlickityPrevious !== 'boolean') {
-	            $scope.bcFlickityPrevious = true;
-	        }
-	
-	        // Bind the click up to the required controller
-	        $element.on('click', function () {
-	            FlickityService.previous($controller.flickityId, $scope.bcFlickityPrevious);
-	        });
-	    }
-	}
-
-/***/ },
-/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -290,6 +214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* global Flickity */
 	
 	var FlickityService = exports.FlickityService = (function () {
+	    FlickityService.$inject = ["$timeout"];
 	    function FlickityService($timeout) {
 	        'ngInject';
 	
@@ -484,6 +409,96 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return FlickityService;
 	})();
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	FlickityNextDirective.$inject = ["FlickityService"];
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityNextDirective = FlickityNextDirective;
+	function FlickityNextDirective(FlickityService) {
+	    'ngInject';
+	
+	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
+	    var directive = {
+	        restrict: 'A',
+	        require: '^bcFlickity',
+	        scope: {
+	            bcFlickityNext: '=?'
+	        },
+	        link: linkFunction
+	    };
+	
+	    return directive;
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, $controller) {
+	        'ngInject';
+	
+	        // If no boolean was passed in, set to a default
+	
+	        if (typeof $scope.bcFlickityNext !== 'boolean') {
+	            $scope.bcFlickityNext = true;
+	        }
+	
+	        // Trigger next() method
+	        $element.on('click', function () {
+	            FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
+	        });
+	    }
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	FlickityPreviousDirective.$inject = ["FlickityService"];
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityPreviousDirective = FlickityPreviousDirective;
+	function FlickityPreviousDirective(FlickityService) {
+	    'ngInject';
+	
+	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
+	    var directive = {
+	        restrict: 'A',
+	        require: '^bcFlickity',
+	        scope: {
+	            bcFlickityPrevious: '=?'
+	        },
+	        link: linkFunction
+	    };
+	
+	    return directive;
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, $controller) {
+	        'ngInject';
+	
+	        // If no boolean was passed in, set to a default
+	
+	        if (typeof $scope.bcFlickityPrevious !== 'boolean') {
+	            $scope.bcFlickityPrevious = true;
+	        }
+	
+	        // Bind the click up to the required controller
+	        $element.on('click', function () {
+	            FlickityService.previous($controller.flickityId, $scope.bcFlickityPrevious);
+	        });
+	    }
+	}
 
 /***/ }
 /******/ ])
