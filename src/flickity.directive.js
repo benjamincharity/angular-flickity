@@ -23,7 +23,7 @@ export function FlickityDirective(
         restrict: 'A',
         scope: {},
         bindToController: {
-            flickityOptions: '=?',
+            bcFlickity: '@?',
         },
         link: linkFunction,
         controller: FlickityController,
@@ -39,18 +39,11 @@ export function FlickityDirective(
     function linkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
 
-        // Extend the default options with user configuration
-        const flickityOptions = angular.extend({}, FlickityConfig,
-                                               $controller.flickityOptions);
-
-        console.log('flickityOptions: ', flickityOptions);
-
-
         // Initialize Flickity
         // Using a timeout ensures that any ng-repeats can finish running before we initialize
         $timeout(() => {
             const flickityInstance =
-                FlickityService.create($element[0], $controller.flickityId, flickityOptions);
+                FlickityService.create($element[0], $controller.flickityId, $controller.options);
 
             // Expose the Flickity instance and ID
             $controller.Flickity = flickityInstance.instance;
@@ -71,7 +64,8 @@ export function FlickityDirective(
      */
     function FlickityController() {
 
-
+        // Extend the default options with user configuration
+        this.options = angular.extend({}, FlickityConfig, angular.fromJson(this.bcFlickity));
 
     }
 
