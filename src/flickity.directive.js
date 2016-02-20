@@ -6,7 +6,7 @@
  *
  * Required markup
  *
- * <div bc-flickity flickity-options="{{ vm.options }}">
+ * <div bc-flickity flickity-options="{{ vm.myCustomOptions }}">
  *   <div>
  *   <div>
  *   ...
@@ -39,9 +39,9 @@ export function FlickityDirective(
     function linkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
 
-        // Initialize Flickity
         // Using a timeout ensures that any ng-repeats can finish running before we initialize
         $timeout(() => {
+            // Initialize Flickity
             const flickityInstance =
                 FlickityService.create($element[0], $controller.flickityId, $controller.options);
 
