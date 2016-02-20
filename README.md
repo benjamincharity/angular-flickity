@@ -165,7 +165,7 @@ selected if at the first cell. If `false`, it will do nothing when at the first 
 - - -
 
 
-### Scripts
+## Scripts
 
 * `npm run build`
   - Produces uncompressed (`.js`) and minified (`.min.js`) versions of the library under the `dist` folder.
