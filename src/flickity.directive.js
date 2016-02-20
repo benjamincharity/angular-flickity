@@ -6,7 +6,7 @@
  *
  * Required markup
  *
- * <div bc-flickity flickity-draggable="true" ...>
+ * <div bc-flickity flickity-options="{{ vm.options }}">
  *   <div>
  *   <div>
  *   ...
@@ -15,7 +15,7 @@
  */
 export function FlickityDirective(
     $timeout,
-    FlickityProvider, FlickityService
+    FlickityConfig, FlickityService
 ) {
     'ngInject';
 
@@ -40,7 +40,8 @@ export function FlickityDirective(
         'ngInject';
 
         // Extend the default options with user configuration
-        const flickityOptions = angular.extend({}, FlickityProvider, $controller.flickityOptions);
+        const flickityOptions = angular.extend({}, FlickityConfig,
+                                               $controller.flickityOptions);
 
         console.log('flickityOptions: ', flickityOptions);
 

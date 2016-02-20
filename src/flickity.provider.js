@@ -1,8 +1,6 @@
-export class FlickityProvider {
+export class FlickityConfigProvider {
 
     constructor() {
-        'ngInject';
-
         // Define Flickity defaults
         this.accessibility      = true;
         this.autoPlay           = false;
@@ -12,8 +10,8 @@ export class FlickityProvider {
         this.draggable          = true;
         this.freeScroll         = false;
         this.freeScrollFriction = false;
-        this.selectedAttraction = true;
-        this.friction           = .2;
+        this.selectedAttraction = .025;
+        this.friction           = .28;
         this.initialIndex       = 0;
         this.lazyLoad           = true;
         this.percentPosition    = true;
@@ -26,14 +24,15 @@ export class FlickityProvider {
         this.wrapAround         = false;
         this.imagesLoaded       = true;
         this.asNavFor           = true;
-
     }
+
 
 
 
     $get() {
         return this;
     }
+
 
 }
 
