@@ -173,7 +173,7 @@ selected if at the first cell. If `false`, it will do nothing when at the first 
   - Watches for changes inside `/src` and calls `npm run build` when changes are detected.
 
 
-### About Flickity.js
+## About Flickity.js
 
 > _Touch, responsive, flickable galleries._
 
