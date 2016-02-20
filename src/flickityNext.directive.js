@@ -18,7 +18,10 @@ export function FlickityNextDirective(
     /**
      * Link
      */
-    function linkFunction($scope, $element, $attrs, $controller) {
+    function linkFunction(
+        $scope, $element, $attrs, $controller
+    ) {
+        'ngInject';
 
         // If no boolean was passed in, set to a default
         if (typeof $scope.bcFlickityNext !== 'boolean') {
