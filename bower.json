@@ -25,7 +25,7 @@
   "main": "dist/angular-flickity.js",
   "dependencies": {
     "angular": "~1.4.0",
-    "flickity": "~1.1.2"
+    "flickity": "^1.1.2"
   },
   "ignore": [
     "**/.*",
@@ -34,5 +34,13 @@
     "package.json",
     "webpack.config.js"
   ],
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "overrides": {
+    "flickity": {
+      "main": [
+        "dist/flickity.pkgd.js",
+        "dist/flickity.min.css"
+      ]
+    }
+  }
 }
