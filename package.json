@@ -1,46 +1,50 @@
 {
-  "name": "angular-flickity",
-  "version": "0.1.0",
-  "description": "Angular integration for Flickity.js",
-  "main": "dist/angular-flickity.js",
-  "scripts": {
-    "build": "WEBPACK_ENV=build webpack",
-    "watch": "onchange 'src/*.js' -- npm run build"
-  },
-  "devDependencies": {
-    "babel": "6.3.13",
-    "babel-core": "6.1.18",
-    "babel-eslint": "4.1.3",
-    "babel-loader": "6.1.0",
-    "babel-plugin-add-module-exports": "0.1.2",
-    "babel-preset-es2015": "6.3.13",
-    "eslint": "1.7.2",
-    "eslint-config-moment": "^1.5.0",
-    "eslint-loader": "1.1.0",
-    "ng-annotate-loader": "^0.1.0",
-    "onchange": "^2.0.0",
-    "webpack": "1.12.9"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/benjamincharity/angular-flickity.git"
-  },
-  "keywords": [
-    "angular",
-    "angular-flickity",
-    "flickity",
-    "flickity.js",
-    "angular.js",
-    "swipe",
-    "slideshow",
-    "slider",
-    "carousel",
-    "touch"
-  ],
-  "author": "Benjamin Charity <ben@benjamincharity.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/benjamincharity/angular-flickity/issues"
-  },
-  "homepage": "https://github.com/benjamincharity/angular-flickity"
+    "version": "0.1.4",
+    "name": "angular-flickity",
+    "description": "Angular integration for Flickity.js",
+    "homepage": "https://github.com/benjamincharity/angular-flickity",
+    "bugs": {
+        "url": "https://github.com/benjamincharity/angular-flickity/issues"
+    }
+    "authors": [
+        "Benjamin Charity <ben@benjamincharity.com>"
+    ],
+    "main": "dist/angular-flickity.js",
+    "scripts": {
+        "build": "WEBPACK_ENV=build webpack",
+        "watch": "onchange 'src/*.js' -- npm run build"
+    },
+    "devDependencies": {
+        "babel": "6.3.13",
+        "babel-core": "6.1.18",
+        "babel-eslint": "4.1.3",
+        "babel-loader": "6.1.0",
+        "babel-plugin-add-module-exports": "0.1.2",
+        "babel-preset-es2015": "6.3.13",
+        "eslint": "1.7.2",
+        "eslint-config-moment": "^1.5.0",
+        "eslint-loader": "1.1.0",
+        "ng-annotate-loader": "^0.1.0",
+        "onchange": "^2.0.0",
+        "webpack": "1.12.9"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/benjamincharity/angular-flickity.git"
+    },
+    "keywords": [
+        "angular",
+        "angular-flickity",
+        "flickity",
+        "flickity.js",
+        "angular.js",
+        "swipe",
+        "slideshow",
+        "slider",
+        "carousel",
+        "touch"
+    ],
+    "bugs": {
+        "url": "https://github.com/benjamincharity/angular-flickity/issues"
+    }
 }

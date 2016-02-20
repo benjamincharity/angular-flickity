@@ -1,47 +1,47 @@
 {
-  "name": "angular-flickity",
-  "homepage": "https://github.com/benjamincharity/angular-flickity",
-  "authors": [
-    "Benjamin Charity <ben@benjamincharity.com>"
-  ],
-  "description": "Angular integration for Flickity.js",
-  "moduleType": [
-    "amd",
-    "globals"
-  ],
-  "keywords": [
-    "angular",
-    "angular-flickity",
-    "flickity",
-    "flickity.js",
-    "angular.js",
-    "swipe",
-    "slideshow",
-    "slider",
-    "carousel",
-    "touch"
-  ],
-  "license": "MIT",
-  "main": "dist/angular-flickity.js",
-  "dependencies": {
-    "angular": "~1.4.0",
-    "flickity": "^1.1.2"
-  },
-  "ignore": [
-    "**/.*",
-    "src",
-    "node_modules",
-    "bower_components",
-    "package.json",
-    "webpack.config.js"
-  ],
-  "version": "0.1.0",
-  "overrides": {
-    "flickity": {
-      "main": [
-        "dist/flickity.pkgd.js",
-        "dist/flickity.min.css"
-      ]
+    "version": "0.1.4",
+    "name": "angular-flickity",
+    "description": "Angular integration for Flickity",
+    "homepage": "https://github.com/benjamincharity/angular-flickity",
+    "authors": [
+        "Benjamin Charity <ben@benjamincharity.com>"
+    ],
+    "license": "MIT",
+    "main": "dist/angular-flickity.js",
+    "moduleType": [
+        "amd",
+        "globals"
+    ],
+    "keywords": [
+        "angular",
+        "angular-flickity",
+        "flickity",
+        "flickity.js",
+        "angular.js",
+        "swipe",
+        "slideshow",
+        "slider",
+        "carousel",
+        "touch"
+    ],
+    "dependencies": {
+        "angular": "~1.4.0",
+        "flickity": "^1.1.2"
+    },
+    "ignore": [
+        "**/.*",
+        "src",
+        "node_modules",
+        "bower_components",
+        "package.json",
+        "webpack.config.js"
+    ],
+    "overrides": {
+        "flickity": {
+            "main": [
+                "dist/flickity.pkgd.js",
+                "dist/flickity.min.css"
+            ]
+        }
     }
-  }
 }
