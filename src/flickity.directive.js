@@ -24,6 +24,7 @@ export function FlickityDirective(
         scope: {},
         bindToController: {
             bcFlickity: '@?',
+            bcFlickityId: '@?',
         },
         link: linkFunction,
         controller: FlickityController,
@@ -39,21 +40,29 @@ export function FlickityDirective(
     function linkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
 
+        // If no ID was passed in
+        if (!$controller.bcFlickityId) {
+            // Use the element's ID if one exists
+            if ($attrs.id) {
+                $controller.bcFlickityId = $attrs.id;
+            }
+        }
+
         // Using a timeout ensures that any ng-repeats can finish running before we initialize
         $timeout(() => {
             // Initialize Flickity
             const flickityInstance =
-                FlickityService.create($element[0], $controller.flickityId, $controller.options);
+                FlickityService.create($element[0], $controller.bcFlickityId, $controller.options);
 
             // Expose the Flickity instance and ID
             $controller.Flickity = flickityInstance.instance;
-            $controller.flickityId = flickityInstance.id;
+            $controller.bcFlickityId = flickityInstance.id;
         });
 
 
         // Clean up when being destroyed
         const onDestroy = $scope.$on('$destroy', (event) => {
-            FlickityService.destroy($controller.flickityId);
+            FlickityService.destroy($controller.bcFlickityId);
         });
 
     }
