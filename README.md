@@ -16,19 +16,113 @@
 This directive supports all options for version `1.1.2` of Flickity. A full list of options can be
 found here: [Flickity Options](http://flickity.metafizzy.co/options.html).
 
-The naming convention is to simply take the option name (eg. `cellSelector`), convert it to
-[kebab-case](http://stackoverflow.com/a/12273101/722367) (eg. `cell-selector`) and add the
-`flickity-` prefix.
+Simply pass in an object containing any options you'd like to set.
 
-Setting the option `initialIndex` would look like this:
+```javascript
+// ES5 example
+angular.module('myModule')
+  .controller('MyController', ($scope) => {
 
+    $scope.myCustomOptions = {
+      cellSelector: '.mySlideClassName',
+      initialIndex: 3,
+      prevNextButtons: false,
+    };
+
+  })
+;
+
+
+// ES6 example
+export class MyController() {
+  constructor() {
+
+    this.flickityOptions = {
+      cellSelector: '.mySlideClassName',
+      initialIndex: 3,
+      prevNextButtons: false,
+    };
+
+  }
+}
 ```
+
+`my.template.html`:
+```html
+<!-- In your template -->
+<div bc-flickity="{{ myCustomOptions }}">
+  <div class="mySlideClassName"></div>
+  <div class="mySlideClassName"></div>
+  ...
+</div>
+```
+
+
+## ID
+
+The `FlickityService` uses IDs to manage multiple instances of the directive. An ID is automatically
+created and assigned at initialization. However, at times you may need to access your instances in a
+programmatic way. There are two ways for IDs to be defined by your module.
+
+#### Element ID
+
+If the element containing the `bc-flickity` directive has an ID attribute, the value will
+be used to create the ID.
+
+```html
+<!-- This instance would have the ID of `foo` -->
 <div
-  bc-angular-flickity
-  flickity-initial-index="3"
+  bc-flickity="{{ myCustomOptions }}"
+  id="foo"
 >
   <!-- slides -->
 </div>
+```
+
+#### Explicitly Define
+
+At times, you may not be able to use an element ID (or simply prefer not to). In those cases you can
+pass the ID in directly as a string using `bc-flickity-id`.
+
+```html
+<!--  This instance would have the ID of `bar` -->
+<div
+  bc-flickity="{{ myCustomOptions }}"
+  bc-flickity-id="bar"
+>
+  <!-- slides -->
+</div>
+```
+
+
+## Global Defaults
+
+This module exposes `FlickityConfigProvider` which can be used to set project-wide defaults for
+Flickity. Simply set any options here using options that match the original [Flickity
+Options](http://flickity.metafizzy.co/options.html).
+
+```javascript
+// ES6 Config Example
+export function config(FlickityConfigProvider) {
+    'ngInject';
+
+    FlickityConfigProvider.prevNextButtons = false;
+    FlickityConfigProvider.draggable = false;
+
+}
+```
+
+```javascript
+// ES5 Config Example
+angular.module('myModule')
+  .config((FlickityConfigProvider) => {
+    'ngInject';
+
+    FlickityConfigProvider.prevNextButtons = false;
+    FlickityConfigProvider.draggable = false;
+
+  })
+;
 ```
 
 
@@ -37,35 +131,33 @@ Setting the option `initialIndex` would look like this:
 
 ### Next
 
-The directive `bc-flickity-next` is provided to call the `next()` method on the Flickity instance.
+The directive `bc-flickity-next` is provided to call the `next()` method on the `Flickity` instance.
 
-```
+```html
 <button bc-flickity-next>Next</button>
 ```
 
-You can also pass in an optional parameter to control the looping.
+You can also pass in an optional parameter to control the looping. If `true`, the first cell will be
+selected if at the last cell. If `false`, it will do nothing when at the last cell.
 
-```
-// If true, the first cell will be selected if at the last cell.
-// If false, it will do nothing when at the last cell.
+```html
 <button bc-flickity-next="true">Next</button>
 ```
 
 
 ### Previous
 
-The directive `bc-flickity-previous` is provided to call the `previous()` method on the Flickity
+The directive `bc-flickity-previous` is provided to call the `previous()` method on the `Flickity`
 instance.
 
-```
+```html
 <button bc-flickity-previous>Previous</button>
 ```
 
-You can also pass in an optional parameter to control the looping.
+You can also pass in an optional parameter to control the looping. If `true`, the last cell will be
+selected if at the first cell. If `false`, it will do nothing when at the first cell.
 
-```
-// If true, the last cell will be selected if at the first cell.
-// If false, it will do nothing when at the first cell.
+```html
 <button bc-flickity-previous="true">Previous</button>
 ```
 
@@ -75,8 +167,10 @@ You can also pass in an optional parameter to control the looping.
 
 ### Scripts
 
-* `npm run build` - produces production version of your library under the `dist` folder
-* `npm run dev` - produces development version of your library and runs a watcher
+* `npm run build`
+  - Produces uncompressed (`.js`) and minified (`.min.js`) versions of the library under the `dist` folder.
+* `npm run watch`
+  - Watches for changes inside `/src` and calls `npm run build` when changes are detected.
 
 
 ### About Flickity.js
@@ -84,6 +178,5 @@ You can also pass in an optional parameter to control the looping.
 > _Touch, responsive, flickable galleries._
 
 - [Flickity on Github](https://github.com/metafizzy/flickity)
-- [Flickity Docs](http://flickity.metafizzy.co/)
-
+- [Flickity Documentation](http://flickity.metafizzy.co/)
 
