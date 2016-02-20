@@ -5,7 +5,7 @@
   "main": "dist/angular-flickity.js",
   "scripts": {
     "build": "WEBPACK_ENV=build webpack",
-    "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch"
+    "watch": "onchange 'src/*.js' -- npm run build"
   },
   "devDependencies": {
     "babel": "6.3.13",
@@ -18,6 +18,7 @@
     "eslint-config-moment": "^1.5.0",
     "eslint-loader": "1.1.0",
     "ng-annotate-loader": "^0.1.0",
+    "onchange": "^2.0.0",
     "webpack": "1.12.9"
   },
   "repository": {
