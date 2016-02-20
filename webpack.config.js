@@ -5,21 +5,15 @@ var path = require('path');
 
 var libraryName = 'angular-flickity';
 
-var plugins = [], outputFile;
-
-if (env === 'build') {
-    plugins.push(new UglifyJsPlugin({ minimize: true }));
-    outputFile = libraryName + '.min.js';
-} else {
-    outputFile = libraryName + '.js';
-}
-
 var config = {
-    entry: __dirname + '/src/index.js',
+    entry: {
+        'angular-flickity': __dirname + '/src/index.js',
+        'angular-flickity.min': __dirname + '/src/index.js',
+    },
     devtool: 'source-map',
     output: {
         path: __dirname + '/dist',
-        filename: outputFile,
+        filename: '[name].js',
         library: libraryName,
         libraryTarget: 'umd',
         umdNamedDefine: true
@@ -47,7 +41,13 @@ var config = {
         root: path.resolve('./src'),
         extensions: ['', '.js']
     },
-    plugins: plugins
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            include: /\.min\.js$/,
+            minimize: true
+        })
+    ]
 };
 
 module.exports = config;
+
