@@ -419,6 +419,23 @@ FlickityService.reposition(id)
 
 - `instance`: `{Object}`
 
+
+### `reloadCells`
+
+Re-collect all cell elements in `flickity-slider`.
+
+```javascript
+FlickityService.reloadCells(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
 - - -
 
 

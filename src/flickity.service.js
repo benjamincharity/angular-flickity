@@ -215,6 +215,51 @@ export class FlickityService {
     }
 
 
+    /**
+     * Position cells at selected position.
+     * Trigger reposition after the size of a cell has been changed.
+     *
+     * @param {String} id
+     * @return {Object} instance
+     */
+    reposition(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        if (flickityIndex < 0) {
+            return false;
+        }
+
+        // Trigger the resize
+        this.instances[flickityIndex].instance.reposition();
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
+    }
+
+
+    /**
+     * Re-collect all cell elements in `flickity-slider`.
+     *
+     * @param {String} id
+     * @return {Object} instance
+     */
+    reloadCells(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        if (flickityIndex < 0) {
+            return false;
+        }
+
+        // Trigger the resize
+        this.instances[flickityIndex].instance.reloadCells();
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
+    }
+
+
 
 
     //
