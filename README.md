@@ -15,15 +15,33 @@ until this reaches `1.0.0` (although, of course I will try not to).
 - [Global Defaults](#global-defaults)
 - [Directives](#directives)
 - [Directives](#directives)
-  - [`bc-flickity-next`](#bc-flickity-next)
-  - [`bc-flickity-previous`](#bc-flickity-previous)
+    - [`bc-flickity-next`](#bc-flickity-next)
+    - [`bc-flickity-previous`](#bc-flickity-previous)
 - [Services](#services)
-  - [`create`](#create)
-  - [`destroy`](#destroy)
-  - [`next`](#next)
-  - [`previous`](#previous)
-  - [`select`](#select)
-  - [`getSelectedIndex`](#getselectedindex)
+    - [Initialize](#initialize)
+        - [`create`](#create)
+    - [Selecting Cells](#selecting-cells)
+        - [`select`](#select)
+        - [`previous`](#previous)
+        - [`next`](#next)
+    - [Sizing and Positioning](#sizing-and-positioning)
+        - [`resize`](#resize)
+        - [`reposition`](#reposition)
+    - [Adding and Removing Cells](#adding-and-removing-cells)
+        - [`prepend`](#prepend)
+        - [`append`](#append)
+        - [`insert`](#insert)
+        - [`remove`](#remove)
+    - [Utilities](#utilities)
+        - [`destroy`](#destroy)
+        - [`reloadCells`](#reloadCells)
+        - [`getCellElements`](#getCellElements)
+        - [`get`](#get)
+        - [`getByElement`](#getByElement)
+    - [Properties](#properties)
+        - [`selectedIndex`](#selectedIndex)
+        - [`selectedElement`](#selectedElement)
+        - [`cells`](#cells)
 - [Scripts](#scripts)
 - [About Flickity.js](#about-flickityjs)
 
@@ -257,7 +275,7 @@ you are already familiar with Flickity).
 > _Don't be afraid to look at the [source code][source]. It isn't terribly complicated and fairly well
 > commented._
 
-### Create and Destroy
+### Initialize
 
 #### `create`
 
