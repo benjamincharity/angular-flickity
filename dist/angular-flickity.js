@@ -396,8 +396,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	         */
 	
 	    }, {
-	        key: 'getSelectedIndex',
-	        value: function getSelectedIndex(id) {
+	        key: 'selectedIndex',
+	        value: function selectedIndex(id) {
 	            var _this5 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
@@ -609,10 +609,104 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    // Append the slides
+	                    // Insert the slides
 	                    _this12.instances[flickityIndex].instance.insert(elements, index);
 	
 	                    resolve(_this12.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the elements of the cells
+	         *
+	         * @param {String} id
+	         * @return {Array} cellElements
+	         */
+	
+	    }, {
+	        key: 'getCellElements',
+	        value: function getCellElements(id) {
+	            var _this13 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this13.instances[flickityIndex].instance.getCellElements());
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the elements of the cells
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'remove',
+	        value: function remove(id, elements) {
+	            var _this14 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    _this14.instances[flickityIndex].instance.remove(elements);
+	
+	                    resolve(_this14.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the currently selected cell element
+	         *
+	         * @param {String} id
+	         * @return {Element} selectedCellElement
+	         */
+	
+	    }, {
+	        key: 'selectedElement',
+	        value: function selectedElement(id) {
+	            var _this15 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this15.instances[flickityIndex].instance.selectedElement);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get an array of all cells
+	         *
+	         * @param {String} id
+	         * @return {Array} cells
+	         */
+	
+	    }, {
+	        key: 'cells',
+	        value: function cells(id) {
+	            var _this16 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this16.instances[flickityIndex].instance.cells);
 	                }
 	            });
 	        }
