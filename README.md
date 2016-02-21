@@ -248,10 +248,18 @@ selected if at the first cell. If `false`, it will do nothing when at the first 
 While you can easily use Flickity via the directive only, most Flickity methods are accessible via
 the `FlickityService`.
 
-> _Don't be afraid to look at the source code. It isn't terribly complicated and fairly well
+> The services here follow the order of the [Flickity Documentation][flickity_api] as closely as possible
+in order to be immediately familiar. This shouldn't feel like learning another library (assuming
+you are already familiar with Flickity).
+
+- - -
+
+> _Don't be afraid to look at the [source code][source]. It isn't terribly complicated and fairly well
 > commented._
 
-### `create`
+### Create and Destroy
+
+#### `create`
 
 This can be called to manually create a new `Flickity` instance.
 
@@ -282,70 +290,11 @@ FlickityService.create(element, id, options)
 };
 ```
 
-### `destroy`
-
-Destroys a `Flickity` instance.
-
-```javascript
-FlickityService.destroy(id)
-```
-
-##### Parameters
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance to be destroyed.
-
-##### Returns `Promise`
-
-- `isDestroyed`: `{Bool}`
 
 
-### `next`
+### Selecting Cells
 
-Move to the next slide.
-
-```javascript
-FlickityService.next(id, isWrapped)
-```
-
-##### Parameters
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance to move.
-- `isWrapped`: `{Bool}` _optional_
-  - Default: `false`
-  - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
-  - If `false` and `next` is called when on the last slide, the slider will do nothing.
-
-##### Returns `Promise`
-
-- `instance`: `{Object}`
-
-
-### `previous`
-
-Move to the previous slide.
-
-```javascript
-FlickityService.previous(id, isWrapped)
-```
-
-##### Parameters
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance to move.
-- `isWrapped`: `{Bool}` _optional_
-  - Default: `false`
-  - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
-      the last slide.
-  - If `false` and `previous` is called when on the first slide, the slider will do nothing.
-
-##### Returns `Promise`
-
-- `instance`: `{Object}`
-
-
-### `select`
+#### `select`
 
 Move directly to a specific slide.
 
@@ -370,24 +319,55 @@ FlickityService.select(id, index, isWrapped, isInstant)
 - `instance`: `{Object}`
 
 
-### `getSelectedIndex`
+#### `previous`
 
-Get the index of the slide currently in view.
+Move to the previous slide.
 
 ```javascript
-FlickityService.getSelectedIndex(id)
+FlickityService.previous(id, isWrapped)
 ```
 
+##### Parameters
+
 - `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance for which you need the index.
+  - A string representing the ID of the `Flickity` instance to move.
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
+      the last slide.
+  - If `false` and `previous` is called when on the first slide, the slider will do nothing.
 
 ##### Returns `Promise`
 
-- `selectedIndex`: `{Number}`
-  - The index of the currently visible slide.
+- `instance`: `{Object}`
 
 
-### `resize`
+#### `next`
+
+Move to the next slide.
+
+```javascript
+FlickityService.next(id, isWrapped)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to move.
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
+  - If `false` and `next` is called when on the last slide, the slider will do nothing.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+
+### Sizing and Positioning
+
+#### `resize`
 
 Triggers Flickity to resize the gallery and re-position cells.
 
@@ -403,7 +383,7 @@ FlickityService.resize(id)
 - `instance`: `{Object}`
 
 
-### `reposition`
+#### `reposition`
 
 Tell Flickity to reposition cells while retaining the current index. Useful if cell sizes change
 after initialization.
@@ -420,57 +400,9 @@ FlickityService.reposition(id)
 - `instance`: `{Object}`
 
 
-### `reloadCells`
+### Adding and Removing Cells
 
-Re-collect all cell elements in `flickity-slider`.
-
-```javascript
-FlickityService.reloadCells(id)
-```
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance.
-
-##### Returns `Promise`
-
-- `instance`: `{Object}`
-
-
-### `get`
-
-Return a `Flickity` instance found by ID.
-
-```javascript
-FlickityService.get(id)
-```
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance.
-
-##### Returns `Promise`
-
-- `instance`: `{Object}`
-
-
-### `getByElement`
-
-Prepend elements and create cells to the beginning of the gallery.
-
-```javascript
-FlickityService.getByElement(id, element)
-```
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance.
-- `element`: `{Element}`
-  - Element or selector string representing the `Flickity` instance.
-
-##### Returns `Promise`
-
-- `instance`: `{Object}`
-
-
-### `prepend`
+#### `prepend`
 
 Create cells at the beginning of the gallery and prepend elements.
 
@@ -488,7 +420,7 @@ FlickityService.prepend(id, elements)
 - `instance`: `{Object}`
 
 
-### `append`
+#### `append`
 
 Create cells at the end of the gallery and append elements.
 
@@ -506,7 +438,7 @@ FlickityService.append(id, elements)
 - `instance`: `{Object}`
 
 
-### `insert`
+#### `insert`
 
 Insert elements into the gallery and create cells at the desired index.
 
@@ -526,22 +458,6 @@ FlickityService.insert(id, elements, index)
 - `instance`: `{Object}`
 
 
-### `getCellElements`
-
-Get the elements of the cells.
-
-```javascript
-FlickityService.getCellElements(id)
-```
-
-- `id`: `{String}`
-  - A string representing the ID of the `Flickity` instance.
-
-##### Returns `Promise`
-
-- `cellElements`: `{Array}`
-
-
 ### `remove`
 
 Remove cells from the gallery and remove the elements from DOM.
@@ -558,6 +474,111 @@ FlickityService.remove(id, elements)
 ##### Returns `Promise`
 
 - `instance`: `{Object}`
+
+
+### Utilities
+
+#### `destroy`
+
+Destroys a `Flickity` instance.
+
+```javascript
+FlickityService.destroy(id)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to be destroyed.
+
+##### Returns `Promise`
+
+- `isDestroyed`: `{Bool}`
+
+
+#### `reloadCells`
+
+Re-collect all cell elements in `flickity-slider`.
+
+```javascript
+FlickityService.reloadCells(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+#### `getCellElements`
+
+Get the elements of the cells.
+
+```javascript
+FlickityService.getCellElements(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `cellElements`: `{Array}`
+
+
+#### `get`
+
+Return a `Flickity` instance found by ID.
+
+```javascript
+FlickityService.get(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+#### `getByElement`
+
+Find a `Flickity` instance by element or selector string.
+
+```javascript
+FlickityService.getByElement(id, element)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+- `element`: `{Element}`
+  - Element or selector string representing the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+### Properties
+
+### `selectedIndex`
+
+Get the index of the slide currently in view.
+
+```javascript
+FlickityService.getSelectedIndex(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance for which you need the index.
+
+##### Returns `Promise`
+
+- `selectedIndex`: `{Number}`
+  - The index of the currently visible slide.
 
 
 ### `selectedElement`
@@ -610,6 +631,12 @@ FlickityService.cells(id)
 
 > _Touch, responsive, flickable galleries._
 
-- [Flickity on Github](https://github.com/metafizzy/flickity)
-- [Flickity Documentation](http://flickity.metafizzy.co/)
+- [Flickity on Github][flickity]
+- [Flickity Documentation][flickity_docs]
 
+
+
+[flickity_api]: http://flickity.metafizzy.co/api.html
+[flickity]: https://github.com/metafizzy/flickity
+[flickity_docs]: http://flickity.metafizzy.co
+[source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
