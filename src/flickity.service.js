@@ -365,6 +365,27 @@ export class FlickityService {
     }
 
 
+    /**
+     * Get the elements of the cells
+     *
+     * @param {String} id
+     * @return {Object} instance
+     */
+    remove(id, elements) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                this.instances[flickityIndex].instance.remove(elements)
+
+                resolve(this.instances[flickityIndex]);
+            }
+        });
+    }
+
+
 
 
 

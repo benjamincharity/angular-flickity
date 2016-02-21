@@ -541,6 +541,25 @@ FlickityService.getCellElements(id)
 
 - `cellElements`: `{Array}`
 
+
+### `remove`
+
+Remove cells from the gallery and remove the elements from DOM.
+
+```javascript
+FlickityService.remove(id, elements)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+- `elements`: `{Object|Array|Element|NodeList}`
+  - jQuery object, Array of Elements, Element, or NodeList
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
 - - -
 
 
