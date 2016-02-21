@@ -147,7 +147,6 @@ export class FlickityService {
         return this.$q((resolve) => {
             resolve(this.instances[flickityIndex]);
         });
-
     }
 
 
@@ -168,7 +167,28 @@ export class FlickityService {
         return this.$q((resolve) => {
             resolve(this.instances[flickityIndex].instance.selectedIndex);
         });
+    }
 
+
+    /**
+     * Resize the gallery and re-position cells.
+     *
+     * @param {String} id
+     * @return {Object} instance
+     */
+    resize(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        if (flickityIndex < 0) {
+            return false;
+        }
+
+        // Trigger the resize
+        this.instances[flickityIndex].instance.resize();
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
     }
 
 

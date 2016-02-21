@@ -411,6 +411,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	
+	        /**
+	         * Resize the gallery and re-position cells.
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'resize',
+	        value: function resize(id) {
+	            var _this6 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            if (flickityIndex < 0) {
+	                return false;
+	            }
+	
+	            // Trigger the resize
+	            this.instances[flickityIndex].instance.resize();
+	
+	            return this.$q(function (resolve) {
+	                resolve(_this6.instances[flickityIndex]);
+	            });
+	        }
+	
 	        //
 	        // Helper methods
 	        //

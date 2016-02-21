@@ -297,7 +297,7 @@ FlickityService.destroy(id)
 
 ##### Returns `Promise`
 
-- `instance`: `{Object}`
+- `isDestroyed`: `{Bool}`
 
 
 ### `next`
@@ -385,6 +385,22 @@ FlickityService.getSelectedIndex(id)
 
 - `selectedIndex`: `{Number}`
   - The index of the currently visible slide.
+
+
+### `resize`
+
+Triggers Flickity to resize the gallery and re-position cells.
+
+```javascript
+FlickityService.resize(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
 
 
 - - -
