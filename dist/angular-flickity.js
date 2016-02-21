@@ -279,10 +279,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var pauseBeforeDestruction = 2000;
 	            var flickityIndex = this._getFlickityIndex(id);
+	
 	            return this.$q(function (resolve, reject) {
 	
 	                if (flickityIndex < 0) {
-	                    reject(false);
+	                    reject('Instance ' + id + ' not found');
 	                }
 	
 	                // Pause to allow other scope cleanup to occur
@@ -296,7 +297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // Remove the instance from the array
 	                    _this.instances.splice(flickityIndex, 1);
 	
-	                    resolve(true);
+	                    resolve('Instance ' + id + ' destroyed.');
 	                }, pauseBeforeDestruction);
 	            });
 	        }
@@ -316,15 +317,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the next slide
+	                    _this2.instances[flickityIndex].instance.next(isWrapped);
 	
-	            // Trigger the next slide
-	            this.instances[flickityIndex].instance.next(isWrapped);
-	
-	            return this.$q(function (resolve) {
-	                resolve(_this2.instances[flickityIndex]);
+	                    resolve(_this2.instances[flickityIndex]);
+	                }
 	            });
 	        }
 	
@@ -343,15 +344,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the previous slide
+	                    _this3.instances[flickityIndex].instance.previous(isWrapped);
 	
-	            // Trigger the next slide
-	            this.instances[flickityIndex].instance.previous(isWrapped);
-	
-	            return this.$q(function (resolve) {
-	                resolve(_this3.instances[flickityIndex]);
+	                    resolve(_this3.instances[flickityIndex]);
+	                }
 	            });
 	        }
 	
@@ -359,7 +360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Select a slide
 	         *
 	         * @param {String} id
-	         * @param {Number} index
+	         * @param {Integer} index
 	         * @param {Bool} isWrapped
 	         * @param {Bool} isInstant
 	         * @return {Object} instance
@@ -375,15 +376,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the selected slide
+	                    _this4.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
 	
-	            // Trigger the next slide
-	            this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
-	
-	            return this.$q(function (resolve) {
-	                resolve(_this4.instances[flickityIndex]);
+	                    resolve(_this4.instances[flickityIndex]);
+	                }
 	            });
 	        }
 	
@@ -391,7 +392,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Get the current slide index
 	         *
 	         * @param {String} id
-	         * @return {Number} selectedIndex
+	         * @return {Integer} selectedIndex
 	         */
 	
 	    }, {
@@ -401,13 +402,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
-	
-	            // Return the current index
-	            return this.$q(function (resolve) {
-	                resolve(_this5.instances[flickityIndex].instance.selectedIndex);
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Return the current index
+	                    resolve(_this5.instances[flickityIndex].instance.selectedIndex);
+	                }
 	            });
 	        }
 	
@@ -425,15 +426,194 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Trigger the resize
+	                    _this6.instances[flickityIndex].instance.resize();
 	
-	            // Trigger the resize
-	            this.instances[flickityIndex].instance.resize();
+	                    resolve(_this6.instances[flickityIndex]);
+	                }
+	            });
+	        }
 	
-	            return this.$q(function (resolve) {
-	                resolve(_this6.instances[flickityIndex]);
+	        /**
+	         * Position cells at selected position.
+	         * Trigger reposition after the size of a cell has been changed.
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'reposition',
+	        value: function reposition(id) {
+	            var _this7 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Trigger the resize
+	                    _this7.instances[flickityIndex].instance.reposition();
+	
+	                    resolve(_this7.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Re-collect all cell elements in `flickity-slider`.
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'reloadCells',
+	        value: function reloadCells(id) {
+	            var _this8 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Reload cells
+	                    _this8.instances[flickityIndex].instance.reloadCells();
+	
+	                    resolve(_this8.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the Flickity instance
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'get',
+	        value: function get(id) {
+	            var _this9 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this9.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the Flickity instance
+	         *
+	         * @param {Element} element
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'getByElement',
+	        value: function getByElement(element) {
+	            return this.$q(function (resolve, reject) {
+	                var instance = Flickity.data(element);
+	
+	                if (instance) {
+	                    resolve(instance);
+	                } else {
+	                    reject('Instance not found for ' + element);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Prepend elements and create cells to the beginning of the gallery.
+	         *
+	         * @param {String} id
+	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'prepend',
+	        value: function prepend(id, elements) {
+	            var _this10 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Prepend the slides
+	                    _this10.instances[flickityIndex].instance.prepend(elements);
+	
+	                    resolve(_this10.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Append elements and create cells to the end of the gallery.
+	         *
+	         * @param {String} id
+	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'append',
+	        value: function append(id, elements) {
+	            var _this11 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Append the slides
+	                    _this11.instances[flickityIndex].instance.append(elements);
+	
+	                    resolve(_this11.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Insert elements into the gallery and create cells at the desired index.
+	         *
+	         * @param {String} id
+	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+	         * @param {Integer} index - Zero based index
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'insert',
+	        value: function insert(id, elements, index) {
+	            var _this12 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Append the slides
+	                    _this12.instances[flickityIndex].instance.insert(elements, index);
+	
+	                    resolve(_this12.instances[flickityIndex]);
+	                }
 	            });
 	        }
 	
@@ -445,7 +625,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Find the index for a Flickity instance
 	         *
 	         * @param {String} id
-	         * @return {Number} flickityIndex
+	         * @return {Integer} flickityIndex
 	         */
 	
 	    }, {
