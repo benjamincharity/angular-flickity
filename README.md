@@ -457,7 +457,7 @@ FlickityService.get(id)
 Prepend elements and create cells to the beginning of the gallery.
 
 ```javascript
-FlickityService.getByElement(element)
+FlickityService.getByElement(id, element)
 ```
 
 - `element`: `{Element}`
@@ -473,7 +473,7 @@ FlickityService.getByElement(element)
 Create cells at the beginning of the gallery and prepend elements.
 
 ```javascript
-FlickityService.prepend(elements)
+FlickityService.prepend(id, elements)
 ```
 
 - `elements`: `{Object|Array|Element|NodeList}`
@@ -489,7 +489,7 @@ FlickityService.prepend(elements)
 Create cells at the end of the gallery and append elements.
 
 ```javascript
-FlickityService.append(elements)
+FlickityService.append(id, elements)
 ```
 
 - `elements`: `{Object|Array|Element|NodeList}`
@@ -500,14 +500,23 @@ FlickityService.append(elements)
 - `instance`: `{Object}`
 
 
+### `insert`
 
+Insert elements into the gallery and create cells at the desired index.
 
+```javascript
+FlickityService.insert(id, elements, index)
+```
 
+- `elements`: `{Object|Array|Element|NodeList}`
+  - jQuery object, Array of Elements, Element, or NodeList
+- `index`: `{Integer}`
+  - Zero based integer where the new slides should be inserted.
 
+##### Returns `Promise`
 
-     * @param {String} id
-     * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
-     * @return {Object} instance
+- `instance`: `{Object}`
+
 
 - - -
 

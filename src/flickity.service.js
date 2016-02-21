@@ -130,7 +130,7 @@ export class FlickityService {
      * Select a slide
      *
      * @param {String} id
-     * @param {Number} index
+     * @param {Integer} index
      * @param {Bool} isWrapped
      * @param {Bool} isInstant
      * @return {Object} instance
@@ -155,7 +155,7 @@ export class FlickityService {
      * Get the current slide index
      *
      * @param {String} id
-     * @return {Number} selectedIndex
+     * @return {Integer} selectedIndex
      */
     getSelectedIndex(id) {
         const flickityIndex = this._getFlickityIndex(id);
@@ -322,6 +322,31 @@ export class FlickityService {
     }
 
 
+    /**
+     * Insert elements into the gallery and create cells at the desired index.
+     *
+     * @param {String} id
+     * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+     * @param {Integer} index - Zero based index
+     * @return {Object} instance
+     */
+    insert(id, elements, index) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                // Append the slides
+                this.instances[flickityIndex].instance.insert(elements, index);
+
+                resolve(this.instances[flickityIndex]);
+            }
+        });
+    }
+
+
+
 
 
 
@@ -334,7 +359,7 @@ export class FlickityService {
      * Find the index for a Flickity instance
      *
      * @param {String} id
-     * @return {Number} flickityIndex
+     * @return {Integer} flickityIndex
      */
     _getFlickityIndex(id) {
         const negativeIndexForUnfound = -1;
