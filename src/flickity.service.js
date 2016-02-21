@@ -405,6 +405,24 @@ export class FlickityService {
     }
 
 
+    /**
+     * Get an array of all cells
+     *
+     * @param {String} id
+     * @return {Array} cells
+     */
+    cells(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                resolve(this.instances[flickityIndex].instance.cells);
+            }
+        });
+    }
+
 
 
     //

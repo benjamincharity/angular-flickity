@@ -573,7 +573,26 @@ FlickityService.selectedElement(id)
 
 ##### Returns `Promise`
 
-- `instance`: `{Object}`
+- `selectedElement`: `{Element}`
+
+
+### `cells`
+
+Get all cells.
+
+```javascript
+FlickityService.cells(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `cells`: `{Array}`
+
+
+
 
 
 - - -
