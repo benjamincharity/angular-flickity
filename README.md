@@ -9,6 +9,7 @@ until this reaches `1.0.0` (although, of course I will try not to).
 
 - [Installation](#installation)
 - [Dependencies](#dependencies)
+- [Usage](#usage)
 - [Options](#options)
 - [ID](#id)
 - [Global Defaults](#global-defaults)
@@ -39,6 +40,7 @@ npm install angular-flickity --save
 bower install angular-flickity --save
 ```
 
+
 ##### Note when using Flickity via bower
 
 In my experience, including Flickity through bower often doesn't work out of the box. By default,
@@ -67,6 +69,27 @@ The trick is to specify which files bower should use in your own `bower.json`.
 ## Dependencies
 
 - [Flickity.js (1.1.2)](http://flickity.metafizzy.co/)
+
+
+## Usage
+
+Include `bc.Flickity` as a dependency in your project.
+
+```javascript
+angular.module('YourModule', ['bc.Flickity']);
+```
+
+Use the directive on the parent element containing your slides.
+
+```html
+<div bc-flickity>
+
+    <figure data-ng-repeat="slide in slides">
+        <img data-ng-src="{{ slide }}" alt="" />
+    </figure>
+
+</div>
+```
 
 
 ## Options
