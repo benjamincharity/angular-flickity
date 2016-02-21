@@ -378,13 +378,31 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
-                this.instances[flickityIndex].instance.remove(elements)
+                this.instances[flickityIndex].instance.remove(elements);
 
                 resolve(this.instances[flickityIndex]);
             }
         });
     }
 
+
+    /**
+     * Get the currently selected cell element
+     *
+     * @param {String} id
+     * @return {Element} selectedCellElement
+     */
+    selectedElement(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                resolve(this.instances[flickityIndex].instance.selectedElement);
+            }
+        });
+    }
 
 
 

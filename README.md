@@ -560,6 +560,22 @@ FlickityService.remove(id, elements)
 - `instance`: `{Object}`
 
 
+### `selectedElement`
+
+Get the currently selected cell element.
+
+```javascript
+FlickityService.selectedElement(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
 - - -
 
 
