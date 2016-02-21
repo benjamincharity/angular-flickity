@@ -403,6 +403,22 @@ FlickityService.resize(id)
 - `instance`: `{Object}`
 
 
+### `reposition`
+
+Tell Flickity to reposition cells while retaining the current index. Useful if cell sizes change
+after initialization.
+
+```javascript
+FlickityService.reposition(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
 - - -
 
 
