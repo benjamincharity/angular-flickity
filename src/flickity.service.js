@@ -17,6 +17,7 @@ export class FlickityService {
 
     /**
      * Create a new Flickity instance
+     * TODO: We should verify that the ID doesn't exist in case the user passes in an existing ID
      *
      * @param {Element} element
      * @param {String} id
@@ -71,6 +72,7 @@ export class FlickityService {
     /**
      * Move to the next slide
      *
+     * @param {string} id
      * @param {Bool} isWrapped
      */
     next(id, isWrapped) {
@@ -88,6 +90,7 @@ export class FlickityService {
     /**
      * Move to the previous slide
      *
+     * @param {string} id
      * @param {Bool} isWrapped
      */
     previous(id, isWrapped) {

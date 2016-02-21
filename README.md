@@ -151,10 +151,9 @@ angular.module('myModule')
 ```
 
 
-## Methods
+## Directives
 
-
-### Next
+### `bc-flickity-next`
 
 The directive `bc-flickity-next` is provided to call the `next()` method on the `Flickity` instance.
 
@@ -170,7 +169,7 @@ selected if at the last cell. If `false`, it will do nothing when at the last ce
 ```
 
 
-### Previous
+### `bc-flickity-previous`
 
 The directive `bc-flickity-previous` is provided to call the `previous()` method on the `Flickity`
 instance.
@@ -185,6 +184,151 @@ selected if at the first cell. If `false`, it will do nothing when at the first 
 ```html
 <button bc-flickity-previous="true">Previous</button>
 ```
+
+- - -
+
+
+## Services
+
+While you can easily use Flickity via the directive only, most Flickity methods are accessible via
+the `FlickityService`.
+
+> _Don't be afraid to look at the source code. It isn't terribly complicated and fairly well
+> commented._
+
+### `create`
+
+This can be called to manually create a new `Flickity` instance.
+
+```javascript
+FlickityService.create(element, id, options)
+```
+
+##### Parameters
+
+- `element`: `{Element}`
+  - A DOM element wrapped as a jQuery object. This can be done with jqLite
+      (`angular.element(element)`) or jQuery (`$(element)`)
+- `id`: `{String}` _optional_
+  - ID for the created `Flickity` instance. If no ID is assigned, one will be created and used
+      internally.
+- `options`: `{Object}` _optional_
+  - Options object for Flickity
+
+##### Returns
+
+- `instance`: `{Object}`
+
+```javascript
+// Example return
+{
+    id: 'foo',
+    instance: Flickity
+};
+```
+
+### `destroy`
+
+Destroys a `Flickity` instance.
+
+```javascript
+FlickityService.destroy(id)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to be destroyed.
+
+##### Returns
+
+- No return
+
+
+### `next`
+
+Move to the next slide.
+
+```javascript
+FlickityService.next(id, isWrapped)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to move.
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
+  - If `false` and `next` is called when on the last slide, the slider will do nothing.
+
+##### Returns
+
+- No return
+
+
+### `previous`
+
+Move to the previous slide.
+
+```javascript
+FlickityService.previous(id, isWrapped)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to move.
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
+      the last slide.
+  - If `false` and `previous` is called when on the first slide, the slider will do nothing.
+
+##### Returns
+
+- No return
+
+
+### `select`
+
+Move directly to a specific slide.
+
+```javascript
+FlickityService.select(id, index, isWrapped, isInstant)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to move.
+- `index`: `{Number}`
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
+      the last slide.
+  - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
+
+##### Returns
+
+- No return
+
+
+### `getSelectedIndex`
+
+Get the index of the slide currently in view.
+
+```javascript
+FlickityService.getSelectedIndex(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance for which you need the index.
+
+##### Returns
+
+- `selectedIndex`: `{Number}`
 
 
 - - -

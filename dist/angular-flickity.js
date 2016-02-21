@@ -236,6 +236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     * Create a new Flickity instance
+	     * TODO: We should verify that the ID doesn't exist in case the user passes in an existing ID
 	     *
 	     * @param {Element} element
 	     * @param {String} id
@@ -295,6 +296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /**
 	         * Move to the next slide
 	         *
+	         * @param {string} id
 	         * @param {Bool} isWrapped
 	         */
 	
@@ -314,6 +316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /**
 	         * Move to the previous slide
 	         *
+	         * @param {string} id
 	         * @param {Bool} isWrapped
 	         */
 	
