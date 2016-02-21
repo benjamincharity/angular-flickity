@@ -455,7 +455,7 @@ FlickityService.get(id)
 ### `getByElement`
 
 Get the `Flickity` instance via its element. Useful for getting the `Flickity` instance in
-JavaScript, after it has been initalized in HTML.
+JavaScript, after it has been initialized in HTML.
 
 ```javascript
 FlickityService.getByElement(element)
