@@ -223,13 +223,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* global Flickity */
 	
 	var FlickityService = exports.FlickityService = (function () {
-	    FlickityService.$inject = ["$timeout"];
-	    function FlickityService($timeout) {
+	    FlickityService.$inject = ["$timeout", "$q"];
+	    function FlickityService($timeout, $q) {
 	        'ngInject';
 	
 	        _classCallCheck(this, FlickityService);
 	
 	        this.$timeout = $timeout;
+	        this.$q = $q;
 	
 	        this.instances = [];
 	    }
@@ -241,7 +242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Element} element
 	     * @param {String} id
 	     * @param {Object} options
-	     * @return {Element} element
+	     * @return {Object} instance
 	     */
 	
 	    _createClass(FlickityService, [{
@@ -259,13 +260,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Save this instance to the array
 	            this.instances.push(instance);
 	
-	            return instance;
+	            return this.$q(function (resolve) {
+	                resolve(instance);
+	            });
 	        }
 	
 	        /**
 	         * Destroy a Flickity instance
 	         *
 	         * @param {String} id
+	         * @return {Object} instance
 	         */
 	
 	    }, {
@@ -275,22 +279,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var pauseBeforeDestruction = 2000;
 	            var flickityIndex = this._getFlickityIndex(id);
+	            return this.$q(function (resolve, reject) {
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	                if (flickityIndex < 0) {
+	                    reject(false);
+	                }
 	
-	            // Pause to allow other scope cleanup to occur
-	            // NOTE: Without this pause, Flickity is being destroyed before the view containing the
-	            // directive can leave view
-	            this.$timeout(function () {
+	                // Pause to allow other scope cleanup to occur
+	                // NOTE: Without this pause, Flickity is being destroyed before the view containing the
+	                // directive can leave view
+	                _this.$timeout(function () {
 	
-	                // Destroy the Flickity instance
-	                _this.instances[flickityIndex].instance.destroy();
+	                    // Destroy the Flickity instance
+	                    _this.instances[flickityIndex].instance.destroy();
 	
-	                // Remove the instance from the array
-	                _this.instances.splice(flickityIndex, 1);
-	            }, pauseBeforeDestruction);
+	                    // Remove the instance from the array
+	                    _this.instances.splice(flickityIndex, 1);
+	
+	                    resolve(true);
+	                }, pauseBeforeDestruction);
+	            });
 	        }
 	
 	        /**
@@ -298,11 +306,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {string} id
 	         * @param {Bool} isWrapped
+	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'next',
 	        value: function next(id, isWrapped) {
+	            var _this2 = this;
+	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
 	            if (flickityIndex < 0) {
@@ -311,6 +322,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Trigger the next slide
 	            this.instances[flickityIndex].instance.next(isWrapped);
+	
+	            return this.$q(function (resolve) {
+	                resolve(_this2.instances[flickityIndex]);
+	            });
 	        }
 	
 	        /**
@@ -318,11 +333,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {string} id
 	         * @param {Bool} isWrapped
+	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'previous',
 	        value: function previous(id, isWrapped) {
+	            var _this3 = this;
+	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
 	            if (flickityIndex < 0) {
@@ -331,6 +349,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Trigger the next slide
 	            this.instances[flickityIndex].instance.previous(isWrapped);
+	
+	            return this.$q(function (resolve) {
+	                resolve(_this3.instances[flickityIndex]);
+	            });
 	        }
 	
 	        /**
@@ -340,11 +362,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @param {Number} index
 	         * @param {Bool} isWrapped
 	         * @param {Bool} isInstant
+	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'select',
 	        value: function select(id, index) {
+	            var _this4 = this;
+	
 	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
@@ -356,18 +381,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Trigger the next slide
 	            this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
+	
+	            return this.$q(function (resolve) {
+	                resolve(_this4.instances[flickityIndex]);
+	            });
 	        }
 	
 	        /**
 	         * Get the current slide index
 	         *
 	         * @param {String} id
-	         * @return {Number} index
+	         * @return {Number} selectedIndex
 	         */
 	
 	    }, {
 	        key: 'getSelectedIndex',
 	        value: function getSelectedIndex(id) {
+	            var _this5 = this;
+	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
 	            if (flickityIndex < 0) {
@@ -375,7 +406,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	
 	            // Return the current index
-	            return this.instances[flickityIndex].instance.selectedIndex;
+	            return this.$q(function (resolve) {
+	                resolve(_this5.instances[flickityIndex].instance.selectedIndex);
+	            });
 	        }
 	
 	        //
