@@ -5,8 +5,43 @@ until this reaches `1.0.0` (although, of course I will try not to).
 
 [**Plunker Demo**](http://plnkr.co/edit/gFwwJf?p=preview)
 
+## Contents
 
-#### Note when using Flickity via bower
+- [Installation](#installation)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Options](#options)
+- [ID](#id)
+- [Global Defaults](#global-defaults)
+- [Directives](#directives)
+- [Directives](#directives)
+  - [`bc-flickity-next`](#bc-flickity-next)
+  - [`bc-flickity-previous`](#bc-flickity-previous)
+- [Services](#services)
+  - [`create`](#create)
+  - [`destroy`](#destroy)
+  - [`next`](#next)
+  - [`previous`](#previous)
+  - [`select`](#select)
+  - [`getSelectedIndex`](#getselectedindex)
+- [Scripts](#scripts)
+- [About Flickity.js](#about-flickityjs)
+
+
+## Installation
+
+#### NPM
+```bash
+npm install angular-flickity --save
+```
+
+#### Bower
+```bash
+bower install angular-flickity --save
+```
+
+
+##### Note when using Flickity via bower
 
 In my experience, including Flickity through bower often doesn't work out of the box. By default,
 bower pulls in the unpackaged files as the Flickity `bower.json` specifies rather than packaged
@@ -18,7 +53,6 @@ The trick is to specify which files bower should use in your own `bower.json`.
 // inside your bower.json specify which Flickity files to use
 {
   "name": "myProject",
-  "version": "0.0.0",
   "overrides": {
     "flickity": {
       "main": [
@@ -34,6 +68,27 @@ The trick is to specify which files bower should use in your own `bower.json`.
 ## Dependencies
 
 - [Flickity.js (1.1.2)](http://flickity.metafizzy.co/)
+
+
+## Usage
+
+Include `bc.Flickity` as a dependency in your project.
+
+```javascript
+angular.module('YourModule', ['bc.Flickity']);
+```
+
+Use the directive on the parent element containing your slides.
+
+```html
+<div bc-flickity>
+
+    <figure data-ng-repeat="slide in slides">
+        <img data-ng-src="{{ slide }}" alt="" />
+    </figure>
+
+</div>
+```
 
 
 ## Options
