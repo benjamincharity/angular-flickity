@@ -2,11 +2,12 @@
 export class FlickityService {
 
     constructor(
-        $timeout
+        $timeout, $q
     ) {
         'ngInject';
 
         this.$timeout = $timeout;
+        this.$q = $q;
 
         this.instances = [];
 
@@ -22,7 +23,7 @@ export class FlickityService {
      * @param {Element} element
      * @param {String} id
      * @param {Object} options
-     * @return {Element} element
+     * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
 
@@ -35,7 +36,9 @@ export class FlickityService {
         // Save this instance to the array
         this.instances.push(instance);
 
-        return instance;
+        return this.$q((resolve) => {
+            resolve(instance);
+        });
 
     }
 
@@ -44,27 +47,32 @@ export class FlickityService {
      * Destroy a Flickity instance
      *
      * @param {String} id
+     * @return {Object} instance
      */
     destroy(id) {
         const pauseBeforeDestruction = 2000;
         const flickityIndex = this._getFlickityIndex(id);
+        return this.$q((resolve, reject) => {
 
-        if (flickityIndex < 0) {
-            return false;
-        }
+            if (flickityIndex < 0) {
+                reject(false);
+            }
 
-        // Pause to allow other scope cleanup to occur
-        // NOTE: Without this pause, Flickity is being destroyed before the view containing the
-        // directive can leave view
-        this.$timeout(() => {
+            // Pause to allow other scope cleanup to occur
+            // NOTE: Without this pause, Flickity is being destroyed before the view containing the
+            // directive can leave view
+            this.$timeout(() => {
 
-            // Destroy the Flickity instance
-            this.instances[flickityIndex].instance.destroy();
+                // Destroy the Flickity instance
+                this.instances[flickityIndex].instance.destroy();
 
-            // Remove the instance from the array
-            this.instances.splice(flickityIndex, 1);
+                // Remove the instance from the array
+                this.instances.splice(flickityIndex, 1);
 
-        }, pauseBeforeDestruction);
+                resolve(true);
+
+            }, pauseBeforeDestruction);
+        });
 
     }
 
@@ -74,6 +82,7 @@ export class FlickityService {
      *
      * @param {string} id
      * @param {Bool} isWrapped
+     * @return {Object} instance
      */
     next(id, isWrapped) {
         const flickityIndex = this._getFlickityIndex(id);
@@ -84,6 +93,11 @@ export class FlickityService {
 
         // Trigger the next slide
         this.instances[flickityIndex].instance.next(isWrapped);
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
+
     }
 
 
@@ -92,6 +106,7 @@ export class FlickityService {
      *
      * @param {string} id
      * @param {Bool} isWrapped
+     * @return {Object} instance
      */
     previous(id, isWrapped) {
         const flickityIndex = this._getFlickityIndex(id);
@@ -102,6 +117,11 @@ export class FlickityService {
 
         // Trigger the next slide
         this.instances[flickityIndex].instance.previous(isWrapped);
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
+
     }
 
 
@@ -112,6 +132,7 @@ export class FlickityService {
      * @param {Number} index
      * @param {Bool} isWrapped
      * @param {Bool} isInstant
+     * @return {Object} instance
      */
     select(id, index, isWrapped = false, isInstant = false) {
         const flickityIndex = this._getFlickityIndex(id);
@@ -122,6 +143,11 @@ export class FlickityService {
 
         // Trigger the next slide
         this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
+
     }
 
 
@@ -129,7 +155,7 @@ export class FlickityService {
      * Get the current slide index
      *
      * @param {String} id
-     * @return {Number} index
+     * @return {Number} selectedIndex
      */
     getSelectedIndex(id) {
         const flickityIndex = this._getFlickityIndex(id);
@@ -139,7 +165,10 @@ export class FlickityService {
         }
 
         // Return the current index
-        return this.instances[flickityIndex].instance.selectedIndex;
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex].instance.selectedIndex);
+        });
+
     }
 
 
