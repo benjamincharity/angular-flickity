@@ -270,7 +270,7 @@ FlickityService.create(element, id, options)
 - `options`: `{Object}` _optional_
   - Options object for Flickity
 
-##### Returns
+##### Returns `Promise`
 
 - `instance`: `{Object}`
 
@@ -295,9 +295,9 @@ FlickityService.destroy(id)
 - `id`: `{String}`
   - A string representing the ID of the `Flickity` instance to be destroyed.
 
-##### Returns
+##### Returns `Promise`
 
-- No return
+- `instance`: `{Object}`
 
 
 ### `next`
@@ -317,9 +317,9 @@ FlickityService.next(id, isWrapped)
   - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
   - If `false` and `next` is called when on the last slide, the slider will do nothing.
 
-##### Returns
+##### Returns `Promise`
 
-- No return
+- `instance`: `{Object}`
 
 
 ### `previous`
@@ -340,9 +340,9 @@ FlickityService.previous(id, isWrapped)
       the last slide.
   - If `false` and `previous` is called when on the first slide, the slider will do nothing.
 
-##### Returns
+##### Returns `Promise`
 
-- No return
+- `instance`: `{Object}`
 
 
 ### `select`
@@ -365,9 +365,9 @@ FlickityService.select(id, index, isWrapped, isInstant)
   - Default: `false`
   - If `true` the slide will change instantly with no animation.
 
-##### Returns
+##### Returns `Promise`
 
-- No return
+- `instance`: `{Object}`
 
 
 ### `getSelectedIndex`
@@ -381,9 +381,10 @@ FlickityService.getSelectedIndex(id)
 - `id`: `{String}`
   - A string representing the ID of the `Flickity` instance for which you need the index.
 
-##### Returns
+##### Returns `Promise`
 
 - `selectedIndex`: `{Number}`
+  - The index of the currently visible slide.
 
 
 - - -
