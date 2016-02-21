@@ -337,7 +337,7 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
-                // Append the slides
+                // Insert the slides
                 this.instances[flickityIndex].instance.insert(elements, index);
 
                 resolve(this.instances[flickityIndex]);
@@ -345,6 +345,24 @@ export class FlickityService {
         });
     }
 
+
+    /**
+     * Get the elements of the cells
+     *
+     * @param {String} id
+     * @return {Array} cellElements
+     */
+    getCellElements(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                resolve(this.instances[flickityIndex].instance.getCellElements());
+            }
+        });
+    }
 
 
 

@@ -460,6 +460,8 @@ Prepend elements and create cells to the beginning of the gallery.
 FlickityService.getByElement(id, element)
 ```
 
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
 - `element`: `{Element}`
   - Element or selector string representing the `Flickity` instance.
 
@@ -476,6 +478,8 @@ Create cells at the beginning of the gallery and prepend elements.
 FlickityService.prepend(id, elements)
 ```
 
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
 - `elements`: `{Object|Array|Element|NodeList}`
   - jQuery object, Array of Elements, Element, or NodeList
 
@@ -492,6 +496,8 @@ Create cells at the end of the gallery and append elements.
 FlickityService.append(id, elements)
 ```
 
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
 - `elements`: `{Object|Array|Element|NodeList}`
   - jQuery object, Array of Elements, Element, or NodeList
 
@@ -508,6 +514,8 @@ Insert elements into the gallery and create cells at the desired index.
 FlickityService.insert(id, elements, index)
 ```
 
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
 - `elements`: `{Object|Array|Element|NodeList}`
   - jQuery object, Array of Elements, Element, or NodeList
 - `index`: `{Integer}`
@@ -517,6 +525,21 @@ FlickityService.insert(id, elements, index)
 
 - `instance`: `{Object}`
 
+
+### `getCellElements`
+
+Get the elements of the cells.
+
+```javascript
+FlickityService.getCellElements(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `cellElements`: `{Array}`
 
 - - -
 
