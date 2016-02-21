@@ -454,20 +454,60 @@ FlickityService.get(id)
 
 ### `getByElement`
 
-Get the `Flickity` instance via its element. Useful for getting the `Flickity` instance in
-JavaScript, after it has been initialized in HTML.
+Prepend elements and create cells to the beginning of the gallery.
 
 ```javascript
 FlickityService.getByElement(element)
 ```
 
-- `element`: `{Elemnet}`
+- `element`: `{Element}`
   - Element or selector string representing the `Flickity` instance.
 
 ##### Returns `Promise`
 
 - `instance`: `{Object}`
 
+
+### `prepend`
+
+Create cells at the beginning of the gallery and prepend elements.
+
+```javascript
+FlickityService.prepend(elements)
+```
+
+- `elements`: `{Object|Array|Element|NodeList}`
+  - jQuery object, Array of Elements, Element, or NodeList
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+### `append`
+
+Create cells at the end of the gallery and append elements.
+
+```javascript
+FlickityService.append(elements)
+```
+
+- `elements`: `{Object|Array|Element|NodeList}`
+  - jQuery object, Array of Elements, Element, or NodeList
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+
+
+
+
+
+     * @param {String} id
+     * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+     * @return {Object} instance
 
 - - -
 

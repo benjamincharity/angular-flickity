@@ -92,7 +92,7 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
-                // Trigger the next slide
+                // Move to the next slide
                 this.instances[flickityIndex].instance.next(isWrapped);
 
                 resolve(this.instances[flickityIndex]);
@@ -116,7 +116,7 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
-                // Trigger the next slide
+                // Move to the previous slide
                 this.instances[flickityIndex].instance.previous(isWrapped);
 
                 resolve(this.instances[flickityIndex]);
@@ -142,7 +142,7 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
-                // Trigger the next slide
+                // Move to the selected slide
                 this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
 
                 resolve(this.instances[flickityIndex]);
@@ -160,11 +160,11 @@ export class FlickityService {
     getSelectedIndex(id) {
         const flickityIndex = this._getFlickityIndex(id);
 
-        // Return the current index
         return this.$q((resolve, reject) => {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
+                // Return the current index
                 resolve(this.instances[flickityIndex].instance.selectedIndex);
             }
         });
@@ -217,29 +217,6 @@ export class FlickityService {
 
 
     /**
-     * Position cells at selected position.
-     * Trigger reposition after the size of a cell has been changed.
-     *
-     * @param {String} id
-     * @return {Object} instance
-     */
-    reposition(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
-        return this.$q((resolve, reject) => {
-            if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
-            } else {
-                // Trigger the resize
-                this.instances[flickityIndex].instance.reposition();
-
-                resolve(this.instances[flickityIndex]);
-            }
-        });
-    }
-
-
-    /**
      * Re-collect all cell elements in `flickity-slider`.
      *
      * @param {String} id
@@ -252,7 +229,7 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
-                // Trigger the resize
+                // Reload cells
                 this.instances[flickityIndex].instance.reloadCells();
 
                 resolve(this.instances[flickityIndex]);
@@ -298,6 +275,51 @@ export class FlickityService {
         });
     }
 
+
+    /**
+     * Prepend elements and create cells to the beginning of the gallery.
+     *
+     * @param {String} id
+     * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+     * @return {Object} instance
+     */
+    prepend(id, elements) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                // Prepend the slides
+                this.instances[flickityIndex].instance.prepend(elements);
+
+                resolve(this.instances[flickityIndex]);
+            }
+        });
+    }
+
+
+    /**
+     * Append elements and create cells to the end of the gallery.
+     *
+     * @param {String} id
+     * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+     * @return {Object} instance
+     */
+    append(id, elements) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                // Append the slides
+                this.instances[flickityIndex].instance.append(elements);
+
+                resolve(this.instances[flickityIndex]);
+            }
+        });
+    }
 
 
 
