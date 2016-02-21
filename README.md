@@ -53,7 +53,6 @@ The trick is to specify which files bower should use in your own `bower.json`.
 // inside your bower.json specify which Flickity files to use
 {
   "name": "myProject",
-  "version": "0.0.0",
   "overrides": {
     "flickity": {
       "main": [
