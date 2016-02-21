@@ -157,7 +157,7 @@ export class FlickityService {
      * @param {String} id
      * @return {Integer} selectedIndex
      */
-    getSelectedIndex(id) {
+    selectedIndex(id) {
         const flickityIndex = this._getFlickityIndex(id);
 
         return this.$q((resolve, reject) => {
