@@ -260,6 +260,46 @@ export class FlickityService {
     }
 
 
+    /**
+     * Get the Flickity instance
+     *
+     * @param {String} id
+     * @return {Object} instance
+     */
+    get(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        if (flickityIndex < 0) {
+            return false;
+        }
+
+        return this.$q((resolve) => {
+            resolve(this.instances[flickityIndex]);
+        });
+    }
+
+
+    /**
+     * Get the Flickity instance
+     *
+     * @param {Element} element
+     * @return {Object} instance
+     */
+    getByElement(element) {
+        return this.$q((resolve, reject) => {
+            const instance = Flickity.data(element)
+
+            if (instance) {
+                resolve(instance);
+            } else {
+                reject(instance);
+            }
+        });
+    }
+
+
+
+
 
 
     //

@@ -436,6 +436,39 @@ FlickityService.reloadCells(id)
 - `instance`: `{Object}`
 
 
+### `get`
+
+Return a `Flickity` instance found by ID.
+
+```javascript
+FlickityService.get(id)
+```
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+### `getByElement`
+
+Get the `Flickity` instance via its element. Useful for getting the `Flickity` instance in
+JavaScript, after it has been initalized in HTML.
+
+```javascript
+FlickityService.getByElement(element)
+```
+
+- `element`: `{Elemnet}`
+  - Element or selector string representing the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
 - - -
 
 
