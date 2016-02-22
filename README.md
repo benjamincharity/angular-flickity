@@ -37,6 +37,7 @@ until this reaches `1.0.0` (although, of course I will try not to).
         - [`reloadCells`](#reloadcells)
         - [`getCellElements`](#getcellelements)
         - [`get`](#get)
+        - [`getFirst`](#getFirst)
         - [`getByElement`](#getbyelement)
     - [Properties](#properties)
         - [`selectedIndex`](#selectedindex)
@@ -556,6 +557,19 @@ FlickityService.get(id)
 
 - `id`: `{String}`
   - A string representing the ID of the `Flickity` instance.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+#### `getFirst`
+
+Return the first `Flickity` instance.
+
+```javascript
+FlickityService.getFirst()
+```
 
 ##### Returns `Promise`
 
