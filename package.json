@@ -12,7 +12,7 @@
     "main": "dist/angular-flickity.js",
     "scripts": {
         "build": "WEBPACK_ENV=build webpack",
-        "watch": "npm run build && onchange 'src/*.js' -- npm run build"
+        "watch": "npm run build && onchange 'src/**/*.js' -- npm run build"
     },
     "devDependencies": {
         "babel": "6.3.13",

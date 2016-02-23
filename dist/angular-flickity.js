@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickityNext = __webpack_require__(4);
 	
-	var _flickityPrevious = __webpack_require__(5);
+	var _flickityPrevious = __webpack_require__(6);
 	
 	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).service('FlickityService', _flickity2.FlickityService).directive('bcFlickity', _flickity3.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
@@ -777,7 +777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -786,6 +786,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 	exports.FlickityNextDirective = FlickityNextDirective;
+	
+	var _next = __webpack_require__(5);
+	
 	function FlickityNextDirective($log, $timeout, FlickityConfig, FlickityService) {
 	    'ngInject';
 	
@@ -798,7 +801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcFlickityId: '@?'
 	        },
 	        link: linkFunction,
-	        controller: FlickityNextController,
+	        controller: _next.NextController,
 	        controllerAs: 'vm'
 	    };
 	
@@ -810,38 +813,130 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function linkFunction($scope, $element, $attrs, $controller) {
 	        'ngInject';
 	
-	        // Trigger next() method
-	
 	        $element.on('click', function () {
-	            FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
-	        });
-	    }
 	
-	    /**
-	     * Controller
-	     */
-	    function FlickityNextController() {
-	        var _this = this;
+	            // Move to the next cell
+	            FlickityService.next($controller.flickityId, $scope.bcFlickityNext).then(function () {
 	
-	        // Assign or fall back to default
-	        this.wrapAround = this.bcFlickityNext || FlickityConfig.wrapAround;
+	                // After we move, set the selected index
+	                FlickityService.selectedIndex($controller.flickityId).then(function (index) {
+	                    console.log('selectedIndex: ', index);
+	                    $controller.selectedIndex = index;
 	
-	        if (this.bcFlickityId) {
-	            this.flickityId = this.bcFlickityId;
-	        } else {
-	            $timeout(function () {
-	                FlickityService.getFirst().then(function (instance) {
-	                    _this.flickityId = instance.id;
-	                }).catch(function (error) {
-	                    $log.warn(error);
+	                    /*
+	                     *$controller.setDisabledState();
+	                     */
 	                });
 	            });
-	        }
+	        });
 	    }
 	}
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var NextController = exports.NextController = (function () {
+	    NextController.$inject = ["$log", "$q", "$timeout", "FlickityConfig", "FlickityService"];
+	    function NextController($log, $q, $timeout, FlickityConfig, FlickityService) {
+	        'ngInject';
+	
+	        _classCallCheck(this, NextController);
+	
+	        this.$log = $log;
+	        this.$q = $q;
+	        this.$timeout = $timeout;
+	        this.FlickityConfig = FlickityConfig;
+	        this.FlickityService = FlickityService;
+	
+	        this._activate();
+	    }
+	
+	    _createClass(NextController, [{
+	        key: '_activate',
+	        value: function _activate() {
+	            var _this = this;
+	
+	            // Assign or fall back to default
+	            this.wrapAround = this.bcFlickityNext || this.FlickityConfig.wrapAround;
+	            this.flickityId = null;
+	            this.cellCount;
+	            this.selectedIndex;
+	            this.bcIsDisabled = false;
+	
+	            // Make sure we have an ID before we wire everything up
+	            this._setId().then(function () {
+	
+	                // Get the cells
+	                _this.FlickityService.cells(_this.flickityId).then(function (cells) {
+	                    console.log('cells: ', cells, cells.length);
+	
+	                    // Save the count
+	                    _this.cellCount = cells.length;
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'setDisabledState',
+	        value: function setDisabledState() {
+	            console.log('in setDisabledStateeeeee');
+	
+	            // If we can wrap, we should never disable
+	            if (this.wrapAround) {
+	                this.bcIsDisabled = false;
+	            } else {
+	                // if we cannot wrap
+	
+	                // If we are at the end
+	                if (this.cellCount - this.selectedIndex < 1) {
+	                    this.bcIsDisabled = true;
+	                } else {
+	                    this.bcIsDisabled = false;
+	                }
+	            }
+	
+	            console.log('in setDisabledState: ', this.cellCount, this.selectedIndex, this.bcIsDisabled);
+	        }
+	    }, {
+	        key: '_setId',
+	        value: function _setId() {
+	            var _this2 = this;
+	
+	            return this.$q(function (resolve, reject) {
+	
+	                if (_this2.bcFlickityId) {
+	                    _this2.flickityId = _this2.bcFlickityId;
+	                    resolve(_this2.flickityId);
+	                } else {
+	                    _this2.$timeout(function () {
+	                        _this2.FlickityService.getFirst().then(function (instance) {
+	                            _this2.flickityId = instance.id;
+	                            resolve(_this2.flickityId);
+	                        }).catch(function (error) {
+	                            _this2.$log.warn(error);
+	                            reject(error);
+	                        });
+	                    });
+	                }
+	            });
+	        }
+	    }]);
+	
+	    return NextController;
+	})();
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
