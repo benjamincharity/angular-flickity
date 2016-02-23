@@ -234,6 +234,25 @@ The directive `bc-flickity-next` is provided to call the `next()` method on a `F
 <button bc-flickity-next>Next</button>
 ```
 
+#### Multiple Instances
+
+If you need to support multiple `Flickity` instances in a single view you can specify an instance ID
+that the control should be linked to.
+
+```javascript
+<button
+  bc-flickity-next
+  bc-flickity-id="customId"
+>Next</button>
+```
+
+> _More on setting the ID using a [directive](#id) or [service](#initialize)._
+
+If no ID is set, the directive will assume that only one instance exists and grab the first
+instance.
+
+#### Looping
+
 This directive accepts an optional parameter to control the looping. If `true` and at the last cell
 when clicked, Flickity will loop back to the first cell. If `false`, it will do nothing when
 clicked at the last cell.
@@ -251,6 +270,25 @@ instance.
 ```html
 <button bc-flickity-previous>Previous</button>
 ```
+
+#### Multiple Instances
+
+If you need to support multiple `Flickity` instances in a single view you can specify an instance ID
+that the control should be linked to.
+
+```javascript
+<button
+  bc-flickity-next
+  bc-flickity-id="customId"
+>Next</button>
+```
+
+> _More on setting the ID using a [directive](#id) or [service](#initialize)._
+
+If no ID is set, the directive will assume that only one instance exists and grab the first
+instance.
+
+#### Looping
 
 This directive accepts an optional parameter to control the looping. If `true` and at the first cell
 when clicked, Flickity will loop around to the last cell. If `false`, it will do nothing when
