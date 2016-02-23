@@ -258,6 +258,22 @@ export class FlickityService {
 
 
     /**
+     * Get the first Flickity instance
+     *
+     * @return {Object} instance
+     */
+    getFirst() {
+        return this.$q((resolve, reject) => {
+            if (!this.instances || this.instances.length < 1) {
+                reject('No instances exist');
+            } else {
+                resolve(this.instances[0]);
+            }
+        });
+    }
+
+
+    /**
      * Get the Flickity instance
      *
      * @param {Element} element

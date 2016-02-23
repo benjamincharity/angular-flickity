@@ -14,7 +14,6 @@ until this reaches `1.0.0` (although, of course I will try not to).
 - [ID](#id)
 - [Global Defaults](#global-defaults)
 - [Directives](#directives)
-- [Directives](#directives)
     - [`bc-flickity-next`](#bc-flickity-next)
     - [`bc-flickity-previous`](#bc-flickity-previous)
 - [Services](#services)
@@ -37,12 +36,13 @@ until this reaches `1.0.0` (although, of course I will try not to).
         - [`reloadCells`](#reloadcells)
         - [`getCellElements`](#getcellelements)
         - [`get`](#get)
+        - [`getFirst`](#getFirst)
         - [`getByElement`](#getbyelement)
     - [Properties](#properties)
         - [`selectedIndex`](#selectedindex)
         - [`selectedElement`](#selectedelement)
         - [`cells`](#cells)
-- [Scripts](#scripts)
+- [Development](#development)
 - [About Flickity.js](#about-flickityjs)
 
 
@@ -228,14 +228,34 @@ angular.module('myModule')
 
 ### `bc-flickity-next`
 
-The directive `bc-flickity-next` is provided to call the `next()` method on the `Flickity` instance.
+The directive `bc-flickity-next` is provided to call the `next()` method on a `Flickity` instance.
 
 ```html
 <button bc-flickity-next>Next</button>
 ```
 
-You can also pass in an optional parameter to control the looping. If `true`, the first cell will be
-selected if at the last cell. If `false`, it will do nothing when at the last cell.
+#### Multiple Instances
+
+If you need to support multiple `Flickity` instances in a single view you can specify an instance ID
+that the control should be linked to.
+
+```javascript
+<button
+  bc-flickity-next
+  bc-flickity-id="customId"
+>Next</button>
+```
+
+> _More on setting the ID using a [directive](#id) or [service](#initialize)._
+
+If no ID is set, the directive will assume that only one instance exists and grab the first
+instance.
+
+#### Looping
+
+This directive accepts an optional parameter to control the looping. If `true` and at the last cell
+when clicked, Flickity will loop back to the first cell. If `false`, it will do nothing when
+clicked at the last cell.
 
 ```html
 <button bc-flickity-next="true">Next</button>
@@ -251,8 +271,28 @@ instance.
 <button bc-flickity-previous>Previous</button>
 ```
 
-You can also pass in an optional parameter to control the looping. If `true`, the last cell will be
-selected if at the first cell. If `false`, it will do nothing when at the first cell.
+#### Multiple Instances
+
+If you need to support multiple `Flickity` instances in a single view you can specify an instance ID
+that the control should be linked to.
+
+```javascript
+<button
+  bc-flickity-next
+  bc-flickity-id="customId"
+>Next</button>
+```
+
+> _More on setting the ID using a [directive](#id) or [service](#initialize)._
+
+If no ID is set, the directive will assume that only one instance exists and grab the first
+instance.
+
+#### Looping
+
+This directive accepts an optional parameter to control the looping. If `true` and at the first cell
+when clicked, Flickity will loop around to the last cell. If `false`, it will do nothing when
+clicked at the first cell.
 
 ```html
 <button bc-flickity-previous="true">Previous</button>
@@ -562,6 +602,19 @@ FlickityService.get(id)
 - `instance`: `{Object}`
 
 
+#### `getFirst`
+
+Return the first `Flickity` instance.
+
+```javascript
+FlickityService.getFirst()
+```
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
 #### `getByElement`
 
 Find a `Flickity` instance by element or selector string.
@@ -637,7 +690,7 @@ FlickityService.cells(id)
 - - -
 
 
-## Scripts
+## Development
 
 * `npm run build`
   - Produces uncompressed (`.js`) and minified (`.min.js`) versions of the library under the `dist` folder.

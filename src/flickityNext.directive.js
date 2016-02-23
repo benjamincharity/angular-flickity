@@ -1,15 +1,19 @@
 export function FlickityNextDirective(
-    FlickityService
+    $log, $timeout,
+    FlickityConfig, FlickityService
 ) {
     'ngInject';
 
     const directive = {
         restrict: 'A',
-        require: '^bcFlickity',
-        scope: {
+        scope: {},
+        bindToController: {
             bcFlickityNext: '=?',
+            bcFlickityId: '@?',
         },
         link: linkFunction,
+        controller: FlickityNextController,
+        controllerAs: 'vm',
     };
 
     return directive;
@@ -23,11 +27,6 @@ export function FlickityNextDirective(
     ) {
         'ngInject';
 
-        // If no boolean was passed in, set to a default
-        if (typeof $scope.bcFlickityNext !== 'boolean') {
-            $scope.bcFlickityNext = true;
-        }
-
         // Trigger next() method
         $element.on('click', () => {
             FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
@@ -36,6 +35,29 @@ export function FlickityNextDirective(
     }
 
 
+    /**
+     * Controller
+     */
+    function FlickityNextController() {
+
+        // Assign or fall back to default
+        this.wrapAround = this.bcFlickityNext || FlickityConfig.wrapAround;
+
+        if (this.bcFlickityId) {
+            this.flickityId = this.bcFlickityId;
+        } else {
+            $timeout(() => {
+                FlickityService.getFirst()
+                    .then((instance) => {
+                        this.flickityId = instance.id;
+                    })
+                    .catch((error) => {
+                        $log.warn(error);
+                    })
+                ;
+            });
+        }
+    }
 
 }
 

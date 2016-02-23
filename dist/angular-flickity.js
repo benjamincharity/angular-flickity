@@ -66,7 +66,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickityPrevious = __webpack_require__(5);
 	
-	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).directive('bcFlickity', _flickity2.FlickityDirective).service('FlickityService', _flickity3.FlickityService).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
+	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).service('FlickityService', _flickity2.FlickityService).directive('bcFlickity', _flickity3.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
 /* 1 */
@@ -123,91 +123,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	FlickityDirective.$inject = ["$timeout", "FlickityConfig", "FlickityService"];
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.FlickityDirective = FlickityDirective;
-	/* global Flickity */
-	
-	/**
-	 * Flickity.js
-	 * http://flickity.metafizzy.co/options.html
-	 *
-	 * Required markup
-	 *
-	 * <div bc-flickity flickity-options="{{ vm.myCustomOptions }}">
-	 *   <div>
-	 *   <div>
-	 *   ...
-	 * </div>
-	 *
-	 */
-	function FlickityDirective($timeout, FlickityConfig, FlickityService) {
-	    'ngInject';
-	
-	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
-	    var directive = {
-	        restrict: 'A',
-	        scope: {},
-	        bindToController: {
-	            bcFlickity: '@?',
-	            bcFlickityId: '@?'
-	        },
-	        link: linkFunction,
-	        controller: FlickityController,
-	        controllerAs: 'vm'
-	    };
-	
-	    return directive;
-	
-	    /**
-	     * Link
-	     */
-	    function linkFunction($scope, $element, $attrs, $controller) {
-	        'ngInject';
-	
-	        // If no ID was passed in
-	
-	        if (!$controller.bcFlickityId) {
-	            // Use the element's ID if one exists
-	            if ($attrs.id) {
-	                $controller.bcFlickityId = $attrs.id;
-	            }
-	        }
-	
-	        // Using a timeout ensures that any ng-repeats can finish running before we initialize
-	        $timeout(function () {
-	            // Initialize Flickity
-	            var flickityInstance = FlickityService.create($element[0], $controller.bcFlickityId, $controller.options);
-	
-	            // Expose the Flickity instance and ID
-	            $controller.Flickity = flickityInstance.instance;
-	            $controller.bcFlickityId = flickityInstance.id;
-	        });
-	
-	        // Clean up when being destroyed
-	        var onDestroy = $scope.$on('$destroy', function (event) {
-	            FlickityService.destroy($controller.bcFlickityId);
-	        });
-	    }
-	
-	    /**
-	     * Controller
-	     */
-	    function FlickityController() {
-	
-	        // Extend the default options with user configuration
-	        this.options = angular.extend({}, FlickityConfig, angular.fromJson(this.bcFlickity));
-	    }
-	}
-
-/***/ },
-/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -515,6 +430,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        /**
+	         * Get the first Flickity instance
+	         *
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'getFirst',
+	        value: function getFirst() {
+	            var _this10 = this;
+	
+	            return this.$q(function (resolve, reject) {
+	                if (!_this10.instances || _this10.instances.length < 1) {
+	                    reject('No instances exist');
+	                } else {
+	                    resolve(_this10.instances[0]);
+	                }
+	            });
+	        }
+	
+	        /**
 	         * Get the Flickity instance
 	         *
 	         * @param {Element} element
@@ -546,7 +481,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'prepend',
 	        value: function prepend(id, elements) {
-	            var _this10 = this;
+	            var _this11 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -555,9 +490,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Prepend the slides
-	                    _this10.instances[flickityIndex].instance.prepend(elements);
+	                    _this11.instances[flickityIndex].instance.prepend(elements);
 	
-	                    resolve(_this10.instances[flickityIndex]);
+	                    resolve(_this11.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -573,7 +508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'append',
 	        value: function append(id, elements) {
-	            var _this11 = this;
+	            var _this12 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -582,9 +517,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Append the slides
-	                    _this11.instances[flickityIndex].instance.append(elements);
+	                    _this12.instances[flickityIndex].instance.append(elements);
 	
-	                    resolve(_this11.instances[flickityIndex]);
+	                    resolve(_this12.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -601,7 +536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'insert',
 	        value: function insert(id, elements, index) {
-	            var _this12 = this;
+	            var _this13 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -610,9 +545,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Insert the slides
-	                    _this12.instances[flickityIndex].instance.insert(elements, index);
+	                    _this13.instances[flickityIndex].instance.insert(elements, index);
 	
-	                    resolve(_this12.instances[flickityIndex]);
+	                    resolve(_this13.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -627,7 +562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getCellElements',
 	        value: function getCellElements(id) {
-	            var _this13 = this;
+	            var _this14 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -635,7 +570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this13.instances[flickityIndex].instance.getCellElements());
+	                    resolve(_this14.instances[flickityIndex].instance.getCellElements());
 	                }
 	            });
 	        }
@@ -650,7 +585,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'remove',
 	        value: function remove(id, elements) {
-	            var _this14 = this;
+	            var _this15 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -658,9 +593,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    _this14.instances[flickityIndex].instance.remove(elements);
+	                    _this15.instances[flickityIndex].instance.remove(elements);
 	
-	                    resolve(_this14.instances[flickityIndex]);
+	                    resolve(_this15.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -675,7 +610,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'selectedElement',
 	        value: function selectedElement(id) {
-	            var _this15 = this;
+	            var _this16 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -683,7 +618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this15.instances[flickityIndex].instance.selectedElement);
+	                    resolve(_this16.instances[flickityIndex].instance.selectedElement);
 	                }
 	            });
 	        }
@@ -698,7 +633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'cells',
 	        value: function cells(id) {
-	            var _this16 = this;
+	            var _this17 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -706,7 +641,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this16.instances[flickityIndex].instance.cells);
+	                    resolve(_this17.instances[flickityIndex].instance.cells);
 	                }
 	            });
 	        }
@@ -756,27 +691,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';
 	
-	FlickityNextDirective.$inject = ["FlickityService"];
+	FlickityDirective.$inject = ["$timeout", "FlickityConfig", "FlickityService"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.FlickityNextDirective = FlickityNextDirective;
-	function FlickityNextDirective(FlickityService) {
+	exports.FlickityDirective = FlickityDirective;
+	/* global Flickity */
+	
+	/**
+	 * Flickity.js
+	 * http://flickity.metafizzy.co/options.html
+	 *
+	 * Required markup
+	 *
+	 * <div bc-flickity flickity-options="{{ vm.myCustomOptions }}">
+	 *   <div>
+	 *   <div>
+	 *   ...
+	 * </div>
+	 *
+	 */
+	function FlickityDirective($timeout, FlickityConfig, FlickityService) {
 	    'ngInject';
 	
 	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
 	    var directive = {
 	        restrict: 'A',
-	        require: '^bcFlickity',
-	        scope: {
-	            bcFlickityNext: '=?'
+	        scope: {},
+	        bindToController: {
+	            bcFlickity: '@?',
+	            bcFlickityId: '@?'
 	        },
-	        link: linkFunction
+	        link: linkFunction,
+	        controller: FlickityController,
+	        controllerAs: 'vm'
 	    };
 	
 	    return directive;
@@ -787,16 +740,103 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function linkFunction($scope, $element, $attrs, $controller) {
 	        'ngInject';
 	
-	        // If no boolean was passed in, set to a default
+	        // If no ID was passed in
 	
-	        if (typeof $scope.bcFlickityNext !== 'boolean') {
-	            $scope.bcFlickityNext = true;
+	        if (!$controller.bcFlickityId) {
+	            // Use the element's ID if one exists
+	            if ($attrs.id) {
+	                $controller.bcFlickityId = $attrs.id;
+	            }
 	        }
 	
+	        // Using a timeout ensures that any ng-repeats can finish running before we initialize
+	        $timeout(function () {
+	            // Initialize Flickity
+	            var flickityInstance = FlickityService.create($element[0], $controller.bcFlickityId, $controller.options);
+	
+	            // Expose the Flickity instance and ID
+	            $controller.Flickity = flickityInstance.instance;
+	            $controller.bcFlickityId = flickityInstance.id;
+	        });
+	
+	        // Clean up when being destroyed
+	        var onDestroy = $scope.$on('$destroy', function (event) {
+	            FlickityService.destroy($controller.bcFlickityId);
+	        });
+	    }
+	
+	    /**
+	     * Controller
+	     */
+	    function FlickityController() {
+	
+	        // Extend the default options with user configuration
+	        this.options = angular.extend({}, FlickityConfig, angular.fromJson(this.bcFlickity));
+	    }
+	}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	FlickityNextDirective.$inject = ["$log", "$timeout", "FlickityConfig", "FlickityService"];
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityNextDirective = FlickityNextDirective;
+	function FlickityNextDirective($log, $timeout, FlickityConfig, FlickityService) {
+	    'ngInject';
+	
+	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
+	    var directive = {
+	        restrict: 'A',
+	        scope: {},
+	        bindToController: {
+	            bcFlickityNext: '=?',
+	            bcFlickityId: '@?'
+	        },
+	        link: linkFunction,
+	        controller: FlickityNextController,
+	        controllerAs: 'vm'
+	    };
+	
+	    return directive;
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, $controller) {
+	        'ngInject';
+	
 	        // Trigger next() method
+	
 	        $element.on('click', function () {
 	            FlickityService.next($controller.flickityId, $scope.bcFlickityNext);
 	        });
+	    }
+	
+	    /**
+	     * Controller
+	     */
+	    function FlickityNextController() {
+	        var _this = this;
+	
+	        // Assign or fall back to default
+	        this.wrapAround = this.bcFlickityNext || FlickityConfig.wrapAround;
+	
+	        if (this.bcFlickityId) {
+	            this.flickityId = this.bcFlickityId;
+	        } else {
+	            $timeout(function () {
+	                FlickityService.getFirst().then(function (instance) {
+	                    _this.flickityId = instance.id;
+	                }).catch(function (error) {
+	                    $log.warn(error);
+	                });
+	            });
+	        }
 	    }
 	}
 
@@ -806,22 +846,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	FlickityPreviousDirective.$inject = ["FlickityService"];
+	FlickityPreviousDirective.$inject = ["$log", "$timeout", "FlickityConfig", "FlickityService"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.FlickityPreviousDirective = FlickityPreviousDirective;
-	function FlickityPreviousDirective(FlickityService) {
+	function FlickityPreviousDirective($log, $timeout, FlickityConfig, FlickityService) {
 	    'ngInject';
 	
 	    linkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
 	    var directive = {
 	        restrict: 'A',
-	        require: '^bcFlickity',
-	        scope: {
-	            bcFlickityPrevious: '=?'
+	        scope: {},
+	        bindToController: {
+	            bcFlickityPrevious: '=?',
+	            bcFlickityId: '@?'
 	        },
-	        link: linkFunction
+	        link: linkFunction,
+	        controller: FlickityPreviousController,
+	        controllerAs: 'vm'
 	    };
 	
 	    return directive;
@@ -832,16 +875,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function linkFunction($scope, $element, $attrs, $controller) {
 	        'ngInject';
 	
-	        // If no boolean was passed in, set to a default
-	
-	        if (typeof $scope.bcFlickityPrevious !== 'boolean') {
-	            $scope.bcFlickityPrevious = true;
-	        }
-	
 	        // Bind the click up to the required controller
+	
 	        $element.on('click', function () {
-	            FlickityService.previous($controller.flickityId, $scope.bcFlickityPrevious);
+	            FlickityService.previous($controller.flickityId, $controller.wrapAround);
 	        });
+	    }
+	
+	    /**
+	     * Controller
+	     */
+	    function FlickityPreviousController() {
+	        var _this = this;
+	
+	        // Assign or fall back to default
+	        this.wrapAround = this.bcFlickityPrevious || FlickityConfig.wrapAround;
+	
+	        if (this.bcFlickityId) {
+	            this.flickityId = this.bcFlickityId;
+	        } else {
+	            $timeout(function () {
+	                FlickityService.getFirst().then(function (instance) {
+	                    _this.flickityId = instance.id;
+	                }).catch(function (error) {
+	                    $log.warn(error);
+	                });
+	            });
+	        }
 	    }
 	}
 
