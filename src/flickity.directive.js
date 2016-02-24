@@ -53,12 +53,14 @@ export function FlickityDirective(
         // Using a timeout ensures that any ng-repeats can finish running before we initialize
         $timeout(() => {
             // Initialize Flickity
-            const flickityInstance =
-                FlickityService.create($element[0], $controller.bcFlickityId, $controller.options);
-
-            // Expose the Flickity instance and ID
-            $controller.Flickity = flickityInstance.instance;
-            $controller.bcFlickityId = flickityInstance.id;
+            FlickityService.create($element[0], $controller.bcFlickityId, $controller.options)
+                .then((flickityInstance) => {
+                    console.log('created flickity: ', flickityInstance);
+                    // Expose the Flickity instance and ID
+                    $controller.Flickity = flickityInstance.instance;
+                    $controller.bcFlickityId = flickityInstance.id;
+                    $controller.bindEvents();
+                });
         });
 
 
