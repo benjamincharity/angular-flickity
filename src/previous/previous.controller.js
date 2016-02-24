@@ -1,4 +1,4 @@
-export class NextController {
+export class PreviousController {
 
     constructor(
         $log, $q, $timeout,
@@ -22,7 +22,7 @@ export class NextController {
 
     _activate() {
         // Assign or fall back to default
-        this.wrapAround = this.bcFlickityNext || this.FlickityConfig.wrapAround;
+        this.wrapAround = this.bcFlickityPrevious || this.FlickityConfig.wrapAround;
         this.flickityId = null;
 
         // Make sure we have an ID

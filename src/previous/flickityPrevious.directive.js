@@ -1,3 +1,5 @@
+import { PreviousController } from './previous.controller';
+
 export function FlickityPreviousDirective(
     $log, $timeout,
     FlickityConfig, FlickityService
@@ -39,24 +41,6 @@ export function FlickityPreviousDirective(
      * Controller
      */
     function FlickityPreviousController() {
-
-        // Assign or fall back to default
-        this.wrapAround = this.bcFlickityPrevious || FlickityConfig.wrapAround;
-
-        if (this.bcFlickityId) {
-            this.flickityId = this.bcFlickityId;
-        } else {
-            $timeout(() => {
-                FlickityService.getFirst()
-                    .then((instance) => {
-                        this.flickityId = instance.id;
-                    })
-                    .catch((error) => {
-                        $log.warn(error);
-                    })
-                ;
-            });
-        }
     }
 
 }
