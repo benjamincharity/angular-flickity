@@ -1,4 +1,5 @@
 /* global Flickity */
+import { FlickityController } from './flickity.controller';
 
 /**
  * Flickity.js
@@ -15,7 +16,7 @@
  */
 export function FlickityDirective(
     $timeout,
-    FlickityConfig, FlickityService
+    FlickityService
 ) {
     'ngInject';
 
@@ -25,6 +26,7 @@ export function FlickityDirective(
         bindToController: {
             bcFlickity: '@?',
             bcFlickityId: '@?',
+            bcFlickityEvents: '=?',
         },
         link: linkFunction,
         controller: FlickityController,
@@ -64,17 +66,6 @@ export function FlickityDirective(
         const onDestroy = $scope.$on('$destroy', (event) => {
             FlickityService.destroy($controller.bcFlickityId);
         });
-
-    }
-
-
-    /**
-     * Controller
-     */
-    function FlickityController() {
-
-        // Extend the default options with user configuration
-        this.options = angular.extend({}, FlickityConfig, angular.fromJson(this.bcFlickity));
 
     }
 
