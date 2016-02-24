@@ -1,11 +1,14 @@
 export class FlickityController {
 
     constructor(
-        FlickityConfig
+        $timeout,
+        FlickityConfig, EventsService
     ) {
         'ngInject';
 
+        this.$timeout = $timeout;
         this.FlickityConfig = FlickityConfig;
+        this.EventsService = EventsService;
 
 
         this._activate();
@@ -20,38 +23,17 @@ export class FlickityController {
         // Extend the default options with user configuration
         this.options = angular.extend({}, this.FlickityConfig, angular.fromJson(this.bcFlickity));
 
-        // If the user has defined events
-        if (this.bcFlickityEvents) {
-            // Merge the user defined and default events
-            this.defaultEvents = this._mergeEvents(this.FlickityConfig.defaultEvents,
-                                                    this.bcFlickityEvents);
-        } else {
-            // No user events, just use the default
-            this.defaultEvents = this.FlickityConfig.defaultEvents;
-        }
-
-        console.log('defaultEvents: ', this.defaultEvents);
-
+        this.defaultEvents = this.FlickityConfig.defaultEvents;
 
     }
 
 
-    /**
-     * Merge event arrays and remove duplicates
-     *
-     * @param {Array} defaultEvents
-     * @param {Array} userDefinedEvents
-     * @return {Array} deduplicatedEvents
-     */
-    _mergeEvents(defaultEvents, userDefinedEvents) {
-        // Merge defaultEvents with user defined events
-        const allEvents = defaultEvents.concat(userDefinedEvents);
-
-        // Remove any duplicate items
-        const deduplicated = Array.from(new Set(allEvents));
-
-        return deduplicated;
+    bindEvents() {
+        console.log('in CTRL bindEvents');
+        this.EventsService.bindEvents(this.bcFlickityId, this.defaultEvents);
     }
+
+
 
 }
 
