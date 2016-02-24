@@ -73,7 +73,7 @@ export class EventsService {
      * @param {String} id
      * @param {Array} events
      */
-    unbindEvents() {
+    unbindEvents(id, events) {
         return this.$q((resolve, reject) => {
 
             // Get the instance
