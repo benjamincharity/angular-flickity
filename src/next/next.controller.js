@@ -24,45 +24,9 @@ export class NextController {
         // Assign or fall back to default
         this.wrapAround = this.bcFlickityNext || this.FlickityConfig.wrapAround;
         this.flickityId = null;
-        this.cellCount;
-        this.selectedIndex;
-        this.bcIsDisabled = false;
 
         // Make sure we have an ID before we wire everything up
-        this._setId().then(() => {
-
-            // Get the cells
-            this.FlickityService.cells(this.flickityId).then((cells) => {
-                console.log('cells: ', cells, cells.length);
-
-                // Save the count
-                this.cellCount = cells.length;
-            });
-
-        });
-
-
-    }
-
-
-    setDisabledState() {
-        console.log('in setDisabledStateeeeee');
-
-        // If we can wrap, we should never disable
-        if (this.wrapAround) {
-            this.bcIsDisabled = false;
-        } else {
-            // if we cannot wrap
-
-            // If we are at the end
-            if (this.cellCount - this.selectedIndex < 1) {
-                this.bcIsDisabled = true;
-            } else {
-                this.bcIsDisabled = false;
-            }
-        }
-
-        console.log('in setDisabledState: ', this.cellCount, this.selectedIndex, this.bcIsDisabled);
+        this._setId();
 
     }
 
