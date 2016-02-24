@@ -34,17 +34,6 @@ export function FlickityNextDirective(
             // Move to the next cell
             FlickityService.next($controller.flickityId, $scope.bcFlickityNext).then(() => {
 
-                // After we move, set the selected index
-                FlickityService.selectedIndex($controller.flickityId).then((index) => {
-                    console.log('selectedIndex: ', index);
-                    $controller.selectedIndex = index;
-
-
-                    /*
-                     *$controller.setDisabledState();
-                     */
-                });
-
             });
 
         });
