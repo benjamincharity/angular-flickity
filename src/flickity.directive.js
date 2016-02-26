@@ -15,7 +15,7 @@ import { FlickityController } from './flickity.controller';
  *
  */
 export function FlickityDirective(
-    $timeout, $rootScope,
+    $timeout,
     FlickityService
 ) {
     'ngInject';
