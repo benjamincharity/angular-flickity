@@ -1,7 +1,7 @@
 import { PreviousController } from './previous.controller';
 
 export function FlickityPreviousDirective(
-    $log, $timeout,
+    $log, $timeout, $rootScope,
     FlickityConfig, FlickityService
 ) {
     'ngInject';
@@ -13,8 +13,12 @@ export function FlickityPreviousDirective(
             bcFlickityPrevious: '=?',
             bcFlickityId: '@?',
         },
-        link: linkFunction,
-        controller: FlickityPreviousController,
+        compile: () => {
+            return {
+                pre: preLinkFunction,
+            };
+        },
+        controller: PreviousController,
         controllerAs: 'vm',
     };
 
@@ -22,28 +26,55 @@ export function FlickityPreviousDirective(
 
 
     /**
-     * Link
+     * Pre Link
      */
-    function linkFunction(
+    function preLinkFunction(
         $scope, $element, $attrs, $controller
     ) {
         'ngInject';
 
-        // Bind the click up to the required controller
-        $element.on('click', () => {
-            FlickityService.previous($controller.flickityId, $controller.wrapAround);
+        // Get the ID
+        const ID = $controller.flickityId;
+
+        // Define the broadcast names to listen for
+        const selectEvent = 'Flickity:' + ID + ':cellSelect';
+        const settleEvent = 'Flickity:' + $controller.flickityId + ':settle';
+
+        // Listen
+        const cellSelect = $rootScope.$on(selectEvent, (event, data) => {
+            _disableButtonIfNeeded(data.instance.selectedIndex);
+        });
+        const settle = $rootScope.$on(settleEvent, (event, data) => {
+            _disableButtonIfNeeded(data.instance.selectedIndex);
         });
 
-    }
+
+        $element.on('click', () => {
+
+            // Move to the next cell
+            FlickityService.previous($controller.flickityId, $controller.wrapAround);
+
+        });
 
 
-    /**
-     * Controller
-     */
-    function FlickityPreviousController() {
+
+
+        /**
+         * Disable button if needed
+         *
+         * @param {Int} index
+         */
+        function _disableButtonIfNeeded(index) {
+            // Disable button if at the beginning and we shouldn't wrap
+            if (!$controller.wrapAround && index === 0) {
+                $attrs.$set('disabled', 'disabled');
+            } else {
+                $attrs.$set('disabled', false);
+            }
+        }
+
     }
+
 
 }
-
-
 
