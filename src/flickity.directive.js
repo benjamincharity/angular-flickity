@@ -15,7 +15,7 @@ import { FlickityController } from './flickity.controller';
  *
  */
 export function FlickityDirective(
-    $timeout,
+    $timeout, $rootScope,
     FlickityService
 ) {
     'ngInject';
@@ -28,7 +28,12 @@ export function FlickityDirective(
             bcFlickityId: '@?',
             bcFlickityEvents: '=?',
         },
-        link: linkFunction,
+        compile: (tElem, tAttrs) => {
+            return {
+                pre: preLinkFunction,
+                post: postLinkFunction,
+            };
+        },
         controller: FlickityController,
         controllerAs: 'vm',
     };
@@ -36,10 +41,7 @@ export function FlickityDirective(
     return directive;
 
 
-    /**
-     * Link
-     */
-    function linkFunction($scope, $element, $attrs, $controller) {
+    function preLinkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
 
         // If no ID was passed in
@@ -50,22 +52,31 @@ export function FlickityDirective(
             }
         }
 
-        // Using a timeout ensures that any ng-repeats can finish running before we initialize
-        $timeout(() => {
+    }
+
+    /**
+     * Post Link
+     */
+    function postLinkFunction($scope, $element, $attrs, $controller) {
+        'ngInject';
+
+        // Make sure the DOM has initialized
+        angular.element(document).ready(() => {
+
             // Initialize Flickity
             FlickityService.create($element[0], $controller.bcFlickityId, $controller.options)
                 .then((flickityInstance) => {
-                    console.log('created flickity: ', flickityInstance);
+
                     // Expose the Flickity instance and ID
                     $controller.Flickity = flickityInstance.instance;
                     $controller.bcFlickityId = flickityInstance.id;
-                    $controller.bindEvents();
+
                 });
         });
 
-
-        // Clean up when being destroyed
+        // When the directive is being destroyed
         const onDestroy = $scope.$on('$destroy', (event) => {
+            // Make sure we destroy the Flickity instance
             FlickityService.destroy($controller.bcFlickityId);
         });
 
