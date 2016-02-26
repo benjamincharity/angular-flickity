@@ -24,12 +24,6 @@ export class FlickityConfigProvider {
         this.wrapAround         = false;
         this.imagesLoaded       = true;
         this.asNavFor           = true;
-
-        // angular-flickity defaults
-        this.defaultEvents      = [
-            'cellSelect',
-            'settle',
-        ];
     }
 
 

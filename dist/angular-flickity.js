@@ -109,9 +109,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.wrapAround = false;
 	        this.imagesLoaded = true;
 	        this.asNavFor = true;
-	
-	        // angular-flickity defaults
-	        this.defaultEvents = ['cellSelect', 'settle'];
 	    }
 	
 	    _createClass(FlickityConfigProvider, [{
@@ -763,7 +760,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	FlickityDirective.$inject = ["$timeout", "$rootScope", "FlickityService"];
+	FlickityDirective.$inject = ["$timeout", "FlickityService"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -784,7 +781,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * </div>
 	 *
 	 */
-	function FlickityDirective($timeout, $rootScope, FlickityService) {
+	function FlickityDirective($timeout, FlickityService) {
 	    'ngInject';
 	
 	    preLinkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
@@ -796,7 +793,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcFlickity: '@?',
 	            bcFlickityId: '@?'
 	        },
-	        compile: function compile(tElem, tAttrs) {
+	        compile: function compile() {
 	            return {
 	                pre: preLinkFunction,
 	                post: postLinkFunction

@@ -27,7 +27,7 @@ export function FlickityDirective(
             bcFlickity: '@?',
             bcFlickityId: '@?',
         },
-        compile: (tElem, tAttrs) => {
+        compile: () => {
             return {
                 pre: preLinkFunction,
                 post: postLinkFunction,
