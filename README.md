@@ -747,36 +747,51 @@ FlickityService.cells(id)
 
 ## Events
 
+All events trigger an associated `$emit` on `$rootScope`.
 
-### `cellSelect`
+> _Learn more about [$emit][emit]._
+
+### $emit
+
+Each `$emit` event is named in this format: `Flickity:[instanceId]:[eventName]`
+
+So, for example, if you had declared a [custom ID](#id) of `myCustomId` on `bc-flickity` and wanted
+to know when the `settle` event occurs, you could listen for it like this:
+
+```javascript
+// Assume the gallery has been initialized with the custom ID of `myCustomId`
+const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
+    console.log('Flickity just settled!');
+});
+```
+
+#### Resolve
+
+- `event` is the Angular emit event object
+- `data` is the `Flickity` instance from [`FlickityService`](#services)
+
+#### Format: `eventName` => `Flickity:instanceId:eventName`
+
+- `cellSelect` => `Flickity:instanceId:cellSelect`
+- `settle` => `Flickity:instanceId:settle`
+- `dragStart` => `Flickity:instanceId:dragStart`
+- `dragMove` => `Flickity:instanceId:dragMove`
+- `dragEnd` => `Flickity:instanceId:dragEnd`
+- `pointerDown` => `Flickity:instanceId:pointerDown`
+- `pointerMove` => `Flickity:instanceId:pointerMove`
+- `pointerUp` => `Flickity:instanceId:pointerUp`
+- `staticClick` => `Flickity:instanceId:staticClick`
+- `lazyLoad` => `Flickity:instanceId:lazyLoad`
+
+> _Learn more about [Flickity events][flickity_events]._
 
 
-### `settle`
+**Don't forget:**
 
+The `$on` call should always be assigned to a variable. This allows it to be destroyed during the
+`$scope` cleanup.
 
-### `dragStart`
-
-
-### `dragMove`
-
-
-### `dragEnd`
-
-
-### `pointerDown`
-
-
-### `pointerMove`
-
-
-### `pointerUp`
-
-
-### `staticClick`
-
-
-### `lazyLoad`
-
+> _Learn more about [$destroy][destroy]._
 
 - - -
 
@@ -800,6 +815,9 @@ FlickityService.cells(id)
 
 [flickity_api]: http://flickity.metafizzy.co/api.html
 [flickity_options]: http://flickity.metafizzy.co/options.html
+[flickity_events]: http://flickity.metafizzy.co/api.html#events
 [flickity]: https://github.com/metafizzy/flickity
 [flickity_docs]: http://flickity.metafizzy.co
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
+[emit]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit
+[destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy
