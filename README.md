@@ -3,7 +3,7 @@
 **NOTE:** This project is still in **alpha**. I reserve the right to make potentially breaking changes
 until this reaches `1.0.0` (although, of course I will try not to).
 
-[**Plunker Demo**](http://plnkr.co/edit/gFwwJf?p=preview)
+[**Simple Demo (Plunker)**][demo_basic]
 
 ## Contents
 
@@ -823,4 +823,5 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
 [emit]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit
 [destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy
+[demo_basic]: http://embed.plnkr.co/gFwwJf/
 [demo_events]: http://embed.plnkr.co/k7Xw4t/
