@@ -14,6 +14,7 @@ until this reaches `1.0.0` (although, of course I will try not to).
 - [ID](#id)
 - [Global Defaults](#global-defaults)
 - [Directives](#directives)
+    - [`bc-flickity`](#bc-flickity)
     - [`bc-flickity-next`](#bc-flickity-next)
     - [`bc-flickity-previous`](#bc-flickity-previous)
 - [Services](#services)
@@ -99,13 +100,28 @@ angular.module('YourModule', ['bc.Flickity']);
 Use the directive on the parent element containing your slides.
 
 ```html
-<div bc-flickity>
-
-    <figure data-ng-repeat="slide in slides">
-        <img data-ng-src="{{ slide }}" alt="" />
-    </figure>
-
+<!-- Define the gallery: -->
+<div
+  class="flickity__inner"
+  bc-flickity="{{ vm.flickityOptions }}"
+  id="myCustomId"
+>
+  <figure class="demo__slide" data-ng-repeat="slide in vm.slides">
+      <img data-ng-src="{{ slide }}" alt="" />
+  </figure>
 </div>
+
+<!-- Define the previous button (optional): -->
+<button
+  bc-flickity-previous
+  bc-flickity-id="myCustomId"
+>Previous</button>
+
+<!-- Define the next button (optional): -->
+<button
+  bc-flickity-next
+  bc-flickity-id="myCustomId"
+>Next</button>
 ```
 
 
@@ -226,6 +242,11 @@ angular.module('myModule')
 
 ## Directives
 
+### `bc-flickity`
+
+_TODO_
+
+
 ### `bc-flickity-next`
 
 The directive `bc-flickity-next` is provided to call the `next()` method on a `Flickity` instance.
@@ -260,6 +281,15 @@ clicked at the last cell.
 ```html
 <button bc-flickity-next="true">Next</button>
 ```
+
+#### Disabled
+
+When the last cell is reached, the `disabled` attribute will be added to the element. The `disabled`
+attribute will _not_ be added if either of these conditions are met:
+
+- The associated gallery has `wrapAround` set to `true`.
+- The directive has `true` passed in as the optional parameter (which overrides the default
+    options).
 
 
 ### `bc-flickity-previous`
@@ -297,6 +327,16 @@ clicked at the first cell.
 ```html
 <button bc-flickity-previous="true">Previous</button>
 ```
+
+#### Disabled
+
+When at the first cell, the `disabled` attribute will be added to the element. The `disabled`
+attribute will _not_ be added if either of these conditions are met:
+
+- The associated gallery has `wrapAround` set to `true`.
+- The directive has `true` passed in as the optional parameter (which overrides the default
+    options).
+
 
 - - -
 
