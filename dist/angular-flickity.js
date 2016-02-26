@@ -768,19 +768,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(4);
 	
-	/**
-	 * Flickity.js
-	 * http://flickity.metafizzy.co/options.html
-	 *
-	 * Required markup
-	 *
-	 * <div bc-flickity flickity-options="{{ vm.myCustomOptions }}">
-	 *   <div>
-	 *   <div>
-	 *   ...
-	 * </div>
-	 *
-	 */
 	function FlickityDirective($timeout, FlickityService) {
 	    'ngInject';
 	

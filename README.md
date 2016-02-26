@@ -411,6 +411,8 @@ FlickityService.create(element, id, options)
 
 Move directly to a specific slide.
 
+[Select Demo (Plunker)][demo_select]
+
 ```javascript
 FlickityService.select(id, index, isWrapped, isInstant)
 ```
@@ -727,6 +729,8 @@ FlickityService.selectedElement(id)
 
 Get all cells.
 
+[Cells Demo (Plunker)][demo_select]
+
 ```javascript
 FlickityService.cells(id)
 ```
@@ -822,3 +826,4 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy
 [demo_basic]: http://embed.plnkr.co/gFwwJf/
 [demo_events]: http://embed.plnkr.co/k7Xw4t/
+[demo_select]: http://embed.plnkr.co/qdyKKo/

@@ -1,19 +1,6 @@
 /* global Flickity */
 import { FlickityController } from './flickity.controller';
 
-/**
- * Flickity.js
- * http://flickity.metafizzy.co/options.html
- *
- * Required markup
- *
- * <div bc-flickity flickity-options="{{ vm.myCustomOptions }}">
- *   <div>
- *   <div>
- *   ...
- * </div>
- *
- */
 export function FlickityDirective(
     $timeout,
     FlickityService
