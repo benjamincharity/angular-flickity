@@ -26,7 +26,6 @@ export function FlickityDirective(
         bindToController: {
             bcFlickity: '@?',
             bcFlickityId: '@?',
-            bcFlickityEvents: '=?',
         },
         compile: (tElem, tAttrs) => {
             return {

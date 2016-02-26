@@ -794,8 +794,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        scope: {},
 	        bindToController: {
 	            bcFlickity: '@?',
-	            bcFlickityId: '@?',
-	            bcFlickityEvents: '=?'
+	            bcFlickityId: '@?'
 	        },
 	        compile: function compile(tElem, tAttrs) {
 	            return {
