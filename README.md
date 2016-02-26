@@ -1,8 +1,5 @@
 # Angular Flickity
 
-**NOTE:** This project is still in **alpha**. I reserve the right to make potentially breaking changes
-until this reaches `1.0.0` (although, of course I will try not to).
-
 [**Simple Demo (Plunker)**][demo_basic]
 
 ## Contents
