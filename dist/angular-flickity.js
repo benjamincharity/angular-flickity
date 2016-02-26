@@ -181,7 +181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.$q(function (resolve) {
 	
 	                // Bind to all events
-	                _this._bindEvents(id).then(function (result) {
+	                _this._bindEvents(id).then(function () {
 	                    resolve(instance);
 	                });
 	            });

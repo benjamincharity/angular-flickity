@@ -39,7 +39,7 @@ export class FlickityService {
         return this.$q((resolve) => {
 
             // Bind to all events
-            this._bindEvents(id).then((result) => {
+            this._bindEvents(id).then(() => {
                 resolve(instance);
             });
 
