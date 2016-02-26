@@ -43,6 +43,7 @@ until this reaches `1.0.0` (although, of course I will try not to).
         - [`selectedIndex`](#selectedindex)
         - [`selectedElement`](#selectedelement)
         - [`cells`](#cells)
+- [Events](#events)
 - [Development](#development)
 - [About Flickity.js](#about-flickityjs)
 
@@ -102,7 +103,6 @@ Use the directive on the parent element containing your slides.
 ```html
 <!-- Define the gallery: -->
 <div
-  class="flickity__inner"
   bc-flickity="{{ vm.flickityOptions }}"
   id="myCustomId"
 >
@@ -244,7 +244,25 @@ angular.module('myModule')
 
 ### `bc-flickity`
 
-_TODO_
+The directive `bc-flickity` creates the Flickity gallery.
+
+```html
+<div bc-flickity>
+  <!-- slides -->
+</div>
+```
+
+You may optionally pass an options object to the directive. User defined options will override any
+default options.
+
+```html
+<div bc-flickity="{{ vm.flickityOptions }}">
+  <!-- slides -->
+</div>
+```
+
+> _Learn more about [`angular-flickity` options](#options) & [Flickity options
+> documentation][flickity_options]_
 
 
 ### `bc-flickity-next`
@@ -724,7 +742,40 @@ FlickityService.cells(id)
 - `cells`: `{Array}`
 
 
+- - -
 
+
+## Events
+
+
+### `cellSelect`
+
+
+### `settle`
+
+
+### `dragStart`
+
+
+### `dragMove`
+
+
+### `dragEnd`
+
+
+### `pointerDown`
+
+
+### `pointerMove`
+
+
+### `pointerUp`
+
+
+### `staticClick`
+
+
+### `lazyLoad`
 
 
 - - -
@@ -748,6 +799,7 @@ FlickityService.cells(id)
 
 
 [flickity_api]: http://flickity.metafizzy.co/api.html
+[flickity_options]: http://flickity.metafizzy.co/options.html
 [flickity]: https://github.com/metafizzy/flickity
 [flickity_docs]: http://flickity.metafizzy.co
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
