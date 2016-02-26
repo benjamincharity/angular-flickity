@@ -749,7 +749,9 @@ FlickityService.cells(id)
 
 All events trigger an associated `$emit` on `$rootScope`.
 
-> _Learn more about [$emit][emit]._
+**[Events Demo (Plunker)][demo_events]**
+
+> _Learn more in the [Angular docs on `$emit`][emit]._
 
 ### $emit
 
@@ -821,3 +823,4 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
 [emit]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit
 [destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy
+[demo_events]: http://embed.plnkr.co/k7Xw4t/
