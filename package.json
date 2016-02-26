@@ -11,8 +11,8 @@
     ],
     "main": "dist/angular-flickity.js",
     "scripts": {
-        "build": "WEBPACK_ENV=build webpack",
-        "watch": "npm run build && onchange 'src/*.js' -- npm run build"
+        "build": "WEBPACK_ENV=build webpack && osx-notifier --type \"pass\" --title \"Build successful\" --message \"gg\" --group \"npmBuild\"",
+        "watch": "npm run build && onchange 'src/**/*.js' -- npm run build"
     },
     "devDependencies": {
         "babel": "6.3.13",
@@ -26,6 +26,7 @@
         "eslint-loader": "1.1.0",
         "ng-annotate-loader": "^0.1.0",
         "onchange": "^2.0.0",
+        "osx-notifier": "^0.2.2",
         "webpack": "1.12.9"
     },
     "repository": {

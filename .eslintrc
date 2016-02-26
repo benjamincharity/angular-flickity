@@ -18,7 +18,8 @@
         "angular/log": 0,
         // Disabled this since we uses classes for services
         // http://www.michaelbromley.co.uk/blog/350/exploring-es6-classes-in-angularjs-1-x%20nice
-        "angular/no-service-method": 0
+        "angular/no-service-method": 0,
+        "max-params": 0
     }
 }
 

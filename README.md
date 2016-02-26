@@ -14,6 +14,7 @@ until this reaches `1.0.0` (although, of course I will try not to).
 - [ID](#id)
 - [Global Defaults](#global-defaults)
 - [Directives](#directives)
+    - [`bc-flickity`](#bc-flickity)
     - [`bc-flickity-next`](#bc-flickity-next)
     - [`bc-flickity-previous`](#bc-flickity-previous)
 - [Services](#services)
@@ -42,6 +43,7 @@ until this reaches `1.0.0` (although, of course I will try not to).
         - [`selectedIndex`](#selectedindex)
         - [`selectedElement`](#selectedelement)
         - [`cells`](#cells)
+- [Events](#events)
 - [Development](#development)
 - [About Flickity.js](#about-flickityjs)
 
@@ -99,13 +101,27 @@ angular.module('YourModule', ['bc.Flickity']);
 Use the directive on the parent element containing your slides.
 
 ```html
-<div bc-flickity>
-
-    <figure data-ng-repeat="slide in slides">
-        <img data-ng-src="{{ slide }}" alt="" />
-    </figure>
-
+<!-- Define the gallery: -->
+<div
+  bc-flickity="{{ vm.flickityOptions }}"
+  id="myCustomId"
+>
+  <figure class="demo__slide" data-ng-repeat="slide in vm.slides">
+      <img data-ng-src="{{ slide }}" alt="" />
+  </figure>
 </div>
+
+<!-- Define the previous button (optional): -->
+<button
+  bc-flickity-previous
+  bc-flickity-id="myCustomId"
+>Previous</button>
+
+<!-- Define the next button (optional): -->
+<button
+  bc-flickity-next
+  bc-flickity-id="myCustomId"
+>Next</button>
 ```
 
 
@@ -226,6 +242,29 @@ angular.module('myModule')
 
 ## Directives
 
+### `bc-flickity`
+
+The directive `bc-flickity` creates the Flickity gallery.
+
+```html
+<div bc-flickity>
+  <!-- slides -->
+</div>
+```
+
+You may optionally pass an options object to the directive. User defined options will override any
+default options.
+
+```html
+<div bc-flickity="{{ vm.flickityOptions }}">
+  <!-- slides -->
+</div>
+```
+
+> _Learn more about [`angular-flickity` options](#options) & [Flickity options
+> documentation][flickity_options]_
+
+
 ### `bc-flickity-next`
 
 The directive `bc-flickity-next` is provided to call the `next()` method on a `Flickity` instance.
@@ -260,6 +299,15 @@ clicked at the last cell.
 ```html
 <button bc-flickity-next="true">Next</button>
 ```
+
+#### Disabled
+
+When the last cell is reached, the `disabled` attribute will be added to the element. The `disabled`
+attribute will _not_ be added if either of these conditions are met:
+
+- The associated gallery has `wrapAround` set to `true`.
+- The directive has `true` passed in as the optional parameter (which overrides the default
+    options).
 
 
 ### `bc-flickity-previous`
@@ -297,6 +345,16 @@ clicked at the first cell.
 ```html
 <button bc-flickity-previous="true">Previous</button>
 ```
+
+#### Disabled
+
+When at the first cell, the `disabled` attribute will be added to the element. The `disabled`
+attribute will _not_ be added if either of these conditions are met:
+
+- The associated gallery has `wrapAround` set to `true`.
+- The directive has `true` passed in as the optional parameter (which overrides the default
+    options).
+
 
 - - -
 
@@ -684,8 +742,56 @@ FlickityService.cells(id)
 - `cells`: `{Array}`
 
 
+- - -
 
 
+## Events
+
+All events trigger an associated `$emit` on `$rootScope`.
+
+> _Learn more about [$emit][emit]._
+
+### $emit
+
+Each `$emit` event is named in this format: `Flickity:[instanceId]:[eventName]`
+
+So, for example, if you had declared a [custom ID](#id) of `myCustomId` on `bc-flickity` and wanted
+to know when the `settle` event occurs, you could listen for it like this:
+
+```javascript
+// Assume the gallery has been initialized with the custom ID of `myCustomId`
+const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
+    console.log('Flickity just settled!');
+});
+```
+
+#### Resolve
+
+- `event` is the Angular emit event object
+- `data` is the `Flickity` instance from [`FlickityService`](#services)
+
+#### Format: `eventName` => `Flickity:instanceId:eventName`
+
+- `cellSelect` => `Flickity:instanceId:cellSelect`
+- `settle` => `Flickity:instanceId:settle`
+- `dragStart` => `Flickity:instanceId:dragStart`
+- `dragMove` => `Flickity:instanceId:dragMove`
+- `dragEnd` => `Flickity:instanceId:dragEnd`
+- `pointerDown` => `Flickity:instanceId:pointerDown`
+- `pointerMove` => `Flickity:instanceId:pointerMove`
+- `pointerUp` => `Flickity:instanceId:pointerUp`
+- `staticClick` => `Flickity:instanceId:staticClick`
+- `lazyLoad` => `Flickity:instanceId:lazyLoad`
+
+> _Learn more about [Flickity events][flickity_events]._
+
+
+**Don't forget:**
+
+The `$on` call should always be assigned to a variable. This allows it to be destroyed during the
+`$scope` cleanup.
+
+> _Learn more about [$destroy][destroy]._
 
 - - -
 
@@ -708,6 +814,10 @@ FlickityService.cells(id)
 
 
 [flickity_api]: http://flickity.metafizzy.co/api.html
+[flickity_options]: http://flickity.metafizzy.co/options.html
+[flickity_events]: http://flickity.metafizzy.co/api.html#events
 [flickity]: https://github.com/metafizzy/flickity
 [flickity_docs]: http://flickity.metafizzy.co
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
+[emit]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit
+[destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy

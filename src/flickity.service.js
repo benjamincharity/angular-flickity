@@ -2,12 +2,13 @@
 export class FlickityService {
 
     constructor(
-        $timeout, $q
+        $timeout, $q, $rootScope
     ) {
         'ngInject';
 
         this.$timeout = $timeout;
         this.$q = $q;
+        this.$rootScope = $rootScope;
 
         this.instances = [];
 
@@ -26,7 +27,6 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
-
         // Define the new instance
         const instance = {
             id: id,
@@ -37,7 +37,12 @@ export class FlickityService {
         this.instances.push(instance);
 
         return this.$q((resolve) => {
-            resolve(instance);
+
+            // Bind to all events
+            this._bindEvents(id).then((result) => {
+                resolve(instance);
+            });
+
         });
 
     }
@@ -479,6 +484,64 @@ export class FlickityService {
                 return item;
             }
         }
+
+    }
+
+
+    _bindEvents(id) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        if (flickityIndex < 0) {
+            return false;
+        }
+
+        return this.$q((resolve) => {
+            const ID = this.instances[flickityIndex].id;
+
+            this.instances[flickityIndex].instance.on('cellSelect', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':cellSelect',
+                                      this.instances[flickityIndex]);
+            });
+
+            this.instances[flickityIndex].instance.on('settle', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':settle',
+                                      this.instances[flickityIndex]);
+            });
+
+            this.instances[flickityIndex].instance.on('dragStart', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragStart');
+            });
+
+            this.instances[flickityIndex].instance.on('dragMove', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragMove');
+            });
+
+            this.instances[flickityIndex].instance.on('dragEnd', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragEnd');
+            });
+
+            this.instances[flickityIndex].instance.on('pointerDown', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerDown');
+            });
+
+            this.instances[flickityIndex].instance.on('pointerMove', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerMove');
+            });
+
+            this.instances[flickityIndex].instance.on('pointerUp', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerUp');
+            });
+
+            this.instances[flickityIndex].instance.on('staticClick', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':staticClick');
+            });
+
+            this.instances[flickityIndex].instance.on('lazyLoad', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':lazyLoad');
+            });
+
+            resolve(true);
+        });
 
     }
 

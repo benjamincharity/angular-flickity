@@ -1,4 +1,5 @@
 /* global Flickity */
+import { FlickityController } from './flickity.controller';
 
 /**
  * Flickity.js
@@ -15,7 +16,7 @@
  */
 export function FlickityDirective(
     $timeout,
-    FlickityConfig, FlickityService
+    FlickityService
 ) {
     'ngInject';
 
@@ -26,7 +27,12 @@ export function FlickityDirective(
             bcFlickity: '@?',
             bcFlickityId: '@?',
         },
-        link: linkFunction,
+        compile: () => {
+            return {
+                pre: preLinkFunction,
+                post: postLinkFunction,
+            };
+        },
         controller: FlickityController,
         controllerAs: 'vm',
     };
@@ -34,10 +40,7 @@ export function FlickityDirective(
     return directive;
 
 
-    /**
-     * Link
-     */
-    function linkFunction($scope, $element, $attrs, $controller) {
+    function preLinkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
 
         // If no ID was passed in
@@ -48,33 +51,33 @@ export function FlickityDirective(
             }
         }
 
-        // Using a timeout ensures that any ng-repeats can finish running before we initialize
-        $timeout(() => {
-            // Initialize Flickity
-            const flickityInstance =
-                FlickityService.create($element[0], $controller.bcFlickityId, $controller.options);
-
-            // Expose the Flickity instance and ID
-            $controller.Flickity = flickityInstance.instance;
-            $controller.bcFlickityId = flickityInstance.id;
-        });
-
-
-        // Clean up when being destroyed
-        const onDestroy = $scope.$on('$destroy', (event) => {
-            FlickityService.destroy($controller.bcFlickityId);
-        });
-
     }
 
-
     /**
-     * Controller
+     * Post Link
      */
-    function FlickityController() {
+    function postLinkFunction($scope, $element, $attrs, $controller) {
+        'ngInject';
 
-        // Extend the default options with user configuration
-        this.options = angular.extend({}, FlickityConfig, angular.fromJson(this.bcFlickity));
+        // Make sure the DOM has initialized
+        angular.element(document).ready(() => {
+
+            // Initialize Flickity
+            FlickityService.create($element[0], $controller.bcFlickityId, $controller.options)
+                .then((flickityInstance) => {
+
+                    // Expose the Flickity instance and ID
+                    $controller.Flickity = flickityInstance.instance;
+                    $controller.bcFlickityId = flickityInstance.id;
+
+                });
+        });
+
+        // When the directive is being destroyed
+        const onDestroy = $scope.$on('$destroy', (event) => {
+            // Make sure we destroy the Flickity instance
+            FlickityService.destroy($controller.bcFlickityId);
+        });
 
     }
 
