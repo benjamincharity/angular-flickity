@@ -2,7 +2,7 @@
 
 [**Simple Demo (Plunker)**][demo_basic]
 
-_Comments and code welcome!_
+_Comments and pull requests welcome!_
 
 ## Contents
 
