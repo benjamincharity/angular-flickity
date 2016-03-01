@@ -2,6 +2,8 @@
 
 [**Simple Demo (Plunker)**][demo_basic]
 
+_Comments and code welcome!_
+
 ## Contents
 
 - [Installation](#installation)
@@ -42,7 +44,7 @@
         - [`cells`](#cells)
 - [Events](#events)
 - [Development](#development)
-- [About Flickity.js](#about-flickityjs)
+- [About Flickity](#about-flickity)
 
 
 ## Installation
@@ -807,7 +809,7 @@ The `$on` call should always be assigned to a variable. This allows it to be des
   - Watches for changes inside `/src` and calls `npm run build` when changes are detected.
 
 
-## About Flickity.js
+## About Flickity
 
 > _Touch, responsive, flickable galleries._
 
