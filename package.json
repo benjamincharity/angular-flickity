@@ -14,6 +14,9 @@
         "build": "WEBPACK_ENV=build webpack && osx-notifier --type \"pass\" --title \"Build successful\" --message \"gg\" --group \"npmBuild\"",
         "watch": "npm run build && onchange 'src/**/*.js' -- npm run build"
     },
+    "dependancies": {
+      "angular": "~1.4.0"
+    },
     "devDependencies": {
         "babel": "6.3.13",
         "babel-core": "6.1.18",
