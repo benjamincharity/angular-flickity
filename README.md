@@ -378,6 +378,8 @@ you are already familiar with Flickity).
 
 This can be called to manually create a new `Flickity` instance.
 
+[Create Demo (Plunker)][demo_create]
+
 ```javascript
 FlickityService.create(element, id, options)
 ```
@@ -405,7 +407,20 @@ FlickityService.create(element, id, options)
 };
 ```
 
+> **NOTE:**
+> Anytime you are dealing with the DOM from inside a controller (yuck) make sure to use
+> document.ready. This ensures that the element you are looking for actually exists. You can also
+> use a $timeout but I find using document.ready more accurately represents the intention.
 
+```javascript
+angular.element($document[0]).ready(() => {
+    // Get the element that should hold the slider
+    const element = angular.element(document.getElementById('demo-slider'));
+
+    // Initialize our Flickity instance
+    FlickityService.create(element[0], element[0].id);
+});
+```
 
 ### Selecting Cells
 
@@ -829,3 +844,4 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [demo_basic]: http://embed.plnkr.co/gFwwJf/
 [demo_events]: http://embed.plnkr.co/k7Xw4t/
 [demo_select]: http://embed.plnkr.co/qdyKKo/
+[demo_create]: http://embed.plnkr.co/hkT7Tx/
