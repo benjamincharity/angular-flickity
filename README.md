@@ -412,6 +412,8 @@ FlickityService.create(element, id, options)
 > document.ready. This ensures that the element you are looking for actually exists. You can also
 > use a $timeout but I find using document.ready more accurately represents the intention.
 
+[Demo showing DOM issue and solution (Plunker)][demo_doc_ready]
+
 ```javascript
 angular.element($document[0]).ready(() => {
     // Get the element that should hold the slider
@@ -845,3 +847,4 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [demo_events]: http://embed.plnkr.co/k7Xw4t/
 [demo_select]: http://embed.plnkr.co/qdyKKo/
 [demo_create]: http://embed.plnkr.co/hkT7Tx/
+[demo_doc_ready]: http://embed.plnkr.co/We7brl/
