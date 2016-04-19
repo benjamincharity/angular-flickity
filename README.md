@@ -2,6 +2,8 @@
 
 [**Simple Demo (Plunker)**][demo_basic]
 
+[Flickity][flickity] by [David DeSandro][desandro]
+
 _Comments and pull requests welcome!_
 
 ## Contents
@@ -848,3 +850,4 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [demo_select]: http://embed.plnkr.co/qdyKKo/
 [demo_create]: http://embed.plnkr.co/hkT7Tx/
 [demo_doc_ready]: http://embed.plnkr.co/We7brl/
+[desandro]: http://desandro.com
