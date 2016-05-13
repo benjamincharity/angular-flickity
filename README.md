@@ -4,7 +4,7 @@
 
 [Flickity][flickity] by [David DeSandro][desandro]
 
-_Comments and pull requests welcome!_
+_[Comments and pull requests welcome!][issues]_
 
 ## Contents
 
@@ -837,6 +837,7 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 
 
 
+[issues]: https://github.com/benjamincharity/angular-flickity/issues
 [flickity_api]: http://flickity.metafizzy.co/api.html
 [flickity_options]: http://flickity.metafizzy.co/options.html
 [flickity_events]: http://flickity.metafizzy.co/api.html#events
