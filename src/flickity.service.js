@@ -19,7 +19,6 @@ export class FlickityService {
 
     /**
      * Create a new Flickity instance
-     * TODO: We should verify that the ID doesn't exist in case the user passes in an existing ID
      *
      * @param {Element} element
      * @param {String} id
@@ -27,6 +26,15 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
+
+        // Check to see if the ID is already in use
+        if (this._findObjectById(this.instances, id)) {
+            const index = this._getFlickityIndex(id);
+            console.error('This ID is already in use: ', this.instances[index]);
+
+            return false;
+        }
+
         // Define the new instance
         const instance = {
             id: id,
@@ -543,6 +551,21 @@ export class FlickityService {
             resolve(true);
         });
 
+    }
+
+
+    /**
+     * Find an object within an array by ID
+     *
+     * @param {Array} source
+     * @param {String} id
+     * @return {Object} match
+     */
+    _findObjectById(source, id) {
+        console.log('in _findObjectById', source, id);
+        return source.filter((object) => {
+            return object.id === id;
+        })[0];
     }
 
 

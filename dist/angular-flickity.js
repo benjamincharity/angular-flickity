@@ -153,7 +153,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     * Create a new Flickity instance
-	     * TODO: We should verify that the ID doesn't exist in case the user passes in an existing ID
 	     *
 	     * @param {Element} element
 	     * @param {String} id
@@ -168,6 +167,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
+	
+	            // Check to see if the ID is already in use
+	            if (this._findObjectById(this.instances, id)) {
+	                var index = this._getFlickityIndex(id);
+	                console.error('This ID is already in use: ', this.instances[index]);
+	
+	                return false;
+	            }
 	
 	            // Define the new instance
 	            var instance = {
@@ -748,6 +755,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                resolve(true);
 	            });
+	        }
+	
+	        /**
+	         * Find an object within an array by ID
+	         *
+	         * @param {Array} source
+	         * @param {String} id
+	         * @return {Object} match
+	         */
+	
+	    }, {
+	        key: '_findObjectById',
+	        value: function _findObjectById(source, id) {
+	            console.log('in _findObjectById', source, id);
+	            return source.filter(function (object) {
+	                return object.id === id;
+	            })[0];
 	        }
 	    }]);
 	
