@@ -153,7 +153,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /**
 	     * Create a new Flickity instance
-	     * TODO: We should verify that the ID doesn't exist in case the user passes in an existing ID
 	     *
 	     * @param {Element} element
 	     * @param {String} id
@@ -168,6 +167,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
+	
+	            // Check to see if the ID is already in use
+	            if (this._findObjectById(this.instances, id)) {
+	                var index = this._getFlickityIndex(id);
+	                console.error('This ID is already in use: ', this.instances[index]);
+	
+	                return false;
+	            }
 	
 	            // Define the new instance
 	            var instance = {
@@ -714,40 +721,84 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    _this19.$rootScope.$emit('Flickity:' + ID + ':settle', _this19.instances[flickityIndex]);
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragStart', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragStart');
+	                _this19.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragMove', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragMove');
+	                _this19.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+	                        event: event,
+	                        pointer: pointer,
+	                        moveVector: moveVector
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragEnd', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragEnd');
+	                _this19.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerDown', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerDown');
+	                _this19.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerMove', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerMove');
+	                _this19.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+	                        event: event,
+	                        pointer: pointer,
+	                        moveVector: moveVector
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerUp', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerUp');
+	                _this19.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('staticClick', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':staticClick');
+	                _this19.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+	                        event: event,
+	                        pointer: pointer,
+	                        cellElement: cellElement,
+	                        cellIndex: cellIndex
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('lazyLoad', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':lazyLoad');
+	                _this19.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+	                        event: event,
+	                        cellElement: cellElement
+	                    });
 	                });
 	
 	                resolve(true);
 	            });
+	        }
+	
+	        /**
+	         * Find an object within an array by ID
+	         *
+	         * @param {Array} source
+	         * @param {String} id
+	         * @return {Object} match
+	         */
+	
+	    }, {
+	        key: '_findObjectById',
+	        value: function _findObjectById(source, id) {
+	            return source.filter(function (object) {
+	                return object.id === id;
+	            })[0];
 	        }
 	    }]);
 	

@@ -19,7 +19,6 @@ export class FlickityService {
 
     /**
      * Create a new Flickity instance
-     * TODO: We should verify that the ID doesn't exist in case the user passes in an existing ID
      *
      * @param {Element} element
      * @param {String} id
@@ -27,6 +26,15 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
+
+        // Check to see if the ID is already in use
+        if (this._findObjectById(this.instances, id)) {
+            const index = this._getFlickityIndex(id);
+            console.error('This ID is already in use: ', this.instances[index]);
+
+            return false;
+        }
+
         // Define the new instance
         const instance = {
             id: id,
@@ -508,41 +516,85 @@ export class FlickityService {
                                       this.instances[flickityIndex]);
             });
 
-            this.instances[flickityIndex].instance.on('dragStart', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragStart');
+            this.instances[flickityIndex].instance.on('dragStart', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('dragMove', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragMove');
+            this.instances[flickityIndex].instance.on('dragMove', (event, pointer, moveVector) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+                    event: event,
+                    pointer: pointer,
+                    moveVector: moveVector,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('dragEnd', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragEnd');
+            this.instances[flickityIndex].instance.on('dragEnd', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('pointerDown', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerDown');
+            this.instances[flickityIndex].instance.on('pointerDown', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('pointerMove', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerMove');
+            this.instances[flickityIndex].instance.on('pointerMove',(event, pointer,
+                                                                     moveVector) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+                    event: event,
+                    pointer: pointer,
+                    moveVector: moveVector,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('pointerUp', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerUp');
+            this.instances[flickityIndex].instance.on('pointerUp', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('staticClick', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':staticClick');
+            this.instances[flickityIndex].instance.on('staticClick', (event, pointer, cellElement,
+                                                                      cellIndex) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+                    event: event,
+                    pointer: pointer,
+                    cellElement: cellElement,
+                    cellIndex: cellIndex,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('lazyLoad', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':lazyLoad');
+            this.instances[flickityIndex].instance.on('lazyLoad', (event, cellElement) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+                    event: event,
+                    cellElement: cellElement,
+                });
             });
 
             resolve(true);
         });
 
+    }
+
+
+    /**
+     * Find an object within an array by ID
+     *
+     * @param {Array} source
+     * @param {String} id
+     * @return {Object} match
+     */
+    _findObjectById(source, id) {
+        return source.filter((object) => {
+            return object.id === id;
+        })[0];
     }
 
 
