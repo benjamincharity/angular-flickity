@@ -516,36 +516,66 @@ export class FlickityService {
                                       this.instances[flickityIndex]);
             });
 
-            this.instances[flickityIndex].instance.on('dragStart', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragStart');
+            this.instances[flickityIndex].instance.on('dragStart', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('dragMove', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragMove');
+            this.instances[flickityIndex].instance.on('dragMove', (event, pointer, moveVector) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+                    event: event,
+                    pointer: pointer,
+                    moveVector: moveVector,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('dragEnd', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragEnd');
+            this.instances[flickityIndex].instance.on('dragEnd', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('pointerDown', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerDown');
+            this.instances[flickityIndex].instance.on('pointerDown', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('pointerMove', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerMove');
+            this.instances[flickityIndex].instance.on('pointerMove',(event, pointer,
+                                                                     moveVector) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+                    event: event,
+                    pointer: pointer,
+                    moveVector: moveVector,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('pointerUp', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerUp');
+            this.instances[flickityIndex].instance.on('pointerUp', (event, pointer) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+                    event: event,
+                    pointer: pointer,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('staticClick', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':staticClick');
+            this.instances[flickityIndex].instance.on('staticClick', (event, pointer, cellElement,
+                                                                      cellIndex) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+                    event: event,
+                    pointer: pointer,
+                    cellElement: cellElement,
+                    cellIndex: cellIndex,
+                });
             });
 
-            this.instances[flickityIndex].instance.on('lazyLoad', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':lazyLoad');
+            this.instances[flickityIndex].instance.on('lazyLoad', (event, cellElement) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+                    event: event,
+                    cellElement: cellElement,
+                });
             });
 
             resolve(true);
@@ -562,7 +592,6 @@ export class FlickityService {
      * @return {Object} match
      */
     _findObjectById(source, id) {
-        console.log('in _findObjectById', source, id);
         return source.filter((object) => {
             return object.id === id;
         })[0];

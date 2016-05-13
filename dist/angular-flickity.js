@@ -721,36 +721,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    _this19.$rootScope.$emit('Flickity:' + ID + ':settle', _this19.instances[flickityIndex]);
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragStart', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragStart');
+	                _this19.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragMove', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragMove');
+	                _this19.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+	                        event: event,
+	                        pointer: pointer,
+	                        moveVector: moveVector
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragEnd', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragEnd');
+	                _this19.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerDown', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerDown');
+	                _this19.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerMove', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerMove');
+	                _this19.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+	                        event: event,
+	                        pointer: pointer,
+	                        moveVector: moveVector
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerUp', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerUp');
+	                _this19.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('staticClick', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':staticClick');
+	                _this19.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+	                        event: event,
+	                        pointer: pointer,
+	                        cellElement: cellElement,
+	                        cellIndex: cellIndex
+	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('lazyLoad', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':lazyLoad');
+	                _this19.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
+	                    _this19.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+	                        event: event,
+	                        cellElement: cellElement
+	                    });
 	                });
 	
 	                resolve(true);
@@ -768,7 +796,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: '_findObjectById',
 	        value: function _findObjectById(source, id) {
-	            console.log('in _findObjectById', source, id);
 	            return source.filter(function (object) {
 	                return object.id === id;
 	            })[0];
