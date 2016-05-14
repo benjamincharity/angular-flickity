@@ -74,15 +74,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var FlickityConfigProvider = exports.FlickityConfigProvider = (function () {
+	var FlickityConfigProvider = exports.FlickityConfigProvider = function () {
 	    function FlickityConfigProvider() {
 	        _classCallCheck(this, FlickityConfigProvider);
 	
@@ -119,7 +119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return FlickityConfigProvider;
-	})();
+	}();
 
 /***/ },
 /* 2 */
@@ -127,17 +127,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	/* global Flickity */
 	
-	var FlickityService = exports.FlickityService = (function () {
+	var FlickityService = exports.FlickityService = function () {
 	    FlickityService.$inject = ["$timeout", "$q", "$rootScope"];
 	    function FlickityService($timeout, $q, $rootScope) {
 	        'ngInject';
@@ -160,6 +160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {Object} instance
 	     */
 	
+	
 	    _createClass(FlickityService, [{
 	        key: 'create',
 	        value: function create(element) {
@@ -167,6 +168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
+	
 	
 	            // Check to see if the ID is already in use
 	            if (this._findObjectById(this.instances, id)) {
@@ -674,30 +676,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: '_getFlickityIndex',
 	        value: function _getFlickityIndex(id) {
-	            var negativeIndexForUnfound = -1;
+	            var foundIndex = void 0;
 	
-	            // If no instances exist, cancel
-	            if (this.instances.length < 1) {
+	            // If no instances exist
+	            if (!this.instances.length) {
 	
-	                return negativeIndexForUnfound;
+	                foundIndex = -1;
 	            } else {
+	                // if instances do exist
 	
-	                // Find the instance by ID
-	                var index = this.instances.findIndex(matchesId);
+	                // Check the ID of each instance
+	                this.instances.forEach(function (instance, index) {
 	
-	                if (index === false) {
-	                    return negativeIndexForUnfound;
-	                } else {
-	                    return index;
-	                }
+	                    // If it matches our ID, set the index
+	                    if (instance.id === id) {
+	                        foundIndex = index;
+	                    }
+	                });
 	            }
 	
-	            // Test to match an item in an array based on the id
-	            function matchesId(item, index, array) {
-	                if (item.id === id) {
-	                    return item;
-	                }
-	            }
+	            return foundIndex;
 	        }
 	    }, {
 	        key: '_bindEvents',
@@ -803,7 +801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return FlickityService;
-	})();
+	}();
 
 /***/ },
 /* 3 */
@@ -889,15 +887,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var FlickityController = exports.FlickityController = (function () {
+	var FlickityController = exports.FlickityController = function () {
 	    FlickityController.$inject = ["FlickityConfig"];
 	    function FlickityController(FlickityConfig) {
 	        'ngInject';
@@ -919,7 +917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return FlickityController;
-	})();
+	}();
 
 /***/ },
 /* 5 */
@@ -1008,15 +1006,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var NextController = exports.NextController = (function () {
+	var NextController = exports.NextController = function () {
 	    NextController.$inject = ["$log", "$q", "$timeout", "FlickityConfig", "FlickityService"];
 	    function NextController($log, $q, $timeout, FlickityConfig, FlickityService) {
 	        'ngInject';
@@ -1075,7 +1073,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return NextController;
-	})();
+	}();
 
 /***/ },
 /* 7 */
@@ -1163,15 +1161,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var PreviousController = exports.PreviousController = (function () {
+	var PreviousController = exports.PreviousController = function () {
 	    PreviousController.$inject = ["$log", "$q", "$timeout", "FlickityConfig", "FlickityService"];
 	    function PreviousController($log, $q, $timeout, FlickityConfig, FlickityService) {
 	        'ngInject';
@@ -1230,7 +1228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return PreviousController;
-	})();
+	}();
 
 /***/ }
 /******/ ])

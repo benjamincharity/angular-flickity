@@ -466,32 +466,29 @@ export class FlickityService {
      * @return {Integer} flickityIndex
      */
     _getFlickityIndex(id) {
-        const negativeIndexForUnfound = -1;
+        let foundIndex;
 
-        // If no instances exist, cancel
-        if (this.instances.length < 1) {
+        // If no instances exist
+        if (!this.instances.length) {
 
-            return negativeIndexForUnfound;
+            foundIndex = -1;
 
         } else {
+            // if instances do exist
 
-            // Find the instance by ID
-            const index = this.instances.findIndex(matchesId);
+            // Check the ID of each instance
+            this.instances.forEach((instance, index) => {
 
-            if (index === false) {
-                return negativeIndexForUnfound;
-            } else {
-                return index;
-            }
+                // If it matches our ID, set the index
+                if (instance.id === id) {
+                    foundIndex = index;
+                }
+
+            });
 
         }
 
-        // Test to match an item in an array based on the id
-        function matchesId(item, index, array) {
-            if (item.id === id) {
-                return item;
-            }
-        }
+        return foundIndex;
 
     }
 
