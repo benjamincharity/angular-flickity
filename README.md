@@ -1,6 +1,6 @@
 # Angular Flickity
 
-[**Simple Demo (Plunker)**][demo_basic]
+[**Simple Plunker demo**][demo_basic]
 
 [Flickity][flickity] by [David DeSandro][desandro]
 
@@ -380,7 +380,7 @@ you are already familiar with Flickity).
 
 This can be called to manually create a new `Flickity` instance.
 
-[Create Demo (Plunker)][demo_create]
+[Create instance Plunker demo][demo_create]
 
 ```javascript
 FlickityService.create(element, id, options)
@@ -414,7 +414,7 @@ FlickityService.create(element, id, options)
 > document.ready. This ensures that the element you are looking for actually exists. You can also
 > use a $timeout but I find using document.ready more accurately represents the intention.
 
-[Demo showing DOM issue and solution (Plunker)][demo_doc_ready]
+[Plunker demo showing DOM issue and solution][demo_doc_ready]
 
 ```javascript
 angular.element($document[0]).ready(() => {
@@ -432,7 +432,7 @@ angular.element($document[0]).ready(() => {
 
 Move directly to a specific slide.
 
-[Select Demo (Plunker)][demo_select]
+[Selecting a cell Plunker Demo][demo_select]
 
 ```javascript
 FlickityService.select(id, index, isWrapped, isInstant)
@@ -750,7 +750,7 @@ FlickityService.selectedElement(id)
 
 Get all cells.
 
-[Cells Demo (Plunker)][demo_select]
+[Get all cells Plunker demo][demo_select]
 
 ```javascript
 FlickityService.cells(id)
@@ -771,7 +771,7 @@ FlickityService.cells(id)
 
 All events trigger an associated `$emit` on `$rootScope`.
 
-**[Events Demo (Plunker)][demo_events]**
+**[Events Plunker demo][demo_events]**
 
 > _Learn more in the [Angular docs on `$emit`][emit]._
 
