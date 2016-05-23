@@ -45,6 +45,8 @@ _[Comments and pull requests welcome!][issues]_
         - [`selectedElement`](#selectedelement)
         - [`cells`](#cells)
 - [Events](#events)
+  - [Events and Parameters](#eventsandparameters)
+  - [Event Name Format](#eventnameformat)
 - [Development](#development)
 - [About Flickity](#about-flickity)
 
@@ -775,8 +777,6 @@ All events trigger an associated `$emit` on `$rootScope`.
 
 > _Learn more in the [Angular docs on `$emit`][emit]._
 
-### $emit
-
 Each `$emit` event is named in this format: `Flickity:[instanceId]:[eventName]`
 
 So, for example, if you had declared a [custom ID](#id) of `myCustomId` on `bc-flickity` and wanted
@@ -785,27 +785,69 @@ to know when the `settle` event occurs, you could listen for it like this:
 ```javascript
 // Assume the gallery has been initialized with the custom ID of `myCustomId`
 const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
-    console.log('Flickity just settled!');
+    console.log('Flickity just settled!', event, data);
 });
 ```
 
-#### Resolve
 
-- `event` is the Angular emit event object
-- `data` is the `Flickity` instance from [`FlickityService`](#services)
+### Events and Parameters
 
-#### Format: `eventName` => `Flickity:instanceId:eventName`
+> For more information on individual events, check out the [Flickity Documentation on Events][flickity_events].
 
-- `cellSelect` => `Flickity:instanceId:cellSelect`
-- `settle` => `Flickity:instanceId:settle`
-- `dragStart` => `Flickity:instanceId:dragStart`
-- `dragMove` => `Flickity:instanceId:dragMove`
-- `dragEnd` => `Flickity:instanceId:dragEnd`
-- `pointerDown` => `Flickity:instanceId:pointerDown`
-- `pointerMove` => `Flickity:instanceId:pointerMove`
-- `pointerUp` => `Flickity:instanceId:pointerUp`
-- `staticClick` => `Flickity:instanceId:staticClick`
-- `lazyLoad` => `Flickity:instanceId:lazyLoad`
+```javascript
+// Legend
+• eventName
+  • parameter
+```
+
+- `cellSelect`
+- `settle`
+- `dragStart`
+  - `event`
+  - `pointer`
+- `dragMove`
+  - `event`
+  - `pointer`
+  - `moveVector`
+- `dragEnd`
+  - `event`
+  - `pointer`
+- `pointerDown`
+  - `event`
+  - `pointer`
+- `pointerMove`
+  - `event`
+  - `pointer`
+  - `moveVector`
+- `pointerUp`
+  - `event`
+  - `pointer`
+- `staticClick`
+  - `event`
+  - `pointer`
+  - `cellElement`
+  - `cellIndex`
+- `lazyLoad`
+  - `event`
+  - `cellElement`
+
+
+#### Event Name Format
+
+**`eventName` => `Flickity:instanceId:eventName`**
+
+| Event name | `$emit` name |
+|------------|--------------|
+|`cellSelect`|`Flickity:instanceId:cellSelect`|
+|`settle`|`Flickity:instanceId:settle`|
+|`dragStart`|`Flickity:instanceId:dragStart`|
+|`dragMove`|`Flickity:instanceId:dragMove`|
+|`dragEnd`|`Flickity:instanceId:dragEnd`|
+|`pointerDown`|`Flickity:instanceId:pointerDown`|
+|`pointerMove`|`Flickity:instanceId:pointerMove`|
+|`pointerUp`|`Flickity:instanceId:pointerUp`|
+|`staticClick`|`Flickity:instanceId:staticClick`|
+|`lazyLoad`|`Flickity:instanceId:lazyLoad`|
 
 > _Learn more about [Flickity events][flickity_events]._
 
