@@ -47,7 +47,7 @@ export function FlickityDirective(
         'ngInject';
 
         // Make sure the DOM has initialized
-        angular.element(document).ready(() => {
+        $timeout(() => {
 
             // Initialize Flickity
             FlickityService.create($element[0], $controller.bcFlickityId, $controller.options)
@@ -58,7 +58,7 @@ export function FlickityDirective(
                     $controller.bcFlickityId = flickityInstance.id;
 
                 });
-        });
+        }, 0);
 
         // When the directive is being destroyed
         const onDestroy = $scope.$on('$destroy', (event) => {
@@ -70,5 +70,3 @@ export function FlickityDirective(
 
 
 }
-
-

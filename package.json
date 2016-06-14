@@ -27,6 +27,7 @@
     "eslint": "1.7.2",
     "eslint-config-moment": "^1.5.0",
     "eslint-loader": "1.1.0",
+    "eslint-plugin-angular": "^1.1.1",
     "ng-annotate-loader": "^0.1.0",
     "onchange": "^2.0.0",
     "osx-notifier": "^0.2.2",
