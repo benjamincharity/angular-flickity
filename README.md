@@ -418,13 +418,8 @@ FlickityService.create(element, id, options)
 
 [Plunker demo showing DOM issue and solution][demo_doc_ready]
 
-> **NOTE:**
-> If you are dealing with remote data, you should wrap the `.create()` call with a `$timeout`.
-> This ensures that the data has already been assigned to scope before the slider is initialized.
-
-[Plunker demo with remote data][demo_remote_data]
-
 ```javascript
+// document.ready example
 angular.element($document[0]).ready(() => {
     // Get the element that should hold the slider
     const element = angular.element(document.getElementById('demo-slider'));
@@ -432,6 +427,34 @@ angular.element($document[0]).ready(() => {
     // Initialize our Flickity instance
     FlickityService.create(element[0], element[0].id);
 });
+```
+
+> **NOTE:**
+> If you are dealing with remote data, you should wrap the `.create()` call with a `$timeout`.
+> This ensures that the data has already been assigned to scope before the slider is initialized.
+
+[Plunker demo with remote data][demo_remote_data]
+
+```javascript
+// Remote data example
+$http.get('http://yourRemoteSource.com/slides.json')
+  .then((results) => {
+
+    // Expose the slides array to $scope
+    $scope.slides = results.data;
+
+    // Get the element that should hold the slider
+    const element = angular.element(document.getElementById('demo-slider'));
+
+    // NOTE: When fetching remote data, we initialize the Flickity
+    // instance inside of a $timeout. This ensures that the slides
+    // have already been assigned to scope before the slider is
+    // initialized.
+    $timeout(() => {
+      // Initialize our Flickity instance
+      FlickityService.create(element[0], element[0].id);
+    });
+  });
 ```
 
 ### Selecting Cells
