@@ -639,6 +639,17 @@ FlickityService.destroy(id)
 
 - `isDestroyed`: `{Bool}`
 
+This is very useful when your Flickity instance is created inside a controller attached to a route.
+Each time the route is hit, the route's controller calls to create a new Flickity instance. But if
+that instance already exists, it will cause an error. The correct way to handle this is to destroy
+the Flickity instance when the controller is being destroyed.
+
+```javascript
+$scope.$on('$destroy', () => {
+  FlickityService.destroy(instanceId);
+});
+```
+
 
 #### `reloadCells`
 
