@@ -418,6 +418,12 @@ FlickityService.create(element, id, options)
 
 [Plunker demo showing DOM issue and solution][demo_doc_ready]
 
+> **NOTE:**
+> If you are dealing with remote data, you should wrap the `.create()` call with a `$timeout`.
+> This ensures that the data has already been assigned to scope before the slider is initialized.
+
+[Plunker demo with remote data][demo_remote_data]
+
 ```javascript
 angular.element($document[0]).ready(() => {
     // Get the element that should hold the slider
@@ -888,9 +894,10 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
 [emit]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit
 [destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy
-[demo_basic]: http://embed.plnkr.co/gFwwJf/
-[demo_events]: http://embed.plnkr.co/k7Xw4t/
-[demo_select]: http://embed.plnkr.co/qdyKKo/
-[demo_create]: http://embed.plnkr.co/hkT7Tx/
-[demo_doc_ready]: http://embed.plnkr.co/We7brl/
+[demo_basic]: http://plnkr.co/edit/gFwwJf?p=preview
+[demo_events]: http://plnkr.co/edit/k7Xw4t?p=preview
+[demo_select]: http://plnkr.co/edit/qdyKKo?p=preview
+[demo_create]: http://plnkr.co/edit/hkT7Tx?p=preview
+[demo_doc_ready]: http://plnkr.co/edit/We7brl?p=preview
+[demo_remote_data]: http://plnkr.co/edit/hkT7Tx?p=preview
 [desandro]: http://desandro.com

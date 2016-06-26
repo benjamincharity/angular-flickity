@@ -2,13 +2,14 @@
 export class FlickityService {
 
     constructor(
-        $timeout, $q, $rootScope
+        $timeout, $q, $rootScope, $log
     ) {
         'ngInject';
 
         this.$timeout = $timeout;
         this.$q = $q;
         this.$rootScope = $rootScope;
+        this.$log = $log;
 
         this.instances = [];
 
@@ -30,7 +31,7 @@ export class FlickityService {
         // Check to see if the ID is already in use
         if (this._findObjectById(this.instances, id)) {
             const index = this._getFlickityIndex(id);
-            console.error('This ID is already in use: ', this.instances[index]);
+            this.$log.error('This ID is already in use: ', this.instances[index]);
 
             return false;
         }
