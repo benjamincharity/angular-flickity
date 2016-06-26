@@ -64,7 +64,7 @@ export class FlickityService {
      * @return {Object} instance
      */
     destroy(id) {
-        const pauseBeforeDestruction = 2000;
+        const pauseBeforeDestruction = 100;
         const flickityIndex = this._getFlickityIndex(id);
 
         return this.$q((resolve, reject) => {
