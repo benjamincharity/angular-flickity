@@ -138,8 +138,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* global Flickity */
 	
 	var FlickityService = exports.FlickityService = function () {
-	    FlickityService.$inject = ["$timeout", "$q", "$rootScope"];
-	    function FlickityService($timeout, $q, $rootScope) {
+	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
+	    function FlickityService($timeout, $q, $rootScope, $log) {
 	        'ngInject';
 	
 	        _classCallCheck(this, FlickityService);
@@ -147,6 +147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.$timeout = $timeout;
 	        this.$q = $q;
 	        this.$rootScope = $rootScope;
+	        this.$log = $log;
 	
 	        this.instances = [];
 	    }
@@ -173,7 +174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Check to see if the ID is already in use
 	            if (this._findObjectById(this.instances, id)) {
 	                var index = this._getFlickityIndex(id);
-	                console.error('This ID is already in use: ', this.instances[index]);
+	                this.$log.error('This ID is already in use: ', this.instances[index]);
 	
 	                return false;
 	            }
@@ -208,7 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function destroy(id) {
 	            var _this2 = this;
 	
-	            var pauseBeforeDestruction = 2000;
+	            var pauseBeforeDestruction = 100;
 	            var flickityIndex = this._getFlickityIndex(id);
 	
 	            return this.$q(function (resolve, reject) {
@@ -860,7 +861,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function postLinkFunction($scope, $element, $attrs, $controller) {
 	        'ngInject';
 	
-	        // Make sure the DOM has initialized
+	        // Make sure this `create()` gets picked up in the next digest cycle
 	
 	        $timeout(function () {
 	
@@ -871,7 +872,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                $controller.Flickity = flickityInstance.instance;
 	                $controller.bcFlickityId = flickityInstance.id;
 	            });
-	        }, 0);
+	        });
 	
 	        // When the directive is being destroyed
 	        var onDestroy = $scope.$on('$destroy', function (event) {

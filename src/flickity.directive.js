@@ -46,7 +46,7 @@ export function FlickityDirective(
     function postLinkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
 
-        // Make sure the DOM has initialized
+        // Make sure this `create()` gets picked up in the next digest cycle
         $timeout(() => {
 
             // Initialize Flickity
@@ -57,8 +57,10 @@ export function FlickityDirective(
                     $controller.Flickity = flickityInstance.instance;
                     $controller.bcFlickityId = flickityInstance.id;
 
-                });
-        }, 0);
+                })
+            ;
+
+        });
 
         // When the directive is being destroyed
         const onDestroy = $scope.$on('$destroy', (event) => {
