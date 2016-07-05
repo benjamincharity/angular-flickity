@@ -862,7 +862,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Make sure the DOM has initialized
 	
-	        angular.element(document).ready(function () {
+	        $timeout(function () {
 	
 	            // Initialize Flickity
 	            FlickityService.create($element[0], $controller.bcFlickityId, $controller.options).then(function (flickityInstance) {
@@ -871,7 +871,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                $controller.Flickity = flickityInstance.instance;
 	                $controller.bcFlickityId = flickityInstance.id;
 	            });
-	        });
+	        }, 0);
 	
 	        // When the directive is being destroyed
 	        var onDestroy = $scope.$on('$destroy', function (event) {
