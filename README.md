@@ -151,7 +151,7 @@ angular.module('myModule')
 
 
 // ES6 example
-export class MyController() {
+export class MyController {
   constructor() {
 
     this.flickityOptions = {
