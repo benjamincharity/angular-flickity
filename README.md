@@ -1,8 +1,12 @@
 # Angular Flickity
 
+<img src="http://cdn.benjamincharity.com/open_source/angular-flickity/mark.png" align="right" alt="angular-flickity">
+
+[![MIT License][license_image]][license_url] [![NPM version][npm_version_image]][npm_url]
+
 [**Simple Plunker demo**][demo_basic]
 
-[Flickity][flickity] by [David DeSandro][desandro]
+[Flickity][flickity] by [Metafizzy][metafizzy]
 
 _[Comments and pull requests welcome!][issues]_
 
@@ -50,6 +54,7 @@ _[Comments and pull requests welcome!][issues]_
 - [Development](#development)
 - [About Flickity](#about-flickity)
 
+---
 
 ## Installation
 
@@ -914,8 +919,11 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 
 > _Touch, responsive, flickable galleries._
 
+Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][isotope].
+
 - [Flickity on Github][flickity]
 - [Flickity Documentation][flickity_docs]
+- [Flickity Licensing][flickity_license]
 
 
 
@@ -935,3 +943,12 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 [demo_doc_ready]: http://plnkr.co/edit/We7brl?p=preview
 [demo_remote_data]: http://plnkr.co/edit/hkT7Tx?p=preview
 [desandro]: http://desandro.com
+[metafizzy]: http://metafizzy.co/
+[packery]: http://packery.metafizzy.co/
+[isotope]: http://isotope.metafizzy.co/
+[flickity_license]: http://flickity.metafizzy.co/license.html
+[license_image]: http://img.shields.io/badge/license-MIT-blue.svg
+[license_url]: LICENSE
+[npm_url]: https://npmjs.org/package/angular-flickity
+[npm_version_image]: http://img.shields.io/npm/v/angular-flickity.svg
+
