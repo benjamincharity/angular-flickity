@@ -1,3 +1,5 @@
+import 'flickity';
+
 /* global Flickity */
 export class FlickityService {
 
