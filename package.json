@@ -48,5 +48,8 @@
     "slider",
     "carousel",
     "touch"
-  ]
+  ],
+  "dependencies": {
+    "flickity": "^2.0.3"
+  }
 }
