@@ -175,7 +175,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
 	
-	            console.log('in create: ', element, id);
 	
 	            // Check to see if the ID is already in use
 	            if (this._findObjectById(this.instances, id)) {
@@ -4901,7 +4900,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Make sure this `create()` gets picked up in the next digest cycle
 	
 	        $timeout(function () {
-	            console.log('about to create in directive');
+	
 	            // Initialize Flickity
 	            FlickityService.create($element[0], $controller.bcFlickityId, $controller.options).then(function (flickityInstance) {
 	
