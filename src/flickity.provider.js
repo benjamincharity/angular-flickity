@@ -9,7 +9,7 @@ export class FlickityConfigProvider {
         this.cellSelector       = undefined;
         this.contain            = false;
         this.draggable          = true;
-        this.dragThreshold      = 3,
+        this.dragThreshold      = 3;
         this.freeScroll         = false;
         this.freeScrollFriction = false;
         this.selectedAttraction = .025;
