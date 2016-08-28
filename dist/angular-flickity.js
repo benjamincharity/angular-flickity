@@ -4234,12 +4234,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {string} id
 	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
 	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'next',
-	        value: function next(id, isWrapped) {
+	        value: function next(id, isWrapped, isInstant) {
 	            var _this3 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
@@ -4249,7 +4250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Move to the next slide
-	                    _this3.instances[flickityIndex].instance.next(isWrapped);
+	                    _this3.instances[flickityIndex].instance.next(isWrapped, isInstant);
 	
 	                    resolve(_this3.instances[flickityIndex]);
 	                }
@@ -4261,12 +4262,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {string} id
 	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
 	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'previous',
-	        value: function previous(id, isWrapped) {
+	        value: function previous(id, isWrapped, isInstant) {
 	            var _this4 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
@@ -4276,7 +4278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Move to the previous slide
-	                    _this4.instances[flickityIndex].instance.previous(isWrapped);
+	                    _this4.instances[flickityIndex].instance.previous(isWrapped, isInstant);
 	
 	                    resolve(_this4.instances[flickityIndex]);
 	                }

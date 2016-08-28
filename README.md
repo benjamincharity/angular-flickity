@@ -499,7 +499,7 @@ FlickityService.select(id, index, isWrapped, isInstant)
 Move to the previous slide.
 
 ```javascript
-FlickityService.previous(id, isWrapped)
+FlickityService.previous(id, isWrapped, isInstant)
 ```
 
 ##### Parameters
@@ -511,6 +511,9 @@ FlickityService.previous(id, isWrapped)
   - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
       the last slide.
   - If `false` and `previous` is called when on the first slide, the slider will do nothing.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
 
 ##### Returns `Promise`
 
@@ -522,7 +525,7 @@ FlickityService.previous(id, isWrapped)
 Move to the next slide.
 
 ```javascript
-FlickityService.next(id, isWrapped)
+FlickityService.next(id, isWrapped, isInstant)
 ```
 
 ##### Parameters
@@ -533,6 +536,9 @@ FlickityService.next(id, isWrapped)
   - Default: `false`
   - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
   - If `false` and `next` is called when on the last slide, the slider will do nothing.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
 
 ##### Returns `Promise`
 

@@ -99,9 +99,10 @@ export class FlickityService {
      *
      * @param {string} id
      * @param {Bool} isWrapped
+     * @param {Bool} isInstant
      * @return {Object} instance
      */
-    next(id, isWrapped) {
+    next(id, isWrapped, isInstant) {
         const flickityIndex = this._getFlickityIndex(id);
 
         return this.$q((resolve, reject) => {
@@ -109,7 +110,7 @@ export class FlickityService {
                 reject('Instance ' + id + ' not found');
             } else {
                 // Move to the next slide
-                this.instances[flickityIndex].instance.next(isWrapped);
+                this.instances[flickityIndex].instance.next(isWrapped, isInstant);
 
                 resolve(this.instances[flickityIndex]);
             }
@@ -123,9 +124,10 @@ export class FlickityService {
      *
      * @param {string} id
      * @param {Bool} isWrapped
+     * @param {Bool} isInstant
      * @return {Object} instance
      */
-    previous(id, isWrapped) {
+    previous(id, isWrapped, isInstant) {
         const flickityIndex = this._getFlickityIndex(id);
 
         return this.$q((resolve, reject) => {
@@ -133,7 +135,7 @@ export class FlickityService {
                 reject('Instance ' + id + ' not found');
             } else {
                 // Move to the previous slide
-                this.instances[flickityIndex].instance.previous(isWrapped);
+                this.instances[flickityIndex].instance.previous(isWrapped, isInstant);
 
                 resolve(this.instances[flickityIndex]);
             }
