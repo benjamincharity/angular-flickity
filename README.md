@@ -71,8 +71,6 @@ bower install angular-flickity --save
 
 ##### Note when using Flickity via bower
 
-<!-- TODO: Can this be removed now? (or updated to the alias example?) -->
-
 In my experience, including Flickity through bower often doesn't work out of the box. By default,
 bower pulls in the unpackaged files as the Flickity `bower.json` specifies rather than packaged
 files which seems to be what we need.
