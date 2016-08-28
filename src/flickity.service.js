@@ -516,6 +516,13 @@ export class FlickityService {
                                       this.instances[flickityIndex]);
             });
 
+            this.instances[flickityIndex].instance.on('scroll', (progress, positionX) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':scroll', {
+                    progress: progress,
+                    positionX: positionX,
+                });
+            });
+
             this.instances[flickityIndex].instance.on('dragStart', (event, pointer) => {
                 this.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
                     event: event,

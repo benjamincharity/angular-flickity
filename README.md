@@ -849,6 +849,9 @@ const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
 ```
 
 - `cellSelect`
+- `scroll`
+  - `progress`
+  - `positionX`
 - `settle`
 - `dragStart`
   - `event`
@@ -887,6 +890,7 @@ const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
 | Event name | `$emit` name |
 |------------|--------------|
 |`cellSelect`|`Flickity:instanceId:cellSelect`|
+|`scroll`|`Flickity:instanceId:scroll`|
 |`settle`|`Flickity:instanceId:settle`|
 |`dragStart`|`Flickity:instanceId:dragStart`|
 |`dragMove`|`Flickity:instanceId:dragMove`|
