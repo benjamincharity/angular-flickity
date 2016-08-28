@@ -3,6 +3,7 @@ export class FlickityConfigProvider {
     constructor() {
         // Define Flickity defaults
         this.accessibility      = true;
+        this.adaptiveHeight     = false;
         this.autoPlay           = false;
         this.cellAlign          = 'center';
         this.cellSelector       = undefined;
@@ -12,6 +13,7 @@ export class FlickityConfigProvider {
         this.freeScrollFriction = false;
         this.selectedAttraction = .025;
         this.friction           = .28;
+        this.groupCells         = false;
         this.initialIndex       = 0;
         this.lazyLoad           = true;
         this.percentPosition    = true;
