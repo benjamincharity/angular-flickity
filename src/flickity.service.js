@@ -168,6 +168,31 @@ export class FlickityService {
 
 
     /**
+     * Select a slide of a cell
+     *
+     * @param {String} id
+     * @param {Integer|String} value
+     * @param {Bool} isWrapped
+     * @param {Bool} isInstant
+     * @return {Object} instance
+     */
+    selectCell(id, value, isWrapped = false, isInstant = false) {
+        const flickityIndex = this._getFlickityIndex(id);
+
+        return this.$q((resolve, reject) => {
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                // Move to the selected slide
+                this.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
+
+                resolve(this.instances[flickityIndex]);
+            }
+        });
+    }
+
+
+    /**
      * Get the current slide index
      *
      * @param {String} id

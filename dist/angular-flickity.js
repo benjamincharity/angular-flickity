@@ -4316,6 +4316,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        /**
+	         * Select a slide of a cell
+	         *
+	         * @param {String} id
+	         * @param {Integer|String} value
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'selectCell',
+	        value: function selectCell(id, value) {
+	            var _this6 = this;
+	
+	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the selected slide
+	                    _this6.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
+	
+	                    resolve(_this6.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
 	         * Get the current slide index
 	         *
 	         * @param {String} id
@@ -4325,7 +4357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'selectedIndex',
 	        value: function selectedIndex(id) {
-	            var _this6 = this;
+	            var _this7 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4334,7 +4366,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Return the current index
-	                    resolve(_this6.instances[flickityIndex].instance.selectedIndex);
+	                    resolve(_this7.instances[flickityIndex].instance.selectedIndex);
 	                }
 	            });
 	        }
@@ -4349,7 +4381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'resize',
 	        value: function resize(id) {
-	            var _this7 = this;
+	            var _this8 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4358,9 +4390,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Trigger the resize
-	                    _this7.instances[flickityIndex].instance.resize();
+	                    _this8.instances[flickityIndex].instance.resize();
 	
-	                    resolve(_this7.instances[flickityIndex]);
+	                    resolve(_this8.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4376,7 +4408,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'reposition',
 	        value: function reposition(id) {
-	            var _this8 = this;
+	            var _this9 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4385,9 +4417,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Trigger the resize
-	                    _this8.instances[flickityIndex].instance.reposition();
+	                    _this9.instances[flickityIndex].instance.reposition();
 	
-	                    resolve(_this8.instances[flickityIndex]);
+	                    resolve(_this9.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4402,7 +4434,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'reloadCells',
 	        value: function reloadCells(id) {
-	            var _this9 = this;
+	            var _this10 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4411,9 +4443,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Reload cells
-	                    _this9.instances[flickityIndex].instance.reloadCells();
+	                    _this10.instances[flickityIndex].instance.reloadCells();
 	
-	                    resolve(_this9.instances[flickityIndex]);
+	                    resolve(_this10.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4428,7 +4460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'get',
 	        value: function get(id) {
-	            var _this10 = this;
+	            var _this11 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4436,7 +4468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this10.instances[flickityIndex]);
+	                    resolve(_this11.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4450,13 +4482,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getFirst',
 	        value: function getFirst() {
-	            var _this11 = this;
+	            var _this12 = this;
 	
 	            return this.$q(function (resolve, reject) {
-	                if (!_this11.instances || _this11.instances.length < 1) {
+	                if (!_this12.instances || _this12.instances.length < 1) {
 	                    reject('No instances exist');
 	                } else {
-	                    resolve(_this11.instances[0]);
+	                    resolve(_this12.instances[0]);
 	                }
 	            });
 	        }
@@ -4493,7 +4525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'prepend',
 	        value: function prepend(id, elements) {
-	            var _this12 = this;
+	            var _this13 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4502,9 +4534,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Prepend the slides
-	                    _this12.instances[flickityIndex].instance.prepend(elements);
+	                    _this13.instances[flickityIndex].instance.prepend(elements);
 	
-	                    resolve(_this12.instances[flickityIndex]);
+	                    resolve(_this13.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4520,7 +4552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'append',
 	        value: function append(id, elements) {
-	            var _this13 = this;
+	            var _this14 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4529,9 +4561,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Append the slides
-	                    _this13.instances[flickityIndex].instance.append(elements);
+	                    _this14.instances[flickityIndex].instance.append(elements);
 	
-	                    resolve(_this13.instances[flickityIndex]);
+	                    resolve(_this14.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4548,7 +4580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'insert',
 	        value: function insert(id, elements, index) {
-	            var _this14 = this;
+	            var _this15 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4557,9 +4589,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Insert the slides
-	                    _this14.instances[flickityIndex].instance.insert(elements, index);
+	                    _this15.instances[flickityIndex].instance.insert(elements, index);
 	
-	                    resolve(_this14.instances[flickityIndex]);
+	                    resolve(_this15.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4574,7 +4606,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getCellElements',
 	        value: function getCellElements(id) {
-	            var _this15 = this;
+	            var _this16 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4582,7 +4614,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this15.instances[flickityIndex].instance.getCellElements());
+	                    resolve(_this16.instances[flickityIndex].instance.getCellElements());
 	                }
 	            });
 	        }
@@ -4597,7 +4629,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'remove',
 	        value: function remove(id, elements) {
-	            var _this16 = this;
+	            var _this17 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4605,9 +4637,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    _this16.instances[flickityIndex].instance.remove(elements);
+	                    _this17.instances[flickityIndex].instance.remove(elements);
 	
-	                    resolve(_this16.instances[flickityIndex]);
+	                    resolve(_this17.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -4622,7 +4654,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'selectedElement',
 	        value: function selectedElement(id) {
-	            var _this17 = this;
+	            var _this18 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4630,7 +4662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this17.instances[flickityIndex].instance.selectedElement);
+	                    resolve(_this18.instances[flickityIndex].instance.selectedElement);
 	                }
 	            });
 	        }
@@ -4645,7 +4677,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'cells',
 	        value: function cells(id) {
-	            var _this18 = this;
+	            var _this19 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4653,7 +4685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this18.instances[flickityIndex].instance.cells);
+	                    resolve(_this19.instances[flickityIndex].instance.cells);
 	                }
 	            });
 	        }
@@ -4697,7 +4729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: '_bindEvents',
 	        value: function _bindEvents(id) {
-	            var _this19 = this;
+	            var _this20 = this;
 	
 	            var flickityIndex = this._getFlickityIndex(id);
 	
@@ -4706,69 +4738,69 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	
 	            return this.$q(function (resolve) {
-	                var ID = _this19.instances[flickityIndex].id;
+	                var ID = _this20.instances[flickityIndex].id;
 	
-	                _this19.instances[flickityIndex].instance.on('select', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':select', _this19.instances[flickityIndex]);
+	                _this20.instances[flickityIndex].instance.on('select', function () {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':select', _this20.instances[flickityIndex]);
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('settle', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':settle', _this19.instances[flickityIndex]);
+	                _this20.instances[flickityIndex].instance.on('settle', function () {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':settle', _this20.instances[flickityIndex]);
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('scroll', function (progress, positionX) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':scroll', {
+	                _this20.instances[flickityIndex].instance.on('scroll', function (progress, positionX) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':scroll', {
 	                        progress: progress,
 	                        positionX: positionX
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+	                _this20.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+	                _this20.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
 	                        event: event,
 	                        pointer: pointer,
 	                        moveVector: moveVector
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+	                _this20.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+	                _this20.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+	                _this20.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
 	                        event: event,
 	                        pointer: pointer,
 	                        moveVector: moveVector
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+	                _this20.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+	                _this20.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
 	                        event: event,
 	                        pointer: pointer,
 	                        cellElement: cellElement,
@@ -4776,8 +4808,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+	                _this20.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
 	                        event: event,
 	                        cellElement: cellElement
 	                    });

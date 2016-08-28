@@ -539,6 +539,34 @@ FlickityService.next(id, isWrapped)
 - `instance`: `{Object}`
 
 
+#### `cellSelect`
+
+Select a slide of a cell.
+
+```javascript
+FlickityService.cellSelect(id, value, isWrapped, isInstant)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to move.
+- `value`: `{Integer|String}`
+  - Zero-based index OR selector string of the cell to select.
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
+      the last slide.
+  - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
 
 ### Sizing and Positioning
 
