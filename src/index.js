@@ -1,3 +1,4 @@
+import 'flickity';
 import { FlickityConfigProvider } from './flickity.provider'
 import { FlickityService } from './flickity.service';
 import { FlickityDirective } from './flickity.directive';
