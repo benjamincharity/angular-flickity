@@ -4085,7 +4085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.cellSelector = undefined;
 	        this.contain = false;
 	        this.draggable = true;
-	        this.freeScroll = false;
+	        this.dragThreshold = 3, this.freeScroll = false;
 	        this.freeScrollFriction = false;
 	        this.selectedAttraction = .025;
 	        this.friction = .28;
