@@ -71,6 +71,8 @@ bower install angular-flickity --save
 
 ##### Note when using Flickity via bower
 
+<!-- TODO: Can this be removed now? (or updated to the alias example?) -->
+
 In my experience, including Flickity through bower often doesn't work out of the box. By default,
 bower pulls in the unpackaged files as the Flickity `bower.json` specifies rather than packaged
 files which seems to be what we need.
@@ -95,7 +97,8 @@ The trick is to specify which files bower should use in your own `bower.json`.
 
 ## Dependencies
 
-- [Flickity.js (1.1.2)](http://flickity.metafizzy.co/)
+- [Flickity.js (^2.0.3)][flickity_docs]
+- [Angular.js (^1.5.8)][angular]
 
 
 ## Usage
@@ -135,7 +138,7 @@ Use the directive on the parent element containing your slides.
 
 ## Options
 
-This directive supports all options for version `1.1.2` of Flickity. A full list of options can be
+This module supports all options for Flickity version `2.0.3`. A full list of options can be
 found here: [Flickity Options](http://flickity.metafizzy.co/options.html).
 
 Simply pass in an object containing any options you'd like to set.
@@ -947,6 +950,8 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [packery]: http://packery.metafizzy.co/
 [isotope]: http://isotope.metafizzy.co/
 [flickity_license]: http://flickity.metafizzy.co/license.html
+[angular]: https://angularjs.org
+
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/angular-flickity
