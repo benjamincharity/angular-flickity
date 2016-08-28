@@ -506,9 +506,8 @@ export class FlickityService {
         return this.$q((resolve) => {
             const ID = this.instances[flickityIndex].id;
 
-            this.instances[flickityIndex].instance.on('cellSelect', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':cellSelect',
-                                      this.instances[flickityIndex]);
+            this.instances[flickityIndex].instance.on('select', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':select', this.instances[flickityIndex]);
             });
 
             this.instances[flickityIndex].instance.on('settle', () => {

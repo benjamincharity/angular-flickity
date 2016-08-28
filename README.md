@@ -50,7 +50,7 @@ _[Comments and pull requests welcome!][issues]_
         - [`cells`](#cells)
 - [Events](#events)
   - [Events and Parameters](#eventsandparameters)
-  - [Event Name Format](#eventnameformat)
+  - [Event Naming Convention](#eventnamingconvention)
 - [Development](#development)
 - [About Flickity](#about-flickity)
 
@@ -848,7 +848,7 @@ const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
   • parameter
 ```
 
-- `cellSelect`
+- `select`
 - `scroll`
   - `progress`
   - `positionX`
@@ -883,13 +883,13 @@ const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
   - `cellElement`
 
 
-#### Event Name Format
+#### Event Naming Convention
 
 **`eventName` => `Flickity:instanceId:eventName`**
 
 | Event name | `$emit` name |
 |------------|--------------|
-|`cellSelect`|`Flickity:instanceId:cellSelect`|
+|`select`|`Flickity:instanceId:select`|
 |`scroll`|`Flickity:instanceId:scroll`|
 |`settle`|`Flickity:instanceId:settle`|
 |`dragStart`|`Flickity:instanceId:dragStart`|
