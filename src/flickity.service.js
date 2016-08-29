@@ -31,6 +31,7 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
+        console.log('in create: ', this.Flickity);
 
         // Check to see if the ID is already in use
         if (this._findObjectById(this.instances, id)) {

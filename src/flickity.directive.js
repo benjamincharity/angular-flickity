@@ -3,10 +3,9 @@ import { FlickityController } from './flickity.controller';
 
 export function FlickityDirective(
     $timeout,
-    FlickityService, Flickity
+    FlickityService
 ) {
     'ngInject';
-    console.log('Flickity in directive: ', Flickity);
 
     const directive = {
         restrict: 'A',

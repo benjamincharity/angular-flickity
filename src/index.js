@@ -1,5 +1,4 @@
 import * as Flickity from 'flickity';
-console.log('flick: ', Flickity);
 
 import { FlickityConfigProvider } from './flickity.provider'
 import { FlickityService } from './flickity.service';

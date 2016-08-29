@@ -72,8 +72,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
-	console.log('flick: ', Flickity);
-	
 	angular.module('bc.Flickity', []).constant('Flickity', Flickity).provider('FlickityConfig', _flickity2.FlickityConfigProvider).service('FlickityService', _flickity3.FlickityService).directive('bcFlickity', _flickity4.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
@@ -4140,8 +4138,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	/* global Flickity */
 	var FlickityService = exports.FlickityService = function () {
-	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
-	    function FlickityService($timeout, $q, $rootScope, $log) {
+	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log", "Flickity"];
+	    function FlickityService($timeout, $q, $rootScope, $log, Flickity) {
 	        'ngInject';
 	
 	        _classCallCheck(this, FlickityService);
@@ -4150,6 +4148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.$q = $q;
 	        this.$rootScope = $rootScope;
 	        this.$log = $log;
+	        this.Flickity = Flickity;
 	
 	        this.instances = [];
 	    }
@@ -4172,6 +4171,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
 	
+	            console.log('in create: ', this.Flickity);
 	
 	            // Check to see if the ID is already in use
 	            if (this._findObjectById(this.instances, id)) {
@@ -4184,7 +4184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Define the new instance
 	            var instance = {
 	                id: id,
-	                instance: new Flickity(element, options)
+	                instance: new this.Flickity(element, options)
 	            };
 	
 	            // Save this instance to the array
@@ -4854,7 +4854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	FlickityDirective.$inject = ["$timeout", "FlickityService", "Flickity"];
+	FlickityDirective.$inject = ["$timeout", "FlickityService"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -4862,13 +4862,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(22);
 	
-	function FlickityDirective($timeout, FlickityService, Flickity) {
+	function FlickityDirective($timeout, FlickityService) {
 	    'ngInject';
 	
 	    preLinkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
 	    postLinkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
-	    console.log('Flickity in directive: ', Flickity);
-	
 	    var directive = {
 	        restrict: 'A',
 	        scope: {},
