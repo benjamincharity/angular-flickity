@@ -94,6 +94,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // Delete the global reference to make sure no one gets lazy
 	    delete $window.Flickity;
+	
+	    return Flickity;
 	}
 
 /***/ },

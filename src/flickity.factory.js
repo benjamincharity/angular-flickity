@@ -12,5 +12,6 @@ export function FlickityFactory(
     // Delete the global reference to make sure no one gets lazy
     delete($window.Flickity);
 
+    return Flickity;
 }
 
