@@ -8,6 +8,7 @@ export class FlickityService {
         Flickity
     ) {
         'ngInject';
+        console.log('in service Flickity: ', Flickity);
 
         this.$timeout = $timeout;
         this.$q = $q;
