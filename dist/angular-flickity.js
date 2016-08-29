@@ -66,9 +66,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickityPrevious = __webpack_require__(7);
 	
-	console.log('Flickity in DIRECTIVE: ', Flickity, window.Flickity); /* global Flickity */
-	
-	
 	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).service('FlickityService', _flickity2.FlickityService).directive('bcFlickity', _flickity3.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
