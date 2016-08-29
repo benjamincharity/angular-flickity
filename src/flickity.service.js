@@ -4,7 +4,8 @@ import 'flickity';
 export class FlickityService {
 
     constructor(
-        $timeout, $q, $rootScope, $log
+        $timeout, $q, $rootScope, $log,
+        Flickity
     ) {
         'ngInject';
 
@@ -12,6 +13,7 @@ export class FlickityService {
         this.$q = $q;
         this.$rootScope = $rootScope;
         this.$log = $log;
+        this.Flickity = Flickity;
 
         this.instances = [];
 
@@ -41,7 +43,7 @@ export class FlickityService {
         // Define the new instance
         const instance = {
             id: id,
-            instance: new Flickity(element, options),
+            instance: new this.Flickity(element, options),
         };
 
         // Save this instance to the array
