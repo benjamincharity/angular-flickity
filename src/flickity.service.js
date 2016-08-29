@@ -1,20 +1,15 @@
-import 'flickity';
-
 /* global Flickity */
 export class FlickityService {
 
     constructor(
-        $timeout, $q, $rootScope, $log,
-        Flickity
+        $timeout, $q, $rootScope, $log
     ) {
         'ngInject';
-        console.log('in service Flickity: ', Flickity);
 
         this.$timeout = $timeout;
         this.$q = $q;
         this.$rootScope = $rootScope;
         this.$log = $log;
-        this.Flickity = Flickity;
 
         this.instances = [];
 
@@ -32,7 +27,6 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
-        console.log('in create: ', this.Flickity);
 
         // Check to see if the ID is already in use
         if (this._findObjectById(this.instances, id)) {
@@ -45,7 +39,7 @@ export class FlickityService {
         // Define the new instance
         const instance = {
             id: id,
-            instance: new this.Flickity(element, options),
+            instance: new Flickity(element, options),
         };
 
         // Save this instance to the array
