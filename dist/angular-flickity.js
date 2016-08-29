@@ -58,801 +58,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(1);
 	
-	var _flickity2 = __webpack_require__(2);
+	var Flickity = _interopRequireWildcard(_flickity);
 	
-	var _flickity3 = __webpack_require__(21);
+	var _flickity2 = __webpack_require__(19);
+	
+	var _flickity3 = __webpack_require__(20);
+	
+	var _flickity4 = __webpack_require__(21);
 	
 	var _flickityNext = __webpack_require__(23);
 	
 	var _flickityPrevious = __webpack_require__(25);
 	
-	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).service('FlickityService', _flickity2.FlickityService).directive('bcFlickity', _flickity3.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	console.log('flick: ', Flickity);
+	
+	angular.module('bc.Flickity', []).constant('Flickity', Flickity).provider('FlickityConfig', _flickity2.FlickityConfigProvider).service('FlickityService', _flickity3.FlickityService).directive('bcFlickity', _flickity4.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var FlickityConfigProvider = exports.FlickityConfigProvider = function () {
-	    function FlickityConfigProvider() {
-	        _classCallCheck(this, FlickityConfigProvider);
-	
-	        // Define Flickity defaults
-	        this.accessibility = true;
-	        this.adaptiveHeight = false;
-	        this.autoPlay = false;
-	        this.cellAlign = 'center';
-	        this.cellSelector = undefined;
-	        this.contain = false;
-	        this.draggable = true;
-	        this.dragThreshold = 3;
-	        this.freeScroll = false;
-	        this.freeScrollFriction = false;
-	        this.selectedAttraction = .025;
-	        this.friction = .28;
-	        this.groupCells = false;
-	        this.initialIndex = 0;
-	        this.lazyLoad = true;
-	        this.percentPosition = true;
-	        this.prevNextButtons = true;
-	        this.pageDots = true;
-	        this.resize = true;
-	        this.rightToLeft = false;
-	        this.setGallerySize = true;
-	        this.watchCSS = false;
-	        this.wrapAround = false;
-	        this.imagesLoaded = true;
-	        this.asNavFor = true;
-	    }
-	
-	    _createClass(FlickityConfigProvider, [{
-	        key: '$get',
-	        value: function $get() {
-	            return this;
-	        }
-	    }]);
-	
-	    return FlickityConfigProvider;
-	}();
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.FlickityService = undefined;
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	__webpack_require__(3);
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	/* global Flickity */
-	var FlickityService = exports.FlickityService = function () {
-	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
-	    function FlickityService($timeout, $q, $rootScope, $log) {
-	        'ngInject';
-	
-	        _classCallCheck(this, FlickityService);
-	
-	        this.$timeout = $timeout;
-	        this.$q = $q;
-	        this.$rootScope = $rootScope;
-	        this.$log = $log;
-	
-	        this.instances = [];
-	    }
-	
-	    /**
-	     * Create a new Flickity instance
-	     *
-	     * @param {Element} element
-	     * @param {String} id
-	     * @param {Object} options
-	     * @return {Object} instance
-	     */
-	
-	
-	    _createClass(FlickityService, [{
-	        key: 'create',
-	        value: function create(element) {
-	            var _this = this;
-	
-	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
-	            var options = arguments[2];
-	
-	
-	            // Check to see if the ID is already in use
-	            if (this._findObjectById(this.instances, id)) {
-	                var index = this._getFlickityIndex(id);
-	                this.$log.error('This ID is already in use: ', this.instances[index]);
-	
-	                return false;
-	            }
-	
-	            // Define the new instance
-	            var instance = {
-	                id: id,
-	                instance: new Flickity(element, options)
-	            };
-	
-	            // Save this instance to the array
-	            this.instances.push(instance);
-	
-	            return this.$q(function (resolve) {
-	
-	                // Bind to all events
-	                _this._bindEvents(id).then(function () {
-	                    resolve(instance);
-	                });
-	            });
-	        }
-	
-	        /**
-	         * Destroy a Flickity instance
-	         *
-	         * @param {String} id
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'destroy',
-	        value: function destroy(id) {
-	            var _this2 = this;
-	
-	            var pauseBeforeDestruction = 100;
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                }
-	
-	                // Pause to allow other scope cleanup to occur
-	                // NOTE: Without this pause, Flickity is being destroyed before the view containing the
-	                // directive can leave view
-	                _this2.$timeout(function () {
-	
-	                    // Destroy the Flickity instance
-	                    _this2.instances[flickityIndex].instance.destroy();
-	
-	                    // Remove the instance from the array
-	                    _this2.instances.splice(flickityIndex, 1);
-	
-	                    resolve('Instance ' + id + ' destroyed.');
-	                }, pauseBeforeDestruction);
-	            });
-	        }
-	
-	        /**
-	         * Move to the next slide
-	         *
-	         * @param {string} id
-	         * @param {Bool} isWrapped
-	         * @param {Bool} isInstant
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'next',
-	        value: function next(id, isWrapped, isInstant) {
-	            var _this3 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Move to the next slide
-	                    _this3.instances[flickityIndex].instance.next(isWrapped, isInstant);
-	
-	                    resolve(_this3.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Move to the previous slide
-	         *
-	         * @param {string} id
-	         * @param {Bool} isWrapped
-	         * @param {Bool} isInstant
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'previous',
-	        value: function previous(id, isWrapped, isInstant) {
-	            var _this4 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Move to the previous slide
-	                    _this4.instances[flickityIndex].instance.previous(isWrapped, isInstant);
-	
-	                    resolve(_this4.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Select a slide
-	         *
-	         * @param {String} id
-	         * @param {Integer} index
-	         * @param {Bool} isWrapped
-	         * @param {Bool} isInstant
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'select',
-	        value: function select(id, index) {
-	            var _this5 = this;
-	
-	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Move to the selected slide
-	                    _this5.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
-	
-	                    resolve(_this5.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Select a slide of a cell
-	         *
-	         * @param {String} id
-	         * @param {Integer|String} value
-	         * @param {Bool} isWrapped
-	         * @param {Bool} isInstant
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'selectCell',
-	        value: function selectCell(id, value) {
-	            var _this6 = this;
-	
-	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Move to the selected slide
-	                    _this6.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
-	
-	                    resolve(_this6.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the current slide index
-	         *
-	         * @param {String} id
-	         * @return {Integer} selectedIndex
-	         */
-	
-	    }, {
-	        key: 'selectedIndex',
-	        value: function selectedIndex(id) {
-	            var _this7 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Return the current index
-	                    resolve(_this7.instances[flickityIndex].instance.selectedIndex);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Resize the gallery and re-position cells.
-	         *
-	         * @param {String} id
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'resize',
-	        value: function resize(id) {
-	            var _this8 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Trigger the resize
-	                    _this8.instances[flickityIndex].instance.resize();
-	
-	                    resolve(_this8.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Position cells at selected position.
-	         * Trigger reposition after the size of a cell has been changed.
-	         *
-	         * @param {String} id
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'reposition',
-	        value: function reposition(id) {
-	            var _this9 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Trigger the resize
-	                    _this9.instances[flickityIndex].instance.reposition();
-	
-	                    resolve(_this9.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Re-collect all cell elements in `flickity-slider`.
-	         *
-	         * @param {String} id
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'reloadCells',
-	        value: function reloadCells(id) {
-	            var _this10 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Reload cells
-	                    _this10.instances[flickityIndex].instance.reloadCells();
-	
-	                    resolve(_this10.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the Flickity instance
-	         *
-	         * @param {String} id
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'get',
-	        value: function get(id) {
-	            var _this11 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    resolve(_this11.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the first Flickity instance
-	         *
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'getFirst',
-	        value: function getFirst() {
-	            var _this12 = this;
-	
-	            return this.$q(function (resolve, reject) {
-	                if (!_this12.instances || _this12.instances.length < 1) {
-	                    reject('No instances exist');
-	                } else {
-	                    resolve(_this12.instances[0]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the Flickity instance
-	         *
-	         * @param {Element} element
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'getByElement',
-	        value: function getByElement(element) {
-	            return this.$q(function (resolve, reject) {
-	                var instance = Flickity.data(element);
-	
-	                if (instance) {
-	                    resolve(instance);
-	                } else {
-	                    reject('Instance not found for ' + element);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Prepend elements and create cells to the beginning of the gallery.
-	         *
-	         * @param {String} id
-	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'prepend',
-	        value: function prepend(id, elements) {
-	            var _this13 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Prepend the slides
-	                    _this13.instances[flickityIndex].instance.prepend(elements);
-	
-	                    resolve(_this13.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Append elements and create cells to the end of the gallery.
-	         *
-	         * @param {String} id
-	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'append',
-	        value: function append(id, elements) {
-	            var _this14 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Append the slides
-	                    _this14.instances[flickityIndex].instance.append(elements);
-	
-	                    resolve(_this14.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Insert elements into the gallery and create cells at the desired index.
-	         *
-	         * @param {String} id
-	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
-	         * @param {Integer} index - Zero based index
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'insert',
-	        value: function insert(id, elements, index) {
-	            var _this15 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    // Insert the slides
-	                    _this15.instances[flickityIndex].instance.insert(elements, index);
-	
-	                    resolve(_this15.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the elements of the cells
-	         *
-	         * @param {String} id
-	         * @return {Array} cellElements
-	         */
-	
-	    }, {
-	        key: 'getCellElements',
-	        value: function getCellElements(id) {
-	            var _this16 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    resolve(_this16.instances[flickityIndex].instance.getCellElements());
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the elements of the cells
-	         *
-	         * @param {String} id
-	         * @return {Object} instance
-	         */
-	
-	    }, {
-	        key: 'remove',
-	        value: function remove(id, elements) {
-	            var _this17 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    _this17.instances[flickityIndex].instance.remove(elements);
-	
-	                    resolve(_this17.instances[flickityIndex]);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get the currently selected cell element
-	         *
-	         * @param {String} id
-	         * @return {Element} selectedCellElement
-	         */
-	
-	    }, {
-	        key: 'selectedElement',
-	        value: function selectedElement(id) {
-	            var _this18 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    resolve(_this18.instances[flickityIndex].instance.selectedElement);
-	                }
-	            });
-	        }
-	
-	        /**
-	         * Get an array of all cells
-	         *
-	         * @param {String} id
-	         * @return {Array} cells
-	         */
-	
-	    }, {
-	        key: 'cells',
-	        value: function cells(id) {
-	            var _this19 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
-	                if (flickityIndex < 0) {
-	                    reject('Instance ' + id + ' not found');
-	                } else {
-	                    resolve(_this19.instances[flickityIndex].instance.cells);
-	                }
-	            });
-	        }
-	
-	        //
-	        // Helper methods
-	        //
-	
-	
-	        /**
-	         * Find the index for a Flickity instance
-	         *
-	         * @param {String} id
-	         * @return {Integer} flickityIndex
-	         */
-	
-	    }, {
-	        key: '_getFlickityIndex',
-	        value: function _getFlickityIndex(id) {
-	            var foundIndex = void 0;
-	
-	            // If no instances exist
-	            if (!this.instances.length) {
-	
-	                foundIndex = -1;
-	            } else {
-	                // if instances do exist
-	
-	                // Check the ID of each instance
-	                this.instances.forEach(function (instance, index) {
-	
-	                    // If it matches our ID, set the index
-	                    if (instance.id === id) {
-	                        foundIndex = index;
-	                    }
-	                });
-	            }
-	
-	            return foundIndex;
-	        }
-	    }, {
-	        key: '_bindEvents',
-	        value: function _bindEvents(id) {
-	            var _this20 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
-	
-	            return this.$q(function (resolve) {
-	                var ID = _this20.instances[flickityIndex].id;
-	
-	                _this20.instances[flickityIndex].instance.on('select', function () {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':select', _this20.instances[flickityIndex]);
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('settle', function () {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':settle', _this20.instances[flickityIndex]);
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('scroll', function (progress, positionX) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':scroll', {
-	                        progress: progress,
-	                        positionX: positionX
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
-	                        event: event,
-	                        pointer: pointer
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
-	                        event: event,
-	                        pointer: pointer,
-	                        moveVector: moveVector
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
-	                        event: event,
-	                        pointer: pointer
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
-	                        event: event,
-	                        pointer: pointer
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
-	                        event: event,
-	                        pointer: pointer,
-	                        moveVector: moveVector
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
-	                        event: event,
-	                        pointer: pointer
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
-	                        event: event,
-	                        pointer: pointer,
-	                        cellElement: cellElement,
-	                        cellIndex: cellIndex
-	                    });
-	                });
-	
-	                _this20.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
-	                    _this20.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
-	                        event: event,
-	                        cellElement: cellElement
-	                    });
-	                });
-	
-	                resolve(true);
-	            });
-	        }
-	
-	        /**
-	         * Find an object within an array by ID
-	         *
-	         * @param {Array} source
-	         * @param {String} id
-	         * @return {Object} match
-	         */
-	
-	    }, {
-	        key: '_findObjectById',
-	        value: function _findObjectById(source, id) {
-	            return source.filter(function (object) {
-	                return object.id === id;
-	            })[0];
-	        }
-	    }]);
-	
-	    return FlickityService;
-	}();
-
-/***/ },
-/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -872,13 +97,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(4),
-	      __webpack_require__(12),
+	      __webpack_require__(2),
+	      __webpack_require__(10),
+	      __webpack_require__(13),
 	      __webpack_require__(15),
+	      __webpack_require__(16),
 	      __webpack_require__(17),
-	      __webpack_require__(18),
-	      __webpack_require__(19),
-	      __webpack_require__(20)
+	      __webpack_require__(18)
 	    ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if ( typeof module == 'object' && module.exports ) {
 	    // CommonJS
@@ -900,7 +125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Flickity main
@@ -910,12 +135,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	      __webpack_require__(3),
+	      __webpack_require__(4),
 	      __webpack_require__(5),
-	      __webpack_require__(6),
 	      __webpack_require__(7),
-	      __webpack_require__(9),
-	      __webpack_require__(10),
-	      __webpack_require__(11)
+	      __webpack_require__(8),
+	      __webpack_require__(9)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter, getSize, utils, Cell, Slide, animatePrototype ) {
 	      return factory( window, EvEmitter, getSize, utils, Cell, Slide, animatePrototype );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1756,7 +981,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -1871,7 +1096,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -2086,7 +1311,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -2103,7 +1328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(8)
+	      __webpack_require__(6)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( matchesSelector ) {
 	      return factory( window, matchesSelector );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -2329,7 +1554,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -2388,7 +1613,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Flickity.Cell
@@ -2398,7 +1623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(6)
+	      __webpack_require__(4)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( getSize ) {
 	      return factory( window, getSize );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -2484,7 +1709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// slide
@@ -2566,7 +1791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// animate
@@ -2576,7 +1801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(7)
+	      __webpack_require__(5)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( utils ) {
 	      return factory( window, utils );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -2791,7 +2016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// drag
@@ -2801,9 +2026,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(4),
-	      __webpack_require__(13),
-	      __webpack_require__(7)
+	      __webpack_require__(2),
+	      __webpack_require__(11),
+	      __webpack_require__(5)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Flickity, Unidragger, utils ) {
 	      return factory( window, Flickity, Unidragger, utils );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3171,7 +2396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -3189,7 +2414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(14)
+	      __webpack_require__(12)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Unipointer ) {
 	      return factory( window, Unipointer );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3461,7 +2686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -3478,7 +2703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(5)
+	      __webpack_require__(3)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter ) {
 	      return factory( window, EvEmitter );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3770,7 +2995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// prev/next buttons
@@ -3780,9 +3005,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(4),
-	      __webpack_require__(16),
-	      __webpack_require__(7)
+	      __webpack_require__(2),
+	      __webpack_require__(14),
+	      __webpack_require__(5)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Flickity, TapListener, utils ) {
 	      return factory( window, Flickity, TapListener, utils );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4002,7 +3227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -4020,7 +3245,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(14)
+	      __webpack_require__(12)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Unipointer ) {
 	      return factory( window, Unipointer );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4121,7 +3346,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// page dots
@@ -4131,9 +3356,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(4),
-	      __webpack_require__(16),
-	      __webpack_require__(7)
+	      __webpack_require__(2),
+	      __webpack_require__(14),
+	      __webpack_require__(5)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Flickity, TapListener, utils ) {
 	      return factory( window, Flickity, TapListener, utils );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4309,7 +3534,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// player & autoPlay
@@ -4319,9 +3544,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	      __webpack_require__(3),
 	      __webpack_require__(5),
-	      __webpack_require__(7),
-	      __webpack_require__(4)
+	      __webpack_require__(2)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter, utils, Flickity ) {
 	      return factory( EvEmitter, utils, Flickity );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4528,7 +3753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// add, remove cell
@@ -4538,8 +3763,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(4),
-	      __webpack_require__(7)
+	      __webpack_require__(2),
+	      __webpack_require__(5)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Flickity, utils ) {
 	      return factory( window, Flickity, utils );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4716,7 +3941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// lazyload
@@ -4726,8 +3951,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(4),
-	      __webpack_require__(7)
+	      __webpack_require__(2),
+	      __webpack_require__(5)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Flickity, utils ) {
 	      return factory( window, Flickity, utils );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4841,12 +4066,795 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var FlickityConfigProvider = exports.FlickityConfigProvider = function () {
+	    function FlickityConfigProvider() {
+	        _classCallCheck(this, FlickityConfigProvider);
+	
+	        // Define Flickity defaults
+	        this.accessibility = true;
+	        this.adaptiveHeight = false;
+	        this.autoPlay = false;
+	        this.cellAlign = 'center';
+	        this.cellSelector = undefined;
+	        this.contain = false;
+	        this.draggable = true;
+	        this.dragThreshold = 3;
+	        this.freeScroll = false;
+	        this.freeScrollFriction = false;
+	        this.selectedAttraction = .025;
+	        this.friction = .28;
+	        this.groupCells = false;
+	        this.initialIndex = 0;
+	        this.lazyLoad = true;
+	        this.percentPosition = true;
+	        this.prevNextButtons = true;
+	        this.pageDots = true;
+	        this.resize = true;
+	        this.rightToLeft = false;
+	        this.setGallerySize = true;
+	        this.watchCSS = false;
+	        this.wrapAround = false;
+	        this.imagesLoaded = true;
+	        this.asNavFor = true;
+	    }
+	
+	    _createClass(FlickityConfigProvider, [{
+	        key: '$get',
+	        value: function $get() {
+	            return this;
+	        }
+	    }]);
+	
+	    return FlickityConfigProvider;
+	}();
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FlickityService = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	__webpack_require__(1);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/* global Flickity */
+	var FlickityService = exports.FlickityService = function () {
+	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
+	    function FlickityService($timeout, $q, $rootScope, $log) {
+	        'ngInject';
+	
+	        _classCallCheck(this, FlickityService);
+	
+	        this.$timeout = $timeout;
+	        this.$q = $q;
+	        this.$rootScope = $rootScope;
+	        this.$log = $log;
+	
+	        this.instances = [];
+	    }
+	
+	    /**
+	     * Create a new Flickity instance
+	     *
+	     * @param {Element} element
+	     * @param {String} id
+	     * @param {Object} options
+	     * @return {Object} instance
+	     */
+	
+	
+	    _createClass(FlickityService, [{
+	        key: 'create',
+	        value: function create(element) {
+	            var _this = this;
+	
+	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
+	            var options = arguments[2];
+	
+	
+	            // Check to see if the ID is already in use
+	            if (this._findObjectById(this.instances, id)) {
+	                var index = this._getFlickityIndex(id);
+	                this.$log.error('This ID is already in use: ', this.instances[index]);
+	
+	                return false;
+	            }
+	
+	            // Define the new instance
+	            var instance = {
+	                id: id,
+	                instance: new Flickity(element, options)
+	            };
+	
+	            // Save this instance to the array
+	            this.instances.push(instance);
+	
+	            return this.$q(function (resolve) {
+	
+	                // Bind to all events
+	                _this._bindEvents(id).then(function () {
+	                    resolve(instance);
+	                });
+	            });
+	        }
+	
+	        /**
+	         * Destroy a Flickity instance
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'destroy',
+	        value: function destroy(id) {
+	            var _this2 = this;
+	
+	            var pauseBeforeDestruction = 100;
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                }
+	
+	                // Pause to allow other scope cleanup to occur
+	                // NOTE: Without this pause, Flickity is being destroyed before the view containing the
+	                // directive can leave view
+	                _this2.$timeout(function () {
+	
+	                    // Destroy the Flickity instance
+	                    _this2.instances[flickityIndex].instance.destroy();
+	
+	                    // Remove the instance from the array
+	                    _this2.instances.splice(flickityIndex, 1);
+	
+	                    resolve('Instance ' + id + ' destroyed.');
+	                }, pauseBeforeDestruction);
+	            });
+	        }
+	
+	        /**
+	         * Move to the next slide
+	         *
+	         * @param {string} id
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'next',
+	        value: function next(id, isWrapped, isInstant) {
+	            var _this3 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the next slide
+	                    _this3.instances[flickityIndex].instance.next(isWrapped, isInstant);
+	
+	                    resolve(_this3.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Move to the previous slide
+	         *
+	         * @param {string} id
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'previous',
+	        value: function previous(id, isWrapped, isInstant) {
+	            var _this4 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the previous slide
+	                    _this4.instances[flickityIndex].instance.previous(isWrapped, isInstant);
+	
+	                    resolve(_this4.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Select a slide
+	         *
+	         * @param {String} id
+	         * @param {Integer} index
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'select',
+	        value: function select(id, index) {
+	            var _this5 = this;
+	
+	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the selected slide
+	                    _this5.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
+	
+	                    resolve(_this5.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Select a slide of a cell
+	         *
+	         * @param {String} id
+	         * @param {Integer|String} value
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'selectCell',
+	        value: function selectCell(id, value) {
+	            var _this6 = this;
+	
+	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the selected slide
+	                    _this6.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
+	
+	                    resolve(_this6.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the current slide index
+	         *
+	         * @param {String} id
+	         * @return {Integer} selectedIndex
+	         */
+	
+	    }, {
+	        key: 'selectedIndex',
+	        value: function selectedIndex(id) {
+	            var _this7 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Return the current index
+	                    resolve(_this7.instances[flickityIndex].instance.selectedIndex);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Resize the gallery and re-position cells.
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'resize',
+	        value: function resize(id) {
+	            var _this8 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Trigger the resize
+	                    _this8.instances[flickityIndex].instance.resize();
+	
+	                    resolve(_this8.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Position cells at selected position.
+	         * Trigger reposition after the size of a cell has been changed.
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'reposition',
+	        value: function reposition(id) {
+	            var _this9 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Trigger the resize
+	                    _this9.instances[flickityIndex].instance.reposition();
+	
+	                    resolve(_this9.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Re-collect all cell elements in `flickity-slider`.
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'reloadCells',
+	        value: function reloadCells(id) {
+	            var _this10 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Reload cells
+	                    _this10.instances[flickityIndex].instance.reloadCells();
+	
+	                    resolve(_this10.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the Flickity instance
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'get',
+	        value: function get(id) {
+	            var _this11 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this11.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the first Flickity instance
+	         *
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'getFirst',
+	        value: function getFirst() {
+	            var _this12 = this;
+	
+	            return this.$q(function (resolve, reject) {
+	                if (!_this12.instances || _this12.instances.length < 1) {
+	                    reject('No instances exist');
+	                } else {
+	                    resolve(_this12.instances[0]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the Flickity instance
+	         *
+	         * @param {Element} element
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'getByElement',
+	        value: function getByElement(element) {
+	            return this.$q(function (resolve, reject) {
+	                var instance = Flickity.data(element);
+	
+	                if (instance) {
+	                    resolve(instance);
+	                } else {
+	                    reject('Instance not found for ' + element);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Prepend elements and create cells to the beginning of the gallery.
+	         *
+	         * @param {String} id
+	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'prepend',
+	        value: function prepend(id, elements) {
+	            var _this13 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Prepend the slides
+	                    _this13.instances[flickityIndex].instance.prepend(elements);
+	
+	                    resolve(_this13.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Append elements and create cells to the end of the gallery.
+	         *
+	         * @param {String} id
+	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'append',
+	        value: function append(id, elements) {
+	            var _this14 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Append the slides
+	                    _this14.instances[flickityIndex].instance.append(elements);
+	
+	                    resolve(_this14.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Insert elements into the gallery and create cells at the desired index.
+	         *
+	         * @param {String} id
+	         * @param {*} element(s) - jQuery object, Array of Elements, Element, or NodeList
+	         * @param {Integer} index - Zero based index
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'insert',
+	        value: function insert(id, elements, index) {
+	            var _this15 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Insert the slides
+	                    _this15.instances[flickityIndex].instance.insert(elements, index);
+	
+	                    resolve(_this15.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the elements of the cells
+	         *
+	         * @param {String} id
+	         * @return {Array} cellElements
+	         */
+	
+	    }, {
+	        key: 'getCellElements',
+	        value: function getCellElements(id) {
+	            var _this16 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this16.instances[flickityIndex].instance.getCellElements());
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the elements of the cells
+	         *
+	         * @param {String} id
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'remove',
+	        value: function remove(id, elements) {
+	            var _this17 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    _this17.instances[flickityIndex].instance.remove(elements);
+	
+	                    resolve(_this17.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get the currently selected cell element
+	         *
+	         * @param {String} id
+	         * @return {Element} selectedCellElement
+	         */
+	
+	    }, {
+	        key: 'selectedElement',
+	        value: function selectedElement(id) {
+	            var _this18 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this18.instances[flickityIndex].instance.selectedElement);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Get an array of all cells
+	         *
+	         * @param {String} id
+	         * @return {Array} cells
+	         */
+	
+	    }, {
+	        key: 'cells',
+	        value: function cells(id) {
+	            var _this19 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            return this.$q(function (resolve, reject) {
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    resolve(_this19.instances[flickityIndex].instance.cells);
+	                }
+	            });
+	        }
+	
+	        //
+	        // Helper methods
+	        //
+	
+	
+	        /**
+	         * Find the index for a Flickity instance
+	         *
+	         * @param {String} id
+	         * @return {Integer} flickityIndex
+	         */
+	
+	    }, {
+	        key: '_getFlickityIndex',
+	        value: function _getFlickityIndex(id) {
+	            var foundIndex = void 0;
+	
+	            // If no instances exist
+	            if (!this.instances.length) {
+	
+	                foundIndex = -1;
+	            } else {
+	                // if instances do exist
+	
+	                // Check the ID of each instance
+	                this.instances.forEach(function (instance, index) {
+	
+	                    // If it matches our ID, set the index
+	                    if (instance.id === id) {
+	                        foundIndex = index;
+	                    }
+	                });
+	            }
+	
+	            return foundIndex;
+	        }
+	    }, {
+	        key: '_bindEvents',
+	        value: function _bindEvents(id) {
+	            var _this20 = this;
+	
+	            var flickityIndex = this._getFlickityIndex(id);
+	
+	            if (flickityIndex < 0) {
+	                return false;
+	            }
+	
+	            return this.$q(function (resolve) {
+	                var ID = _this20.instances[flickityIndex].id;
+	
+	                _this20.instances[flickityIndex].instance.on('select', function () {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':select', _this20.instances[flickityIndex]);
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('settle', function () {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':settle', _this20.instances[flickityIndex]);
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('scroll', function (progress, positionX) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':scroll', {
+	                        progress: progress,
+	                        positionX: positionX
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+	                        event: event,
+	                        pointer: pointer,
+	                        moveVector: moveVector
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+	                        event: event,
+	                        pointer: pointer,
+	                        moveVector: moveVector
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+	                        event: event,
+	                        pointer: pointer
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+	                        event: event,
+	                        pointer: pointer,
+	                        cellElement: cellElement,
+	                        cellIndex: cellIndex
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+	                        event: event,
+	                        cellElement: cellElement
+	                    });
+	                });
+	
+	                resolve(true);
+	            });
+	        }
+	
+	        /**
+	         * Find an object within an array by ID
+	         *
+	         * @param {Array} source
+	         * @param {String} id
+	         * @return {Object} match
+	         */
+	
+	    }, {
+	        key: '_findObjectById',
+	        value: function _findObjectById(source, id) {
+	            return source.filter(function (object) {
+	                return object.id === id;
+	            })[0];
+	        }
+	    }]);
+	
+	    return FlickityService;
+	}();
+
+/***/ },
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	FlickityDirective.$inject = ["$timeout", "FlickityService"];
+	FlickityDirective.$inject = ["$timeout", "FlickityService", "Flickity"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -4854,11 +4862,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity = __webpack_require__(22);
 	
-	function FlickityDirective($timeout, FlickityService) {
+	function FlickityDirective($timeout, FlickityService, Flickity) {
 	    'ngInject';
 	
 	    preLinkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
 	    postLinkFunction.$inject = ["$scope", "$element", "$attrs", "$controller"];
+	    console.log('Flickity in directive: ', Flickity);
+	
 	    var directive = {
 	        restrict: 'A',
 	        scope: {},
