@@ -48,6 +48,7 @@
   ],
   "dependencies": {
     "angular": "^1.5.8",
-    "flickity": "^2.0.3"
+    "flickity": "^2.0.3",
+    "imagesloaded": "^4.1.1"
   }
 }
