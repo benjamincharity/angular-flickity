@@ -1,4 +1,5 @@
 import Flickity from 'flickity';
+import 'imagesLoaded';
 
 export class FlickityService {
 
@@ -29,32 +30,30 @@ export class FlickityService {
      */
     create(element, id = this.instances.length + 1, options) {
         return new Promise((resolve, reject) => {
-            this.$timeout(() => {
-                console.log('in create: ID: ', id);
+            console.log('in create: ID: ', id);
 
-                // Check to see if the ID is already in use
-                if (this._findObjectById(this.instances, id)) {
-                    const index = this._getFlickityIndex(id);
-                    this.$log.error('This ID is already in use: ', this.instances[index]);
+            // Check to see if the ID is already in use
+            if (this._findObjectById(this.instances, id)) {
+                const index = this._getFlickityIndex(id);
+                this.$log.error('This ID is already in use: ', this.instances[index]);
 
-                    return false;
-                }
+                return false;
+            }
 
-                // Define the new instance
-                const instance = {
-                    id: id,
-                    instance: new Flickity(element, options),
-                };
+            // Define the new instance
+            const instance = {
+                id: id,
+                instance: new Flickity(element, options),
+            };
 
-                // Save this instance to the array
-                this.instances.push(instance);
-                console.log('In create: Instances: ', this.instances);
+            // Save this instance to the array
+            this.instances.push(instance);
+            console.log('In create: Instances: ', this.instances);
 
-                // Bind to all events
-                this._bindEvents(id).then(() => {
-                    resolve(instance);
-                });
-            }, 100);
+            // Bind to all events
+            this._bindEvents(id).then(() => {
+                resolve(instance);
+            });
 
         });
     }
