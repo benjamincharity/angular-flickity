@@ -180,7 +180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
 	
-	            console.log('in create');
+	            console.log('in create: ID: ', id);
 	
 	            // Check to see if the ID is already in use
 	            if (this._findObjectById(this.instances, id)) {
@@ -198,6 +198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Save this instance to the array
 	            this.instances.push(instance);
+	            console.log('In create: Instances: ', this.instances);
 	
 	            return this.$q(function (resolve) {
 	
@@ -220,10 +221,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function destroy(id) {
 	            var _this2 = this;
 	
-	            console.log('in destroy: ', id);
+	            console.log('in destroy ID: ', id);
 	            var pauseBeforeDestruction = 100;
 	            var flickityIndex = this._getFlickityIndex(id);
-	            console.log('flickityIndex: ', flickityIndex);
+	            console.log('flickityIndex to destroy: ', flickityIndex);
 	
 	            return this.$q(function (resolve, reject) {
 	
@@ -241,6 +242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                    // Remove the instance from the array
 	                    _this2.instances.splice(flickityIndex, 1);
+	                    console.log('in destroy: Instances: ', _this2.instances);
 	
 	                    resolve('Instance ' + id + ' destroyed.');
 	                }, pauseBeforeDestruction);
