@@ -221,12 +221,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function destroy(id) {
 	            var _this2 = this;
 	
-	            console.log('in destroy ID: ', id);
-	            var pauseBeforeDestruction = 100;
-	            var flickityIndex = this._getFlickityIndex(id);
-	            console.log('flickityIndex to destroy: ', flickityIndex);
-	
-	            return this.$q(function (resolve, reject) {
+	            return new Promise(function (resolve, reject) {
+	                console.log('in destroy ID: ', id);
+	                //const pauseBeforeDestruction = 100;
+	                var flickityIndex = _this2._getFlickityIndex(id);
+	                console.log('flickityIndex to destroy: ', flickityIndex);
 	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
@@ -235,17 +234,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                // Pause to allow other scope cleanup to occur
 	                // NOTE: Without this pause, Flickity is being destroyed before the view containing the
 	                // directive can leave view
-	                _this2.$timeout(function () {
+	                //this.$timeout(() => {
 	
-	                    // Destroy the Flickity instance
-	                    _this2.instances[flickityIndex].instance.destroy();
+	                // Destroy the Flickity instance
+	                _this2.instances[flickityIndex].instance.destroy();
 	
-	                    // Remove the instance from the array
-	                    _this2.instances.splice(flickityIndex, 1);
-	                    console.log('in destroy: Instances: ', _this2.instances);
+	                // Remove the instance from the array
+	                _this2.instances.splice(flickityIndex, 1);
+	                console.log('in destroy: Instances: ', _this2.instances);
 	
-	                    resolve('Instance ' + id + ' destroyed.');
-	                }, pauseBeforeDestruction);
+	                resolve('Instance ' + id + ' destroyed.');
+	
+	                //}, pauseBeforeDestruction);
 	            });
 	        }
 	
