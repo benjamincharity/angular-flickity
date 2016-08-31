@@ -204,7 +204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    _this._bindEvents(id).then(function () {
 	                        resolve(instance);
 	                    });
-	                });
+	                }, 100);
 	            });
 	        }
 	

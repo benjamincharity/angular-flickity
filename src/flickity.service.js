@@ -54,7 +54,7 @@ export class FlickityService {
                 this._bindEvents(id).then(() => {
                     resolve(instance);
                 });
-            });
+            }, 100);
 
         });
     }
