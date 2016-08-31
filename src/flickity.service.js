@@ -1,6 +1,4 @@
-import Flickity from 'flickity';
-import 'imagesLoaded';
-
+/* global Flickity */
 export class FlickityService {
 
     constructor(
