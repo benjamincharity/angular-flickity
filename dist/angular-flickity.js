@@ -179,27 +179,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
 	
-	            console.log('in create: ID: ', id);
+	            return new Promise(function (resolve, reject) {
+	                console.log('in create: ID: ', id);
 	
-	            // Check to see if the ID is already in use
-	            if (this._findObjectById(this.instances, id)) {
-	                var index = this._getFlickityIndex(id);
-	                this.$log.error('This ID is already in use: ', this.instances[index]);
+	                // Check to see if the ID is already in use
+	                if (_this._findObjectById(_this.instances, id)) {
+	                    var index = _this._getFlickityIndex(id);
+	                    _this.$log.error('This ID is already in use: ', _this.instances[index]);
 	
-	                return false;
-	            }
+	                    return false;
+	                }
 	
-	            // Define the new instance
-	            var instance = {
-	                id: id,
-	                instance: new _flickity2.default(element, options)
-	            };
+	                // Define the new instance
+	                var instance = {
+	                    id: id,
+	                    instance: new _flickity2.default(element, options)
+	                };
 	
-	            // Save this instance to the array
-	            this.instances.push(instance);
-	            console.log('In create: Instances: ', this.instances);
-	
-	            return this.$q(function (resolve) {
+	                // Save this instance to the array
+	                _this.instances.push(instance);
+	                console.log('In create: Instances: ', _this.instances);
 	
 	                // Bind to all events
 	                _this._bindEvents(id).then(function () {
