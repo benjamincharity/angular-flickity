@@ -1,4 +1,5 @@
-/* global Flickity */
+import Flickity from 'flickity';
+
 export class FlickityService {
 
     constructor(
