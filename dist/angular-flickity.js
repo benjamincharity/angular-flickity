@@ -148,12 +148,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var FlickityService = exports.FlickityService = function () {
-	    FlickityService.$inject = ["$q", "$rootScope", "$log"];
-	    function FlickityService($q, $rootScope, $log) {
+	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
+	    function FlickityService($timeout, $q, $rootScope, $log) {
 	        'ngInject';
 	
 	        _classCallCheck(this, FlickityService);
 	
+	        this.$timeout = $timeout;
 	        this.$q = $q;
 	        this.$rootScope = $rootScope;
 	        this.$log = $log;
@@ -180,29 +181,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var options = arguments[2];
 	
 	            return new Promise(function (resolve, reject) {
-	                console.log('in create: ID: ', id);
+	                _this.$timeout(function () {
+	                    console.log('in create: ID: ', id);
 	
-	                // Check to see if the ID is already in use
-	                if (_this._findObjectById(_this.instances, id)) {
-	                    var index = _this._getFlickityIndex(id);
-	                    _this.$log.error('This ID is already in use: ', _this.instances[index]);
+	                    // Check to see if the ID is already in use
+	                    if (_this._findObjectById(_this.instances, id)) {
+	                        var index = _this._getFlickityIndex(id);
+	                        _this.$log.error('This ID is already in use: ', _this.instances[index]);
 	
-	                    return false;
-	                }
+	                        return false;
+	                    }
 	
-	                // Define the new instance
-	                var instance = {
-	                    id: id,
-	                    instance: new _flickity2.default(element, options)
-	                };
+	                    // Define the new instance
+	                    var instance = {
+	                        id: id,
+	                        instance: new _flickity2.default(element, options)
+	                    };
 	
-	                // Save this instance to the array
-	                _this.instances.push(instance);
-	                console.log('In create: Instances: ', _this.instances);
+	                    // Save this instance to the array
+	                    _this.instances.push(instance);
+	                    console.log('In create: Instances: ', _this.instances);
 	
-	                // Bind to all events
-	                _this._bindEvents(id).then(function () {
-	                    resolve(instance);
+	                    // Bind to all events
+	                    _this._bindEvents(id).then(function () {
+	                        resolve(instance);
+	                    });
 	                });
 	            });
 	        }
