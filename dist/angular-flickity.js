@@ -181,7 +181,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var options = arguments[2];
 	
 	            return new Promise(function (resolve, reject) {
-	                console.log('in create: ID: ', id);
 	
 	                // Check to see if the ID is already in use
 	                if (_this._findObjectById(_this.instances, id)) {
@@ -199,7 +198,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                // Save this instance to the array
 	                _this.instances.push(instance);
-	                console.log('In create: Instances: ', _this.instances);
 	
 	                // Bind to all events
 	                _this._bindEvents(id).then(function () {
@@ -221,10 +219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this2 = this;
 	
 	            return new Promise(function (resolve, reject) {
-	                console.log('in destroy ID: ', id);
-	                //const pauseBeforeDestruction = 100;
 	                var flickityIndex = _this2._getFlickityIndex(id);
-	                console.log('flickityIndex to destroy: ', flickityIndex);
 	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
@@ -235,7 +230,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                // Remove the instance from the array
 	                _this2.instances.splice(flickityIndex, 1);
-	                console.log('in destroy: Instances: ', _this2.instances);
 	
 	                resolve('Instance ' + id + ' destroyed.');
 	            });

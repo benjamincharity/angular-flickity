@@ -30,7 +30,6 @@ export class FlickityService {
      */
     create(element, id = this.instances.length + 1, options) {
         return new Promise((resolve, reject) => {
-            console.log('in create: ID: ', id);
 
             // Check to see if the ID is already in use
             if (this._findObjectById(this.instances, id)) {
@@ -48,7 +47,6 @@ export class FlickityService {
 
             // Save this instance to the array
             this.instances.push(instance);
-            console.log('In create: Instances: ', this.instances);
 
             // Bind to all events
             this._bindEvents(id).then(() => {
@@ -67,11 +65,7 @@ export class FlickityService {
      */
     destroy(id) {
         return new Promise((resolve, reject) => {
-            console.log('in destroy ID: ', id);
-            //const pauseBeforeDestruction = 100;
             const flickityIndex = this._getFlickityIndex(id);
-            console.log('flickityIndex to destroy: ', flickityIndex);
-
 
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
@@ -82,7 +76,6 @@ export class FlickityService {
 
             // Remove the instance from the array
             this.instances.splice(flickityIndex, 1);
-            console.log('in destroy: Instances: ', this.instances);
 
             resolve('Instance ' + id + ' destroyed.');
         });

@@ -418,7 +418,7 @@ FlickityService.create(element, id, options)
 ```
 
 > **NOTE:**
-> Anytime you are dealing with the DOM from inside a controller (yuck) make sure to use
+> Anytime you are dealing with the DOM from inside a controller (:-1:) make sure to use
 > document.ready. This ensures that the element you are looking for actually exists. You can also
 > use a $timeout but I find using document.ready more accurately represents the intention.
 
