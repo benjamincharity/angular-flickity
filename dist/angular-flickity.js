@@ -180,6 +180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
 	
+	            console.log('in create');
 	
 	            // Check to see if the ID is already in use
 	            if (this._findObjectById(this.instances, id)) {
@@ -219,8 +220,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function destroy(id) {
 	            var _this2 = this;
 	
+	            console.log('in destroy: ', id);
 	            var pauseBeforeDestruction = 100;
 	            var flickityIndex = this._getFlickityIndex(id);
+	            console.log('flickityIndex: ', flickityIndex);
 	
 	            return this.$q(function (resolve, reject) {
 	
@@ -5293,6 +5296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // When the directive is being destroyed
 	        var onDestroy = $scope.$on('$destroy', function (event) {
+	            console.log('destroy: ', $controller.bcFlickityId);
 	            // Make sure we destroy the Flickity instance
 	            FlickityService.destroy($controller.bcFlickityId);
 	        });

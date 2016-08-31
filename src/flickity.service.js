@@ -29,6 +29,7 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
+        console.log('in create');
 
         // Check to see if the ID is already in use
         if (this._findObjectById(this.instances, id)) {
@@ -66,8 +67,10 @@ export class FlickityService {
      * @return {Object} instance
      */
     destroy(id) {
+        console.log('in destroy: ', id);
         const pauseBeforeDestruction = 100;
         const flickityIndex = this._getFlickityIndex(id);
+        console.log('flickityIndex: ', flickityIndex);
 
         return this.$q((resolve, reject) => {
 
