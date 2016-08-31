@@ -64,7 +64,6 @@ export function FlickityDirective(
 
         // When the directive is being destroyed
         const onDestroy = $scope.$on('$destroy', (event) => {
-            console.log('destroy: ', $controller.bcFlickityId);
             // Make sure we destroy the Flickity instance
             FlickityService.destroy($controller.bcFlickityId);
         });

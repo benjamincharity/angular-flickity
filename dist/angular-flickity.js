@@ -148,13 +148,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var FlickityService = exports.FlickityService = function () {
-	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
-	    function FlickityService($timeout, $q, $rootScope, $log) {
+	    FlickityService.$inject = ["$q", "$rootScope", "$log"];
+	    function FlickityService($q, $rootScope, $log) {
 	        'ngInject';
 	
 	        _classCallCheck(this, FlickityService);
 	
-	        this.$timeout = $timeout;
 	        this.$q = $q;
 	        this.$rootScope = $rootScope;
 	        this.$log = $log;
@@ -231,11 +230,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    reject('Instance ' + id + ' not found');
 	                }
 	
-	                // Pause to allow other scope cleanup to occur
-	                // NOTE: Without this pause, Flickity is being destroyed before the view containing the
-	                // directive can leave view
-	                //this.$timeout(() => {
-	
 	                // Destroy the Flickity instance
 	                _this2.instances[flickityIndex].instance.destroy();
 	
@@ -244,8 +238,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                console.log('in destroy: Instances: ', _this2.instances);
 	
 	                resolve('Instance ' + id + ' destroyed.');
-	
-	                //}, pauseBeforeDestruction);
 	            });
 	        }
 	
@@ -5298,7 +5290,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // When the directive is being destroyed
 	        var onDestroy = $scope.$on('$destroy', function (event) {
-	            console.log('destroy: ', $controller.bcFlickityId);
 	            // Make sure we destroy the Flickity instance
 	            FlickityService.destroy($controller.bcFlickityId);
 	        });
