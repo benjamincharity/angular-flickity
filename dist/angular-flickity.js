@@ -181,13 +181,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var options = arguments[2];
 	
 	            return new Promise(function (resolve, reject) {
-	
 	                // Check to see if the ID is already in use
 	                if (_this._findObjectById(_this.instances, id)) {
 	                    var index = _this._getFlickityIndex(id);
 	                    _this.$log.error('This ID is already in use: ', _this.instances[index]);
 	
-	                    return false;
+	                    reject();
 	                }
 	
 	                // Define the new instance
@@ -249,9 +248,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function next(id, isWrapped, isInstant) {
 	            var _this3 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this3._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -277,9 +276,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function previous(id, isWrapped, isInstant) {
 	            var _this4 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this4._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -309,9 +308,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this5._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -341,9 +340,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this6._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -367,9 +366,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function selectedIndex(id) {
 	            var _this7 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this7._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -391,9 +390,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function resize(id) {
 	            var _this8 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this8._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -418,9 +417,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function reposition(id) {
 	            var _this9 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this9._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -444,9 +443,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function reloadCells(id) {
 	            var _this10 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this10._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -470,9 +469,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function get(id) {
 	            var _this11 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this11._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -535,9 +534,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function prepend(id, elements) {
 	            var _this13 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this13._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -562,9 +561,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function append(id, elements) {
 	            var _this14 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this14._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -590,9 +589,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function insert(id, elements, index) {
 	            var _this15 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this15._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -616,9 +615,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function getCellElements(id) {
 	            var _this16 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this16._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -639,9 +638,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function remove(id, elements) {
 	            var _this17 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this17._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -664,9 +663,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function selectedElement(id) {
 	            var _this18 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this18._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -687,9 +686,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function cells(id) {
 	            var _this19 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this19._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -739,13 +738,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function _bindEvents(id) {
 	            var _this20 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this20._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	                if (flickityIndex < 0) {
+	                    reject();
+	                }
 	
-	            return this.$q(function (resolve) {
 	                var ID = _this20.instances[flickityIndex].id;
 	
 	                _this20.instances[flickityIndex].instance.on('select', function () {
