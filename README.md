@@ -50,7 +50,7 @@ _[Comments and pull requests welcome!][issues]_
         - [`cells`](#cells)
 - [Events](#events)
   - [Events and Parameters](#eventsandparameters)
-  - [Event Name Format](#eventnameformat)
+  - [Event Naming Convention](#eventnamingconvention)
 - [Development](#development)
 - [About Flickity](#about-flickity)
 
@@ -95,7 +95,8 @@ The trick is to specify which files bower should use in your own `bower.json`.
 
 ## Dependencies
 
-- [Flickity.js (1.1.2)](http://flickity.metafizzy.co/)
+- [Flickity.js (^2.0.3)][flickity_docs]
+- [Angular.js (^1.5.8)][angular]
 
 
 ## Usage
@@ -135,7 +136,7 @@ Use the directive on the parent element containing your slides.
 
 ## Options
 
-This directive supports all options for version `1.1.2` of Flickity. A full list of options can be
+This module supports all options for Flickity version `2.0.3`. A full list of options can be
 found here: [Flickity Options](http://flickity.metafizzy.co/options.html).
 
 Simply pass in an object containing any options you'd like to set.
@@ -417,7 +418,7 @@ FlickityService.create(element, id, options)
 ```
 
 > **NOTE:**
-> Anytime you are dealing with the DOM from inside a controller (yuck) make sure to use
+> Anytime you are dealing with the DOM from inside a controller (:-1:) make sure to use
 > document.ready. This ensures that the element you are looking for actually exists. You can also
 > use a $timeout but I find using document.ready more accurately represents the intention.
 
@@ -496,7 +497,7 @@ FlickityService.select(id, index, isWrapped, isInstant)
 Move to the previous slide.
 
 ```javascript
-FlickityService.previous(id, isWrapped)
+FlickityService.previous(id, isWrapped, isInstant)
 ```
 
 ##### Parameters
@@ -508,6 +509,9 @@ FlickityService.previous(id, isWrapped)
   - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
       the last slide.
   - If `false` and `previous` is called when on the first slide, the slider will do nothing.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
 
 ##### Returns `Promise`
 
@@ -519,7 +523,7 @@ FlickityService.previous(id, isWrapped)
 Move to the next slide.
 
 ```javascript
-FlickityService.next(id, isWrapped)
+FlickityService.next(id, isWrapped, isInstant)
 ```
 
 ##### Parameters
@@ -530,6 +534,37 @@ FlickityService.next(id, isWrapped)
   - Default: `false`
   - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
   - If `false` and `next` is called when on the last slide, the slider will do nothing.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
+
+##### Returns `Promise`
+
+- `instance`: `{Object}`
+
+
+#### `cellSelect`
+
+Select a slide of a cell.
+
+```javascript
+FlickityService.cellSelect(id, value, isWrapped, isInstant)
+```
+
+##### Parameters
+
+- `id`: `{String}`
+  - A string representing the ID of the `Flickity` instance to move.
+- `value`: `{Integer|String}`
+  - Zero-based index OR selector string of the cell to select.
+- `isWrapped`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` and `previous` is called when on the first slide, the slider will wrap around to show
+      the last slide.
+  - If `true` and `next` is called when on the last slide, the slider will wrap back to show slide 1.
+- `isInstant`: `{Bool}` _optional_
+  - Default: `false`
+  - If `true` the slide will change instantly with no animation.
 
 ##### Returns `Promise`
 
@@ -845,7 +880,10 @@ const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
   • parameter
 ```
 
-- `cellSelect`
+- `select`
+- `scroll`
+  - `progress`
+  - `positionX`
 - `settle`
 - `dragStart`
   - `event`
@@ -877,13 +915,14 @@ const settle = $rootScope.$on('Flickity:myCustomId:settle', (event, data) => {
   - `cellElement`
 
 
-#### Event Name Format
+#### Event Naming Convention
 
 **`eventName` => `Flickity:instanceId:eventName`**
 
 | Event name | `$emit` name |
 |------------|--------------|
-|`cellSelect`|`Flickity:instanceId:cellSelect`|
+|`select`|`Flickity:instanceId:select`|
+|`scroll`|`Flickity:instanceId:scroll`|
 |`settle`|`Flickity:instanceId:settle`|
 |`dragStart`|`Flickity:instanceId:dragStart`|
 |`dragMove`|`Flickity:instanceId:dragMove`|
@@ -947,6 +986,8 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [packery]: http://packery.metafizzy.co/
 [isotope]: http://isotope.metafizzy.co/
 [flickity_license]: http://flickity.metafizzy.co/license.html
+[angular]: https://angularjs.org
+
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/angular-flickity

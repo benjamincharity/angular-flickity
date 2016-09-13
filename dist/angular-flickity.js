@@ -60,11 +60,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _flickity2 = __webpack_require__(2);
 	
-	var _flickity3 = __webpack_require__(21);
+	var _flickity3 = __webpack_require__(22);
 	
-	var _flickityNext = __webpack_require__(23);
+	var _flickityNext = __webpack_require__(24);
 	
-	var _flickityPrevious = __webpack_require__(25);
+	var _flickityPrevious = __webpack_require__(26);
 	
 	angular.module('bc.Flickity', []).provider('FlickityConfig', _flickity.FlickityConfigProvider).service('FlickityService', _flickity2.FlickityService).directive('bcFlickity', _flickity3.FlickityDirective).directive('bcFlickityNext', _flickityNext.FlickityNextDirective).directive('bcFlickityPrevious', _flickityPrevious.FlickityPreviousDirective);
 
@@ -88,15 +88,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Define Flickity defaults
 	        this.accessibility = true;
+	        this.adaptiveHeight = false;
 	        this.autoPlay = false;
 	        this.cellAlign = 'center';
 	        this.cellSelector = undefined;
 	        this.contain = false;
 	        this.draggable = true;
+	        this.dragThreshold = 3;
 	        this.freeScroll = false;
 	        this.freeScrollFriction = false;
 	        this.selectedAttraction = .025;
 	        this.friction = .28;
+	        this.groupCells = false;
 	        this.initialIndex = 0;
 	        this.lazyLoad = true;
 	        this.percentPosition = true;
@@ -134,11 +137,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	__webpack_require__(3);
+	var _flickity = __webpack_require__(3);
+	
+	var _flickity2 = _interopRequireDefault(_flickity);
+	
+	__webpack_require__(21);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	/* global Flickity */
 	var FlickityService = exports.FlickityService = function () {
 	    FlickityService.$inject = ["$timeout", "$q", "$rootScope", "$log"];
 	    function FlickityService($timeout, $q, $rootScope, $log) {
@@ -172,25 +180,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var id = arguments.length <= 1 || arguments[1] === undefined ? this.instances.length + 1 : arguments[1];
 	            var options = arguments[2];
 	
+	            return new Promise(function (resolve, reject) {
+	                // Check to see if the ID is already in use
+	                if (_this._findObjectById(_this.instances, id)) {
+	                    var index = _this._getFlickityIndex(id);
+	                    _this.$log.error('This ID is already in use: ', _this.instances[index]);
 	
-	            // Check to see if the ID is already in use
-	            if (this._findObjectById(this.instances, id)) {
-	                var index = this._getFlickityIndex(id);
-	                this.$log.error('This ID is already in use: ', this.instances[index]);
+	                    reject();
+	                }
 	
-	                return false;
-	            }
+	                // Define the new instance
+	                var instance = {
+	                    id: id,
+	                    instance: new _flickity2.default(element, options)
+	                };
 	
-	            // Define the new instance
-	            var instance = {
-	                id: id,
-	                instance: new Flickity(element, options)
-	            };
-	
-	            // Save this instance to the array
-	            this.instances.push(instance);
-	
-	            return this.$q(function (resolve) {
+	                // Save this instance to the array
+	                _this.instances.push(instance);
 	
 	                // Bind to all events
 	                _this._bindEvents(id).then(function () {
@@ -211,28 +217,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function destroy(id) {
 	            var _this2 = this;
 	
-	            var pauseBeforeDestruction = 100;
-	            var flickityIndex = this._getFlickityIndex(id);
-	
-	            return this.$q(function (resolve, reject) {
+	            return new Promise(function (resolve, reject) {
+	                var flickityIndex = _this2._getFlickityIndex(id);
 	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                }
 	
-	                // Pause to allow other scope cleanup to occur
-	                // NOTE: Without this pause, Flickity is being destroyed before the view containing the
-	                // directive can leave view
-	                _this2.$timeout(function () {
+	                // Destroy the Flickity instance
+	                _this2.instances[flickityIndex].instance.destroy();
 	
-	                    // Destroy the Flickity instance
-	                    _this2.instances[flickityIndex].instance.destroy();
+	                // Remove the instance from the array
+	                _this2.instances.splice(flickityIndex, 1);
 	
-	                    // Remove the instance from the array
-	                    _this2.instances.splice(flickityIndex, 1);
-	
-	                    resolve('Instance ' + id + ' destroyed.');
-	                }, pauseBeforeDestruction);
+	                resolve('Instance ' + id + ' destroyed.');
 	            });
 	        }
 	
@@ -241,22 +239,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {string} id
 	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
 	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'next',
-	        value: function next(id, isWrapped) {
+	        value: function next(id, isWrapped, isInstant) {
 	            var _this3 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this3._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Move to the next slide
-	                    _this3.instances[flickityIndex].instance.next(isWrapped);
+	                    _this3.instances[flickityIndex].instance.next(isWrapped, isInstant);
 	
 	                    resolve(_this3.instances[flickityIndex]);
 	                }
@@ -268,22 +267,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {string} id
 	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
 	         * @return {Object} instance
 	         */
 	
 	    }, {
 	        key: 'previous',
-	        value: function previous(id, isWrapped) {
+	        value: function previous(id, isWrapped, isInstant) {
 	            var _this4 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this4._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Move to the previous slide
-	                    _this4.instances[flickityIndex].instance.previous(isWrapped);
+	                    _this4.instances[flickityIndex].instance.previous(isWrapped, isInstant);
 	
 	                    resolve(_this4.instances[flickityIndex]);
 	                }
@@ -308,9 +308,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
-	            var flickityIndex = this._getFlickityIndex(id);
-	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this5._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
@@ -318,6 +318,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    _this5.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
 	
 	                    resolve(_this5.instances[flickityIndex]);
+	                }
+	            });
+	        }
+	
+	        /**
+	         * Select a slide of a cell
+	         *
+	         * @param {String} id
+	         * @param {Integer|String} value
+	         * @param {Bool} isWrapped
+	         * @param {Bool} isInstant
+	         * @return {Object} instance
+	         */
+	
+	    }, {
+	        key: 'selectCell',
+	        value: function selectCell(id, value) {
+	            var _this6 = this;
+	
+	            var isWrapped = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	            var isInstant = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	
+	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this6._getFlickityIndex(id);
+	
+	                if (flickityIndex < 0) {
+	                    reject('Instance ' + id + ' not found');
+	                } else {
+	                    // Move to the selected slide
+	                    _this6.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
+	
+	                    resolve(_this6.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -332,16 +364,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'selectedIndex',
 	        value: function selectedIndex(id) {
-	            var _this6 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this7 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this7._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Return the current index
-	                    resolve(_this6.instances[flickityIndex].instance.selectedIndex);
+	                    resolve(_this7.instances[flickityIndex].instance.selectedIndex);
 	                }
 	            });
 	        }
@@ -356,18 +388,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'resize',
 	        value: function resize(id) {
-	            var _this7 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this8 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this8._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Trigger the resize
-	                    _this7.instances[flickityIndex].instance.resize();
+	                    _this8.instances[flickityIndex].instance.resize();
 	
-	                    resolve(_this7.instances[flickityIndex]);
+	                    resolve(_this8.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -383,18 +415,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'reposition',
 	        value: function reposition(id) {
-	            var _this8 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this9 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this9._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Trigger the resize
-	                    _this8.instances[flickityIndex].instance.reposition();
+	                    _this9.instances[flickityIndex].instance.reposition();
 	
-	                    resolve(_this8.instances[flickityIndex]);
+	                    resolve(_this9.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -409,18 +441,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'reloadCells',
 	        value: function reloadCells(id) {
-	            var _this9 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this10 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this10._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Reload cells
-	                    _this9.instances[flickityIndex].instance.reloadCells();
+	                    _this10.instances[flickityIndex].instance.reloadCells();
 	
-	                    resolve(_this9.instances[flickityIndex]);
+	                    resolve(_this10.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -435,15 +467,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'get',
 	        value: function get(id) {
-	            var _this10 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this11 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this11._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this10.instances[flickityIndex]);
+	                    resolve(_this11.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -457,13 +489,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getFirst',
 	        value: function getFirst() {
-	            var _this11 = this;
+	            var _this12 = this;
 	
 	            return this.$q(function (resolve, reject) {
-	                if (!_this11.instances || _this11.instances.length < 1) {
+	                if (!_this12.instances || _this12.instances.length < 1) {
 	                    reject('No instances exist');
 	                } else {
-	                    resolve(_this11.instances[0]);
+	                    resolve(_this12.instances[0]);
 	                }
 	            });
 	        }
@@ -479,7 +511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'getByElement',
 	        value: function getByElement(element) {
 	            return this.$q(function (resolve, reject) {
-	                var instance = Flickity.data(element);
+	                var instance = _flickity2.default.data(element);
 	
 	                if (instance) {
 	                    resolve(instance);
@@ -500,18 +532,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'prepend',
 	        value: function prepend(id, elements) {
-	            var _this12 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this13 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this13._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Prepend the slides
-	                    _this12.instances[flickityIndex].instance.prepend(elements);
+	                    _this13.instances[flickityIndex].instance.prepend(elements);
 	
-	                    resolve(_this12.instances[flickityIndex]);
+	                    resolve(_this13.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -527,18 +559,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'append',
 	        value: function append(id, elements) {
-	            var _this13 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this14 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this14._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Append the slides
-	                    _this13.instances[flickityIndex].instance.append(elements);
+	                    _this14.instances[flickityIndex].instance.append(elements);
 	
-	                    resolve(_this13.instances[flickityIndex]);
+	                    resolve(_this14.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -555,18 +587,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'insert',
 	        value: function insert(id, elements, index) {
-	            var _this14 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this15 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this15._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
 	                    // Insert the slides
-	                    _this14.instances[flickityIndex].instance.insert(elements, index);
+	                    _this15.instances[flickityIndex].instance.insert(elements, index);
 	
-	                    resolve(_this14.instances[flickityIndex]);
+	                    resolve(_this15.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -581,15 +613,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getCellElements',
 	        value: function getCellElements(id) {
-	            var _this15 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this16 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this16._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this15.instances[flickityIndex].instance.getCellElements());
+	                    resolve(_this16.instances[flickityIndex].instance.getCellElements());
 	                }
 	            });
 	        }
@@ -604,17 +636,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'remove',
 	        value: function remove(id, elements) {
-	            var _this16 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this17 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this17._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    _this16.instances[flickityIndex].instance.remove(elements);
+	                    _this17.instances[flickityIndex].instance.remove(elements);
 	
-	                    resolve(_this16.instances[flickityIndex]);
+	                    resolve(_this17.instances[flickityIndex]);
 	                }
 	            });
 	        }
@@ -629,15 +661,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'selectedElement',
 	        value: function selectedElement(id) {
-	            var _this17 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this18 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this18._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this17.instances[flickityIndex].instance.selectedElement);
+	                    resolve(_this18.instances[flickityIndex].instance.selectedElement);
 	                }
 	            });
 	        }
@@ -652,15 +684,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'cells',
 	        value: function cells(id) {
-	            var _this18 = this;
-	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            var _this19 = this;
 	
 	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this19._getFlickityIndex(id);
+	
 	                if (flickityIndex < 0) {
 	                    reject('Instance ' + id + ' not found');
 	                } else {
-	                    resolve(_this18.instances[flickityIndex].instance.cells);
+	                    resolve(_this19.instances[flickityIndex].instance.cells);
 	                }
 	            });
 	        }
@@ -704,71 +736,78 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: '_bindEvents',
 	        value: function _bindEvents(id) {
-	            var _this19 = this;
+	            var _this20 = this;
 	
-	            var flickityIndex = this._getFlickityIndex(id);
+	            return this.$q(function (resolve, reject) {
+	                var flickityIndex = _this20._getFlickityIndex(id);
 	
-	            if (flickityIndex < 0) {
-	                return false;
-	            }
+	                if (flickityIndex < 0) {
+	                    reject();
+	                }
 	
-	            return this.$q(function (resolve) {
-	                var ID = _this19.instances[flickityIndex].id;
+	                var ID = _this20.instances[flickityIndex].id;
 	
-	                _this19.instances[flickityIndex].instance.on('cellSelect', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':cellSelect', _this19.instances[flickityIndex]);
+	                _this20.instances[flickityIndex].instance.on('select', function () {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':select', _this20.instances[flickityIndex]);
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('settle', function () {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':settle', _this19.instances[flickityIndex]);
+	                _this20.instances[flickityIndex].instance.on('settle', function () {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':settle', _this20.instances[flickityIndex]);
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+	                _this20.instances[flickityIndex].instance.on('scroll', function (progress, positionX) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':scroll', {
+	                        progress: progress,
+	                        positionX: positionX
+	                    });
+	                });
+	
+	                _this20.instances[flickityIndex].instance.on('dragStart', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+	                _this20.instances[flickityIndex].instance.on('dragMove', function (event, pointer, moveVector) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
 	                        event: event,
 	                        pointer: pointer,
 	                        moveVector: moveVector
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+	                _this20.instances[flickityIndex].instance.on('dragEnd', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+	                _this20.instances[flickityIndex].instance.on('pointerDown', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+	                _this20.instances[flickityIndex].instance.on('pointerMove', function (event, pointer, moveVector) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
 	                        event: event,
 	                        pointer: pointer,
 	                        moveVector: moveVector
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+	                _this20.instances[flickityIndex].instance.on('pointerUp', function (event, pointer) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
 	                        event: event,
 	                        pointer: pointer
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+	                _this20.instances[flickityIndex].instance.on('staticClick', function (event, pointer, cellElement, cellIndex) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
 	                        event: event,
 	                        pointer: pointer,
 	                        cellElement: cellElement,
@@ -776,8 +815,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    });
 	                });
 	
-	                _this19.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
-	                    _this19.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+	                _this20.instances[flickityIndex].instance.on('lazyLoad', function (event, cellElement) {
+	                    _this20.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
 	                        event: event,
 	                        cellElement: cellElement
 	                    });
@@ -4800,6 +4839,382 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * imagesLoaded v4.1.1
+	 * JavaScript is all like "You images are done yet or what?"
+	 * MIT License
+	 */
+	
+	( function( window, factory ) { 'use strict';
+	  // universal module definition
+	
+	  /*global define: false, module: false, require: false */
+	
+	  if ( true ) {
+	    // AMD
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	      __webpack_require__(5)
+	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter ) {
+	      return factory( window, EvEmitter );
+	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if ( typeof module == 'object' && module.exports ) {
+	    // CommonJS
+	    module.exports = factory(
+	      window,
+	      require('ev-emitter')
+	    );
+	  } else {
+	    // browser global
+	    window.imagesLoaded = factory(
+	      window,
+	      window.EvEmitter
+	    );
+	  }
+	
+	})( window,
+	
+	// --------------------------  factory -------------------------- //
+	
+	function factory( window, EvEmitter ) {
+	
+	'use strict';
+	
+	var $ = window.jQuery;
+	var console = window.console;
+	
+	// -------------------------- helpers -------------------------- //
+	
+	// extend objects
+	function extend( a, b ) {
+	  for ( var prop in b ) {
+	    a[ prop ] = b[ prop ];
+	  }
+	  return a;
+	}
+	
+	// turn element or nodeList into an array
+	function makeArray( obj ) {
+	  var ary = [];
+	  if ( Array.isArray( obj ) ) {
+	    // use object if already an array
+	    ary = obj;
+	  } else if ( typeof obj.length == 'number' ) {
+	    // convert nodeList to array
+	    for ( var i=0; i < obj.length; i++ ) {
+	      ary.push( obj[i] );
+	    }
+	  } else {
+	    // array of single index
+	    ary.push( obj );
+	  }
+	  return ary;
+	}
+	
+	// -------------------------- imagesLoaded -------------------------- //
+	
+	/**
+	 * @param {Array, Element, NodeList, String} elem
+	 * @param {Object or Function} options - if function, use as callback
+	 * @param {Function} onAlways - callback function
+	 */
+	function ImagesLoaded( elem, options, onAlways ) {
+	  // coerce ImagesLoaded() without new, to be new ImagesLoaded()
+	  if ( !( this instanceof ImagesLoaded ) ) {
+	    return new ImagesLoaded( elem, options, onAlways );
+	  }
+	  // use elem as selector string
+	  if ( typeof elem == 'string' ) {
+	    elem = document.querySelectorAll( elem );
+	  }
+	
+	  this.elements = makeArray( elem );
+	  this.options = extend( {}, this.options );
+	
+	  if ( typeof options == 'function' ) {
+	    onAlways = options;
+	  } else {
+	    extend( this.options, options );
+	  }
+	
+	  if ( onAlways ) {
+	    this.on( 'always', onAlways );
+	  }
+	
+	  this.getImages();
+	
+	  if ( $ ) {
+	    // add jQuery Deferred object
+	    this.jqDeferred = new $.Deferred();
+	  }
+	
+	  // HACK check async to allow time to bind listeners
+	  setTimeout( function() {
+	    this.check();
+	  }.bind( this ));
+	}
+	
+	ImagesLoaded.prototype = Object.create( EvEmitter.prototype );
+	
+	ImagesLoaded.prototype.options = {};
+	
+	ImagesLoaded.prototype.getImages = function() {
+	  this.images = [];
+	
+	  // filter & find items if we have an item selector
+	  this.elements.forEach( this.addElementImages, this );
+	};
+	
+	/**
+	 * @param {Node} element
+	 */
+	ImagesLoaded.prototype.addElementImages = function( elem ) {
+	  // filter siblings
+	  if ( elem.nodeName == 'IMG' ) {
+	    this.addImage( elem );
+	  }
+	  // get background image on element
+	  if ( this.options.background === true ) {
+	    this.addElementBackgroundImages( elem );
+	  }
+	
+	  // find children
+	  // no non-element nodes, #143
+	  var nodeType = elem.nodeType;
+	  if ( !nodeType || !elementNodeTypes[ nodeType ] ) {
+	    return;
+	  }
+	  var childImgs = elem.querySelectorAll('img');
+	  // concat childElems to filterFound array
+	  for ( var i=0; i < childImgs.length; i++ ) {
+	    var img = childImgs[i];
+	    this.addImage( img );
+	  }
+	
+	  // get child background images
+	  if ( typeof this.options.background == 'string' ) {
+	    var children = elem.querySelectorAll( this.options.background );
+	    for ( i=0; i < children.length; i++ ) {
+	      var child = children[i];
+	      this.addElementBackgroundImages( child );
+	    }
+	  }
+	};
+	
+	var elementNodeTypes = {
+	  1: true,
+	  9: true,
+	  11: true
+	};
+	
+	ImagesLoaded.prototype.addElementBackgroundImages = function( elem ) {
+	  var style = getComputedStyle( elem );
+	  if ( !style ) {
+	    // Firefox returns null if in a hidden iframe https://bugzil.la/548397
+	    return;
+	  }
+	  // get url inside url("...")
+	  var reURL = /url\((['"])?(.*?)\1\)/gi;
+	  var matches = reURL.exec( style.backgroundImage );
+	  while ( matches !== null ) {
+	    var url = matches && matches[2];
+	    if ( url ) {
+	      this.addBackground( url, elem );
+	    }
+	    matches = reURL.exec( style.backgroundImage );
+	  }
+	};
+	
+	/**
+	 * @param {Image} img
+	 */
+	ImagesLoaded.prototype.addImage = function( img ) {
+	  var loadingImage = new LoadingImage( img );
+	  this.images.push( loadingImage );
+	};
+	
+	ImagesLoaded.prototype.addBackground = function( url, elem ) {
+	  var background = new Background( url, elem );
+	  this.images.push( background );
+	};
+	
+	ImagesLoaded.prototype.check = function() {
+	  var _this = this;
+	  this.progressedCount = 0;
+	  this.hasAnyBroken = false;
+	  // complete if no images
+	  if ( !this.images.length ) {
+	    this.complete();
+	    return;
+	  }
+	
+	  function onProgress( image, elem, message ) {
+	    // HACK - Chrome triggers event before object properties have changed. #83
+	    setTimeout( function() {
+	      _this.progress( image, elem, message );
+	    });
+	  }
+	
+	  this.images.forEach( function( loadingImage ) {
+	    loadingImage.once( 'progress', onProgress );
+	    loadingImage.check();
+	  });
+	};
+	
+	ImagesLoaded.prototype.progress = function( image, elem, message ) {
+	  this.progressedCount++;
+	  this.hasAnyBroken = this.hasAnyBroken || !image.isLoaded;
+	  // progress event
+	  this.emitEvent( 'progress', [ this, image, elem ] );
+	  if ( this.jqDeferred && this.jqDeferred.notify ) {
+	    this.jqDeferred.notify( this, image );
+	  }
+	  // check if completed
+	  if ( this.progressedCount == this.images.length ) {
+	    this.complete();
+	  }
+	
+	  if ( this.options.debug && console ) {
+	    console.log( 'progress: ' + message, image, elem );
+	  }
+	};
+	
+	ImagesLoaded.prototype.complete = function() {
+	  var eventName = this.hasAnyBroken ? 'fail' : 'done';
+	  this.isComplete = true;
+	  this.emitEvent( eventName, [ this ] );
+	  this.emitEvent( 'always', [ this ] );
+	  if ( this.jqDeferred ) {
+	    var jqMethod = this.hasAnyBroken ? 'reject' : 'resolve';
+	    this.jqDeferred[ jqMethod ]( this );
+	  }
+	};
+	
+	// --------------------------  -------------------------- //
+	
+	function LoadingImage( img ) {
+	  this.img = img;
+	}
+	
+	LoadingImage.prototype = Object.create( EvEmitter.prototype );
+	
+	LoadingImage.prototype.check = function() {
+	  // If complete is true and browser supports natural sizes,
+	  // try to check for image status manually.
+	  var isComplete = this.getIsImageComplete();
+	  if ( isComplete ) {
+	    // report based on naturalWidth
+	    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+	    return;
+	  }
+	
+	  // If none of the checks above matched, simulate loading on detached element.
+	  this.proxyImage = new Image();
+	  this.proxyImage.addEventListener( 'load', this );
+	  this.proxyImage.addEventListener( 'error', this );
+	  // bind to image as well for Firefox. #191
+	  this.img.addEventListener( 'load', this );
+	  this.img.addEventListener( 'error', this );
+	  this.proxyImage.src = this.img.src;
+	};
+	
+	LoadingImage.prototype.getIsImageComplete = function() {
+	  return this.img.complete && this.img.naturalWidth !== undefined;
+	};
+	
+	LoadingImage.prototype.confirm = function( isLoaded, message ) {
+	  this.isLoaded = isLoaded;
+	  this.emitEvent( 'progress', [ this, this.img, message ] );
+	};
+	
+	// ----- events ----- //
+	
+	// trigger specified handler for event type
+	LoadingImage.prototype.handleEvent = function( event ) {
+	  var method = 'on' + event.type;
+	  if ( this[ method ] ) {
+	    this[ method ]( event );
+	  }
+	};
+	
+	LoadingImage.prototype.onload = function() {
+	  this.confirm( true, 'onload' );
+	  this.unbindEvents();
+	};
+	
+	LoadingImage.prototype.onerror = function() {
+	  this.confirm( false, 'onerror' );
+	  this.unbindEvents();
+	};
+	
+	LoadingImage.prototype.unbindEvents = function() {
+	  this.proxyImage.removeEventListener( 'load', this );
+	  this.proxyImage.removeEventListener( 'error', this );
+	  this.img.removeEventListener( 'load', this );
+	  this.img.removeEventListener( 'error', this );
+	};
+	
+	// -------------------------- Background -------------------------- //
+	
+	function Background( url, element ) {
+	  this.url = url;
+	  this.element = element;
+	  this.img = new Image();
+	}
+	
+	// inherit LoadingImage prototype
+	Background.prototype = Object.create( LoadingImage.prototype );
+	
+	Background.prototype.check = function() {
+	  this.img.addEventListener( 'load', this );
+	  this.img.addEventListener( 'error', this );
+	  this.img.src = this.url;
+	  // check if image is already complete
+	  var isComplete = this.getIsImageComplete();
+	  if ( isComplete ) {
+	    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+	    this.unbindEvents();
+	  }
+	};
+	
+	Background.prototype.unbindEvents = function() {
+	  this.img.removeEventListener( 'load', this );
+	  this.img.removeEventListener( 'error', this );
+	};
+	
+	Background.prototype.confirm = function( isLoaded, message ) {
+	  this.isLoaded = isLoaded;
+	  this.emitEvent( 'progress', [ this, this.element, message ] );
+	};
+	
+	// -------------------------- jQuery -------------------------- //
+	
+	ImagesLoaded.makeJQueryPlugin = function( jQuery ) {
+	  jQuery = jQuery || window.jQuery;
+	  if ( !jQuery ) {
+	    return;
+	  }
+	  // set local variable
+	  $ = jQuery;
+	  // $().imagesLoaded()
+	  $.fn.imagesLoaded = function( options, callback ) {
+	    var instance = new ImagesLoaded( this, options, callback );
+	    return instance.jqDeferred.promise( $(this) );
+	  };
+	};
+	// try making plugin
+	ImagesLoaded.makeJQueryPlugin();
+	
+	// --------------------------  -------------------------- //
+	
+	return ImagesLoaded;
+	
+	});
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	FlickityDirective.$inject = ["$timeout", "FlickityService"];
@@ -4808,7 +5223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.FlickityDirective = FlickityDirective;
 	
-	var _flickity = __webpack_require__(22);
+	var _flickity = __webpack_require__(23);
 	
 	function FlickityDirective($timeout, FlickityService) {
 	    'ngInject';
@@ -4875,7 +5290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	} /* global Flickity */
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4913,7 +5328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4924,7 +5339,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.FlickityNextDirective = FlickityNextDirective;
 	
-	var _next = __webpack_require__(24);
+	var _next = __webpack_require__(25);
 	
 	function FlickityNextDirective($log, $timeout, $rootScope, FlickityConfig, FlickityService) {
 	    'ngInject';
@@ -4994,7 +5409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5069,7 +5484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5080,7 +5495,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.FlickityPreviousDirective = FlickityPreviousDirective;
 	
-	var _previous = __webpack_require__(26);
+	var _previous = __webpack_require__(27);
 	
 	function FlickityPreviousDirective($log, $timeout, $rootScope, FlickityConfig, FlickityService) {
 	    'ngInject';
@@ -5149,7 +5564,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	'use strict';

@@ -1,6 +1,6 @@
-import 'flickity';
+import Flickity from 'flickity';
+import 'imagesLoaded';
 
-/* global Flickity */
 export class FlickityService {
 
     constructor(
@@ -29,33 +29,29 @@ export class FlickityService {
      * @return {Object} instance
      */
     create(element, id = this.instances.length + 1, options) {
+        return new Promise((resolve, reject) => {
+            // Check to see if the ID is already in use
+            if (this._findObjectById(this.instances, id)) {
+                const index = this._getFlickityIndex(id);
+                this.$log.error('This ID is already in use: ', this.instances[index]);
 
-        // Check to see if the ID is already in use
-        if (this._findObjectById(this.instances, id)) {
-            const index = this._getFlickityIndex(id);
-            this.$log.error('This ID is already in use: ', this.instances[index]);
+                reject();
+            }
 
-            return false;
-        }
+            // Define the new instance
+            const instance = {
+                id: id,
+                instance: new Flickity(element, options),
+            };
 
-        // Define the new instance
-        const instance = {
-            id: id,
-            instance: new Flickity(element, options),
-        };
-
-        // Save this instance to the array
-        this.instances.push(instance);
-
-        return this.$q((resolve) => {
+            // Save this instance to the array
+            this.instances.push(instance);
 
             // Bind to all events
             this._bindEvents(id).then(() => {
                 resolve(instance);
             });
-
         });
-
     }
 
 
@@ -66,31 +62,21 @@ export class FlickityService {
      * @return {Object} instance
      */
     destroy(id) {
-        const pauseBeforeDestruction = 100;
-        const flickityIndex = this._getFlickityIndex(id);
-
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             }
 
-            // Pause to allow other scope cleanup to occur
-            // NOTE: Without this pause, Flickity is being destroyed before the view containing the
-            // directive can leave view
-            this.$timeout(() => {
+            // Destroy the Flickity instance
+            this.instances[flickityIndex].instance.destroy();
 
-                // Destroy the Flickity instance
-                this.instances[flickityIndex].instance.destroy();
+            // Remove the instance from the array
+            this.instances.splice(flickityIndex, 1);
 
-                // Remove the instance from the array
-                this.instances.splice(flickityIndex, 1);
-
-                resolve('Instance ' + id + ' destroyed.');
-
-            }, pauseBeforeDestruction);
+            resolve('Instance ' + id + ' destroyed.');
         });
-
     }
 
 
@@ -99,22 +85,22 @@ export class FlickityService {
      *
      * @param {string} id
      * @param {Bool} isWrapped
+     * @param {Bool} isInstant
      * @return {Object} instance
      */
-    next(id, isWrapped) {
-        const flickityIndex = this._getFlickityIndex(id);
-
+    next(id, isWrapped, isInstant) {
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
                 // Move to the next slide
-                this.instances[flickityIndex].instance.next(isWrapped);
+                this.instances[flickityIndex].instance.next(isWrapped, isInstant);
 
                 resolve(this.instances[flickityIndex]);
             }
         });
-
     }
 
 
@@ -123,22 +109,22 @@ export class FlickityService {
      *
      * @param {string} id
      * @param {Bool} isWrapped
+     * @param {Bool} isInstant
      * @return {Object} instance
      */
-    previous(id, isWrapped) {
-        const flickityIndex = this._getFlickityIndex(id);
-
+    previous(id, isWrapped, isInstant) {
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
                 // Move to the previous slide
-                this.instances[flickityIndex].instance.previous(isWrapped);
+                this.instances[flickityIndex].instance.previous(isWrapped, isInstant);
 
                 resolve(this.instances[flickityIndex]);
             }
         });
-
     }
 
 
@@ -152,9 +138,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     select(id, index, isWrapped = false, isInstant = false) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -163,6 +149,33 @@ export class FlickityService {
 
                 resolve(this.instances[flickityIndex]);
             }
+
+        });
+    }
+
+
+    /**
+     * Select a slide of a cell
+     *
+     * @param {String} id
+     * @param {Integer|String} value
+     * @param {Bool} isWrapped
+     * @param {Bool} isInstant
+     * @return {Object} instance
+     */
+    selectCell(id, value, isWrapped = false, isInstant = false) {
+        return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
+            if (flickityIndex < 0) {
+                reject('Instance ' + id + ' not found');
+            } else {
+                // Move to the selected slide
+                this.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
+
+                resolve(this.instances[flickityIndex]);
+            }
+
         });
     }
 
@@ -174,15 +187,16 @@ export class FlickityService {
      * @return {Integer} selectedIndex
      */
     selectedIndex(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
                 // Return the current index
                 resolve(this.instances[flickityIndex].instance.selectedIndex);
             }
+
         });
     }
 
@@ -194,9 +208,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     resize(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -217,9 +231,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     reposition(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -239,9 +253,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     reloadCells(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -261,9 +275,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     get(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -316,9 +330,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     prepend(id, elements) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -339,9 +353,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     append(id, elements) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -363,9 +377,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     insert(id, elements, index) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -385,9 +399,9 @@ export class FlickityService {
      * @return {Array} cellElements
      */
     getCellElements(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -404,9 +418,9 @@ export class FlickityService {
      * @return {Object} instance
      */
     remove(id, elements) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -425,9 +439,9 @@ export class FlickityService {
      * @return {Element} selectedCellElement
      */
     selectedElement(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -444,9 +458,9 @@ export class FlickityService {
      * @return {Array} cells
      */
     cells(id) {
-        const flickityIndex = this._getFlickityIndex(id);
-
         return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
+
             if (flickityIndex < 0) {
                 reject('Instance ' + id + ' not found');
             } else {
@@ -497,23 +511,29 @@ export class FlickityService {
 
 
     _bindEvents(id) {
-        const flickityIndex = this._getFlickityIndex(id);
+        return this.$q((resolve, reject) => {
+            const flickityIndex = this._getFlickityIndex(id);
 
-        if (flickityIndex < 0) {
-            return false;
-        }
+            if (flickityIndex < 0) {
+                reject();
+            }
 
-        return this.$q((resolve) => {
             const ID = this.instances[flickityIndex].id;
 
-            this.instances[flickityIndex].instance.on('cellSelect', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':cellSelect',
-                                      this.instances[flickityIndex]);
+            this.instances[flickityIndex].instance.on('select', () => {
+                this.$rootScope.$emit('Flickity:' + ID + ':select', this.instances[flickityIndex]);
             });
 
             this.instances[flickityIndex].instance.on('settle', () => {
                 this.$rootScope.$emit('Flickity:' + ID + ':settle',
                                       this.instances[flickityIndex]);
+            });
+
+            this.instances[flickityIndex].instance.on('scroll', (progress, positionX) => {
+                this.$rootScope.$emit('Flickity:' + ID + ':scroll', {
+                    progress: progress,
+                    positionX: positionX,
+                });
             });
 
             this.instances[flickityIndex].instance.on('dragStart', (event, pointer) => {
