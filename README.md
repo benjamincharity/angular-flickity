@@ -42,7 +42,7 @@ _[Comments and pull requests welcome!][issues]_
         - [`reloadCells`](#reloadcells)
         - [`getCellElements`](#getcellelements)
         - [`get`](#get)
-        - [`getFirst`](#getFirst)
+        - [`getFirst`](#getfirst)
         - [`getByElement`](#getbyelement)
     - [Properties](#properties)
         - [`selectedIndex`](#selectedindex)
@@ -609,6 +609,8 @@ FlickityService.reposition(id)
 
 ### Adding and Removing Cells
 
+> Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitialize the slider, check out this [:tv: Plunker demo][demo_inject_slide]
+
 #### `prepend`
 
 Create cells at the beginning of the gallery and prepend elements.
@@ -729,6 +731,7 @@ FlickityService.reloadCells(id)
 
 - `instance`: `{Object}`
 
+> Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitialize the slider, check out this [:tv: Plunker demo][demo_inject_slide]
 
 #### `getCellElements`
 
@@ -800,7 +803,7 @@ FlickityService.getByElement(id, element)
 Get the index of the slide currently in view.
 
 ```javascript
-FlickityService.getSelectedIndex(id)
+FlickityService.selectedIndex(id)
 ```
 
 - `id`: `{String}`
@@ -981,6 +984,7 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [demo_create]: http://plnkr.co/edit/hkT7Tx?p=preview
 [demo_doc_ready]: http://plnkr.co/edit/We7brl?p=preview
 [demo_remote_data]: http://plnkr.co/edit/hkT7Tx?p=preview
+[demo_inject_slide]: http://plnkr.co/edit/tDAxLx?p=preview
 [desandro]: http://desandro.com
 [metafizzy]: http://metafizzy.co/
 [packery]: http://packery.metafizzy.co/
