@@ -609,7 +609,8 @@ FlickityService.reposition(id)
 
 ### Adding and Removing Cells
 
-> Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitialize the slider, check out this [:tv: Plunker demo][demo_inject_slide]
+> Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitializing
+> the slider, check out this [:tv: Plunker demo][demo_inject_slide]
 
 #### `prepend`
 
@@ -731,7 +732,8 @@ FlickityService.reloadCells(id)
 
 - `instance`: `{Object}`
 
-> Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitialize the slider, check out this [:tv: Plunker demo][demo_inject_slide]
+> Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitializing
+> the slider, check out this [:tv: Plunker demo][demo_inject_slide]
 
 #### `getCellElements`
 
