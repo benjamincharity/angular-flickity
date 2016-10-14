@@ -2,15 +2,15 @@ var webpack = require('webpack');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var env = process.env.WEBPACK_ENV;
 var path = require('path');
-
 var libraryName = 'angular-flickity';
+
 
 var config = {
     entry: {
-        'angular-flickity': __dirname + '/src/index.js',
-        'angular-flickity.min': __dirname + '/src/index.js',
+        'angular-flickity': './src/index.js',
+        'angular-flickity.min': './src/index.js',
     },
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     output: {
         path: __dirname + '/dist',
         filename: '[name].js',
@@ -28,7 +28,7 @@ var config = {
         ],
         loaders: [
             {
-                test: /(\.jsx|\.js)$/,
+                test: /\.js$/,
                 loaders: [
                     'ng-annotate',
                     'babel?presets[]=es2015'
