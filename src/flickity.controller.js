@@ -16,11 +16,9 @@ export class FlickityController {
 
 
     _activate() {
-
         // Extend the default options with user configuration
         this.options =
-            angular.extend({}, this.FlickityConfig, angular.fromJson(this.bcFlickity | {}));
-
+            angular.extend({}, this.FlickityConfig, angular.fromJson(this.bcFlickity || {}));
     }
 
 
