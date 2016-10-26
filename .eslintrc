@@ -5,10 +5,7 @@
       "browser": true
     },
     "globals": {
-      "angular": true,
-      "Velocity": false,
-      "analytics": false,
-      "StatusBar": false
+      "angular": true
     },
     "rules": {
         // Needed for angular
