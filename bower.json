@@ -24,8 +24,9 @@
         "touch"
     ],
     "dependencies": {
-        "angular": "~1.4.0",
-        "flickity": "^1.1.2"
+        "angular": "^1.4.0",
+        "flickity": "^2.0.3",
+        "imagesloaded": "^4.1.1"
     },
     "ignore": [
         "**/.*",
