@@ -484,11 +484,12 @@ export class FlickityService {
      */
     _getFlickityIndex(id) {
         let foundIndex;
+        const NOT_FOUND = -1;
 
         // If no instances exist
         if (!this.instances.length) {
 
-            foundIndex = -1;
+            foundIndex = NOT_FOUND;
 
         } else {
             // if instances do exist
