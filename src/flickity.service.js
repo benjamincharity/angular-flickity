@@ -28,8 +28,13 @@ export class FlickityService {
      * @param {Object} options
      * @return {Object} instance
      */
-    create(element, id = this.instances.length + 1, options) {
+    create(element, id, options) {
         return new Promise((resolve, reject) => {
+            // If no ID was passed in, assign one
+            if (!id) {
+                id = this.instances.length + 1;
+            }
+
             // Check to see if the ID is already in use
             if (this._findObjectById(this.instances, id)) {
                 const index = this._getFlickityIndex(id);
