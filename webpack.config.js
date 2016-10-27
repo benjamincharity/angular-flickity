@@ -1,11 +1,12 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var env = process.env.WEBPACK_ENV;
-var path = require('path');
-var libraryName = 'angular-flickity';
+/* global process, require, __dirname */
+const webpack = require('webpack');
+const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+const env = process.env.WEBPACK_ENV;
+const path = require('path');
+const libraryName = 'angular-flickity';
 
 
-var config = {
+const config = {
     entry: {
         'angular-flickity': './src/index.js',
         'angular-flickity.min': './src/index.js',
@@ -16,37 +17,41 @@ var config = {
         filename: '[name].js',
         library: libraryName,
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: true,
     },
     module: {
         preLoaders: [
             {
                 test: /\.js$/,
                 loader: 'eslint-loader',
-                exclude: /node_modules/
-            }
+                include: [
+                    path.resolve('src'),
+                ],
+            },
         ],
         loaders: [
             {
                 test: /\.js$/,
                 loaders: [
                     'ng-annotate',
-                    'babel?presets[]=es2015'
+                    'babel?presets[]=es2015',
                 ],
-                exclude: /(node_modules|bower_components)/
-            }
-        ]
+                include: [
+                    path.resolve('src'),
+                ],
+            },
+        ],
     },
     resolve: {
         root: path.resolve('./src'),
-        extensions: ['', '.js']
+        extensions: ['', '.js'],
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             include: /\.min\.js$/,
-            minimize: true
-        })
-    ]
+            minimize: true,
+        }),
+    ],
 };
 
 module.exports = config;
