@@ -4,7 +4,10 @@
 
 [![MIT License][license_image]][license_url] [![NPM version][npm_version_image]][npm_url]
 
-[**Simple Plunker demo**][demo_basic]
+An AngularJS module that exposes a directive and service to create and control multiple
+[Flickity][flickity] instances.
+
+> [:tv: **Demos and Examples**][demo_collection]
 
 [Flickity][flickity] by [Metafizzy][metafizzy]
 
@@ -51,6 +54,7 @@ _[Comments and pull requests welcome!][issues]_
 - [Events](#events)
   - [Events and Parameters](#eventsandparameters)
   - [Event Naming Convention](#eventnamingconvention)
+- [Demos](#demos)
 - [Development](#development)
 - [About Flickity](#about-flickity)
 
@@ -377,6 +381,8 @@ the `FlickityService`.
 in order to be immediately familiar. This shouldn't feel like learning another library (assuming
 you are already familiar with Flickity).
 
+> [:tv: Service demo][demo_service_select]
+
 - - -
 
 > _Don't be afraid to look at the [source code][source]. It isn't terribly complicated and fairly well
@@ -388,7 +394,7 @@ you are already familiar with Flickity).
 
 This can be called to manually create a new `Flickity` instance.
 
-[Create instance Plunker demo][demo_create]
+> [:tv: Create instance demo][demo_create_remote_docready]
 
 ```javascript
 FlickityService.create(element, id, options)
@@ -422,7 +428,7 @@ FlickityService.create(element, id, options)
 > document.ready. This ensures that the element you are looking for actually exists. You can also
 > use a $timeout but I find using document.ready more accurately represents the intention.
 
-[Plunker demo showing DOM issue and solution][demo_doc_ready]
+> [:tv: Demo showing DOM issue and solution][demo_create_remote_docready]
 
 ```javascript
 // document.ready example
@@ -439,7 +445,7 @@ angular.element($document[0]).ready(() => {
 > If you are dealing with remote data, you should wrap the `.create()` call with a `$timeout`.
 > This ensures that the data has already been assigned to scope before the slider is initialized.
 
-[Plunker demo with remote data][demo_remote_data]
+> [:tv: Demo with remote data][demo_create_remote_docready]
 
 ```javascript
 // Remote data example
@@ -469,7 +475,7 @@ $http.get('http://yourRemoteSource.com/slides.json')
 
 Move directly to a specific slide.
 
-[Selecting a cell Plunker Demo][demo_select]
+> [:tv: Selecting a cell demo][demo_service_select]
 
 ```javascript
 FlickityService.select(id, index, isWrapped, isInstant)
@@ -610,7 +616,7 @@ FlickityService.reposition(id)
 ### Adding and Removing Cells
 
 > Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitializing
-> the slider, check out this [:tv: Plunker demo][demo_inject_slide]
+> the slider, check out this [:tv: demo][demo_inject_slide]
 
 #### `prepend`
 
@@ -733,7 +739,7 @@ FlickityService.reloadCells(id)
 - `instance`: `{Object}`
 
 > Note: If you are trying to add cell(s) by appending to a 'slides' array and then reinitializing
-> the slider, check out this [:tv: Plunker demo][demo_inject_slide]
+> the slider, check out this [:tv: demo][demo_inject_slide]
 
 #### `getCellElements`
 
@@ -837,7 +843,7 @@ FlickityService.selectedElement(id)
 
 Get all cells.
 
-[Get all cells Plunker demo][demo_select]
+> [:tv: Get all cells demo][demo_service_select]
 
 ```javascript
 FlickityService.cells(id)
@@ -858,7 +864,7 @@ FlickityService.cells(id)
 
 All events trigger an associated `$emit` on `$rootScope`.
 
-**[Events Plunker demo][demo_events]**
+> [:tv: Events demo][demo_events]
 
 > _Learn more in the [Angular docs on `$emit`][emit]._
 
@@ -951,6 +957,17 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 - - -
 
 
+## Demos
+
+- [All demos][demo_collection]
+- [Simple][demo_basic]
+- [Multiple instances on a page][demo_multiple_instances]
+- [Using events][demo_events]
+- [Using the service and selecting a cell][demo_service_select]
+- [Create via the service and loading remote data][demo_create_remote_docready]
+- [Inject a slide][demo_inject_slide]
+
+
 ## Development
 
 * `npm run build`
@@ -980,19 +997,20 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [source]: https://github.com/benjamincharity/angular-flickity/tree/master/src
 [emit]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit
 [destroy]: https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$destroy
-[demo_basic]: http://plnkr.co/edit/gFwwJf?p=preview
-[demo_events]: http://plnkr.co/edit/k7Xw4t?p=preview
-[demo_select]: http://plnkr.co/edit/qdyKKo?p=preview
-[demo_create]: http://plnkr.co/edit/hkT7Tx?p=preview
-[demo_doc_ready]: http://plnkr.co/edit/We7brl?p=preview
-[demo_remote_data]: http://plnkr.co/edit/hkT7Tx?p=preview
-[demo_inject_slide]: http://plnkr.co/edit/tDAxLx?p=preview
 [desandro]: http://desandro.com
 [metafizzy]: http://metafizzy.co/
 [packery]: http://packery.metafizzy.co/
 [isotope]: http://isotope.metafizzy.co/
 [flickity_license]: http://flickity.metafizzy.co/license.html
 [angular]: https://angularjs.org
+
+[demo_collection]: http://codepen.io/collection/nNzQxk/
+[demo_basic]: http://codepen.io/benjamincharity/pen/amxVaV?editors=1000
+[demo_multiple_instances]: http://codepen.io/benjamincharity/pen/dpEqoj?editors=1000
+[demo_events]: http://codepen.io/benjamincharity/pen/yaWxor?editors=0010
+[demo_service_select]: http://codepen.io/benjamincharity/pen/KgLxRW?editors=0010
+[demo_create_remote_docready]: http://codepen.io/benjamincharity/pen/NRVLEb?editors=0010
+[demo_inject_slide]: http://codepen.io/benjamincharity/pen/qaGJmW?editors=0010
 
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
