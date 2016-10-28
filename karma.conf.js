@@ -18,8 +18,6 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'src/index.js',
@@ -58,7 +56,7 @@ module.exports = function(config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['spec', 'coverage', 'coveralls'],
+        reporters: ['spec', 'coverage'/*, 'coveralls'*/],
 
 
         // web server port
