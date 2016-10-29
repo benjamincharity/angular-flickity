@@ -134,9 +134,47 @@ describe('FlickityService', () => {
             });
         });
 
-
     });
 
+
+    describe('getAll()', () => {
+
+        it(`should return all instances`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const idOne = 'testIdOne';
+            const idTwo = 'testIdTwo';
+
+            this.FlickityService.create(this.element[0], idOne).then(() => {
+                this.FlickityService.getAll().then((results) => {
+                    const actual = results.length;
+                    const expected = 1;
+
+                    // Verify a singe instance was returned
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.create(this.element[0], idTwo).then(() => {
+                        this.FlickityService.getAll().then((results) => {
+                            const actual = results.length;
+                            const expected = 2;
+
+                            // Verify both instances are returned
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+
+    });
 
 
 
