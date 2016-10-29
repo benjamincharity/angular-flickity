@@ -30,9 +30,15 @@ export class FlickityService {
      */
     create(element, id, options) {
         return new Promise((resolve, reject) => {
-            // If no ID was passed in, assign one
+            // If no ID was passed in
             if (!id) {
-                id = this.instances.length + 1;
+                if (element.id) {
+                    // Use the element's ID if it exists
+                    id = element.id;
+                } else {
+                    // Otherwise, assign a new ID
+                    id = this.instances.length + 1;
+                }
             }
 
             // Check to see if the ID is already in use
