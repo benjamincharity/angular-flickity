@@ -212,6 +212,42 @@ describe('FlickityService', () => {
             });
         });
 
+        it(`should wrap when moving to the next slide`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+            const options = {
+                initialIndex: 3,
+            };
+
+            this.FlickityService.create(this.element[0], testId, options).then((instance) => {
+                this.FlickityService.selectedIndex(testId).then((result) => {
+                    const actual = result;
+                    const expected = 3;
+
+                    // Verify the index '3' is selected
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.next(testId, true).then((instance2) => {
+                        this.FlickityService.selectedIndex(testId).then((result) => {
+                            const actual = result;
+                            const expected = 0;
+
+                            // Verify the index '0' is selected
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
     });
 
 
