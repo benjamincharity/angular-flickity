@@ -53,8 +53,8 @@ export class FlickityService {
             this.instances.push(instance);
 
             // Bind to all events
-            this._bindEvents(id).then(() => {
-                resolve(instance);
+            return this._bindEvents(id).then(() => {
+                return resolve(instance);
             });
         });
     }
@@ -71,7 +71,7 @@ export class FlickityService {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             }
 
             // Destroy the Flickity instance
@@ -80,7 +80,7 @@ export class FlickityService {
             // Remove the instance from the array
             this.instances.splice(flickityIndex, 1);
 
-            resolve('Instance ' + id + ' destroyed.');
+            return resolve('Instance ' + id + ' destroyed.');
         });
     }
 
@@ -94,16 +94,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     next(id, isWrapped, isInstant) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Move to the next slide
                 this.instances[flickityIndex].instance.next(isWrapped, isInstant);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -118,16 +119,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     previous(id, isWrapped, isInstant) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Move to the previous slide
                 this.instances[flickityIndex].instance.previous(isWrapped, isInstant);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -143,18 +145,18 @@ export class FlickityService {
      * @return {Object} instance
      */
     select(id, index, isWrapped = false, isInstant = false) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Move to the selected slide
                 this.instances[flickityIndex].instance.select(index, isWrapped, isInstant);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
-
         });
     }
 
@@ -169,18 +171,18 @@ export class FlickityService {
      * @return {Object} instance
      */
     selectCell(id, value, isWrapped = false, isInstant = false) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Move to the selected slide
                 this.instances[flickityIndex].instance.selectCell(value, isWrapped, isInstant);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
-
         });
     }
 
@@ -192,16 +194,15 @@ export class FlickityService {
      * @return {Integer} selectedIndex
      */
     selectedIndex(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Return the current index
-                resolve(this.instances[flickityIndex].instance.selectedIndex);
+                return resolve(this.instances[flickityIndex].instance.selectedIndex);
             }
-
         });
     }
 
@@ -213,16 +214,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     resize(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Trigger the resize
                 this.instances[flickityIndex].instance.resize();
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -236,16 +238,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     reposition(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Trigger the resize
                 this.instances[flickityIndex].instance.reposition();
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -258,16 +261,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     reloadCells(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Reload cells
                 this.instances[flickityIndex].instance.reloadCells();
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -280,13 +284,14 @@ export class FlickityService {
      * @return {Object} instance
      */
     get(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -298,11 +303,12 @@ export class FlickityService {
      * @return {Object} instance
      */
     getFirst() {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (!this.instances || this.instances.length < 1) {
-                reject('No instances exist');
+                return reject('No instances exist');
             } else {
-                resolve(this.instances[0]);
+                // Return the instance
+                return resolve(this.instances[0]);
             }
         });
     }
@@ -315,13 +321,14 @@ export class FlickityService {
      * @return {Object} instance
      */
     getByElement(element) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const instance = Flickity.data(element)
 
             if (instance) {
-                resolve(instance);
+                // Return the instance
+                return resolve(instance);
             } else {
-                reject('Instance not found for ' + element);
+                return reject('Instance not found for ' + element);
             }
         });
     }
@@ -335,16 +342,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     prepend(id, elements) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Prepend the slides
                 this.instances[flickityIndex].instance.prepend(elements);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -358,16 +366,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     append(id, elements) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Append the slides
                 this.instances[flickityIndex].instance.append(elements);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -382,16 +391,17 @@ export class FlickityService {
      * @return {Object} instance
      */
     insert(id, elements, index) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 // Insert the slides
                 this.instances[flickityIndex].instance.insert(elements, index);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -404,13 +414,14 @@ export class FlickityService {
      * @return {Array} cellElements
      */
     getCellElements(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
-                resolve(this.instances[flickityIndex].instance.getCellElements());
+                // Return the array of cell elements
+                return resolve(this.instances[flickityIndex].instance.getCellElements());
             }
         });
     }
@@ -423,15 +434,16 @@ export class FlickityService {
      * @return {Object} instance
      */
     remove(id, elements) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
                 this.instances[flickityIndex].instance.remove(elements);
 
-                resolve(this.instances[flickityIndex]);
+                // Return the instance
+                return resolve(this.instances[flickityIndex]);
             }
         });
     }
@@ -444,13 +456,14 @@ export class FlickityService {
      * @return {Element} selectedCellElement
      */
     selectedElement(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
-                resolve(this.instances[flickityIndex].instance.selectedElement);
+                // Return the selected element
+                return resolve(this.instances[flickityIndex].instance.selectedElement);
             }
         });
     }
@@ -463,13 +476,14 @@ export class FlickityService {
      * @return {Array} cells
      */
     cells(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject('Instance ' + id + ' not found');
+                return reject('Instance ' + id + ' not found');
             } else {
-                resolve(this.instances[flickityIndex].instance.cells);
+                // Return the array of cells
+                return resolve(this.instances[flickityIndex].instance.cells);
             }
         });
     }
@@ -512,16 +526,21 @@ export class FlickityService {
         }
 
         return foundIndex;
-
     }
 
 
+    /**
+     * Bind all events for a new instance
+     *
+     * @param {String} id
+     * @return {Bool} isFinished
+     */
     _bindEvents(id) {
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                reject();
+                return reject();
             }
 
             const ID = this.instances[flickityIndex].id;
@@ -604,7 +623,7 @@ export class FlickityService {
                 });
             });
 
-            resolve(true);
+            return resolve(true);
         });
 
     }
@@ -622,7 +641,6 @@ export class FlickityService {
             return object.id === id;
         })[0];
     }
-
 
 }
 
