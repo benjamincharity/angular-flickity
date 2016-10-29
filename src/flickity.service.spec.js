@@ -198,7 +198,7 @@ describe('FlickityService', () => {
                     // Verify the index '0' is selected
                     expect(actual).toEqual(expected);
 
-                    this.FlickityService.next(testId).then((instance2) => {
+                    this.FlickityService.next(testId).then(() => {
                         this.FlickityService.selectedIndex(testId).then((result) => {
                             const actual = result;
                             const expected = 1;
@@ -234,7 +234,7 @@ describe('FlickityService', () => {
                     // Verify the index '3' is selected
                     expect(actual).toEqual(expected);
 
-                    this.FlickityService.next(testId, true).then((instance2) => {
+                    this.FlickityService.next(testId, true).then(() => {
                         this.FlickityService.selectedIndex(testId).then((result) => {
                             const actual = result;
                             const expected = 0;
@@ -275,12 +275,45 @@ describe('FlickityService', () => {
                     // Verify the index '0' is selected
                     expect(actual).toEqual(expected);
 
-                    this.FlickityService.previous(testId).then((instance2) => {
+                    this.FlickityService.previous(testId).then(() => {
                         this.FlickityService.selectedIndex(testId).then((result) => {
                             const actual = result;
                             const expected = 1;
 
                             // Verify the index '1' is selected
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        it(`should wrap when moving to the previous slide`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+
+            this.FlickityService.create(this.element[0], testId).then((instance) => {
+                this.FlickityService.selectedIndex(testId).then((result) => {
+                    const actual = result;
+                    const expected = 0;
+
+                    // Verify the index '0' is selected
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.previous(testId, true).then(() => {
+                        this.FlickityService.selectedIndex(testId).then((result) => {
+                            const actual = result;
+                            const expected = 3;
+
+                            // Verify the index '3' is selected
                             expect(actual).toEqual(expected);
                             done();
                         });
