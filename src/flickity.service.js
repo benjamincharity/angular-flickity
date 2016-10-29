@@ -92,6 +92,18 @@ export class FlickityService {
 
 
     /**
+     * Return all instances
+     *
+     * @return {Array} instances
+     */
+    getAll() {
+        return new Promise((resolve, reject) => {
+            resolve(this.instances);
+        });
+    }
+
+
+    /**
      * Move to the next slide
      *
      * @param {string} id
@@ -284,7 +296,7 @@ export class FlickityService {
 
 
     /**
-     * Get the Flickity instance
+     * Get a Flickity instance by ID
      *
      * @param {String} id
      * @return {Object} instance
