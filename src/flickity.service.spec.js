@@ -14,10 +14,6 @@ describe('FlickityService', () => {
             this.FlickityService = FlickityService;
 
             this.$scope = this.$rootScope.$new();
-            //this.$scope.always = jasmine.createSpy('always');
-            //this.$scope.done = jasmine.createSpy('done');
-            //this.$scope.fail = jasmine.createSpy('fail');
-            //this.$scope.progress = jasmine.createSpy('progress');
             this.$scope.slides = [
                 'http://cdn.benjamincharity.com/codepen/angular-flickity/slide1.jpg',
                 'http://cdn.benjamincharity.com/codepen/angular-flickity/slide2.jpg',
@@ -51,22 +47,14 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            console.log('compiled: ', this.element[0].id);
 
-
-            this.FlickityService.create(this.element[0], 'js_demo').then((instance) => {
-                console.log('in test promise resolve: ', instance.id);
-
+            this.FlickityService.create(this.element[0], this.element[0].id).then((instance) => {
                 const actual = instance.id;
-                const expected = 'js_demo';
+                const expected = this.element[0].id;
 
                 expect(actual).toEqual(expected);
-
-                console.log('before done');
                 done();
             });
-
-
         });
 
     });
