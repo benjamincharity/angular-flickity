@@ -325,6 +325,45 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`select()`, () => {
+
+        it(`should select a slide`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+            const newIndex = 2;
+
+            this.FlickityService.create(this.element[0], testId).then((instance) => {
+                this.FlickityService.selectedIndex(testId).then((result) => {
+                    const actual = result;
+                    const expected = 0;
+
+                    // Verify the index '0' is selected
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.select(testId, newIndex).then(() => {
+                        this.FlickityService.selectedIndex(testId).then((result) => {
+                            const actual = result;
+                            const expected = newIndex;
+
+                            // Verify the index '2' is selected
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+    });
+
+
 
 
 });
