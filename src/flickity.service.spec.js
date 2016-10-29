@@ -99,6 +99,43 @@ describe('FlickityService', () => {
     });
 
 
+    describe('destroy()', () => {
+
+        it(`should destroy a Flickity instance`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+
+            this.FlickityService.create(this.element[0], testId).then((instance) => {
+                this.FlickityService.getAll().then((results) => {
+                    const actual = results.length;
+                    const expected = 1;
+
+                    // Verify an instance was created
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.destroy(testId).then((result) => {
+                        this.FlickityService.getAll().then((results) => {
+                            const actual = results.length;
+                            const expected = 0;
+
+                            // Verify the instance was removed
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+
+    });
 
 
 
