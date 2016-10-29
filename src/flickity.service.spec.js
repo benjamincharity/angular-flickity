@@ -38,7 +38,27 @@ describe('FlickityService', () => {
 
     describe('create()', () => {
 
-        it(`should instantiate a Flickity instance`, function(done) {
+        it(`should instantiate a Flickity instance with a custom ID`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+                done();
+            });
+        });
+
+        it(`should instantiate a Flickity instance with the element's ID`, function(done) {
             const template = angular.element(`
                 <div id="js_demo">
                     <figure data-ng-repeat="slide in slides track by $index">
@@ -48,9 +68,28 @@ describe('FlickityService', () => {
             `);
             this.compileDirective(template);
 
-            this.FlickityService.create(this.element[0], this.element[0].id).then((instance) => {
+            this.FlickityService.create(this.element[0]).then((instance) => {
                 const actual = instance.id;
-                const expected = this.element[0].id;
+                const expected = 'js_demo';
+
+                expect(actual).toEqual(expected);
+                done();
+            });
+        });
+
+        it(`should instantiate a Flickity instance with a created ID`, function(done) {
+            const template = angular.element(`
+                <div>
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+
+            this.FlickityService.create(this.element[0]).then((instance) => {
+                const actual = instance.id;
+                const expected = 1;
 
                 expect(actual).toEqual(expected);
                 done();
