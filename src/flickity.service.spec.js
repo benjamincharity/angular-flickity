@@ -78,7 +78,7 @@ describe('FlickityService', () => {
             });
         });
 
-        it(`should instantiate a Flickity instance with a created ID`, function(done) {
+        it(`should instantiate a Flickity instance with a dynamic ID`, function(done) {
             const template = angular.element(`
                 <div>
                     <figure data-ng-repeat="slide in slides track by $index">
@@ -199,6 +199,47 @@ describe('FlickityService', () => {
                     expect(actual).toEqual(expected);
 
                     this.FlickityService.next(testId).then((instance2) => {
+                        this.FlickityService.selectedIndex(testId).then((result) => {
+                            const actual = result;
+                            const expected = 1;
+
+                            // Verify the index '1' is selected
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+    });
+
+
+    describe(`previous()`, () => {
+
+        it(`should move to the previous slide`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+            const options = {
+                initialIndex: 2,
+            };
+
+            this.FlickityService.create(this.element[0], testId, options).then((instance) => {
+                this.FlickityService.selectedIndex(testId).then((result) => {
+                    const actual = result;
+                    const expected = 2;
+
+                    // Verify the index '0' is selected
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.previous(testId).then((instance2) => {
                         this.FlickityService.selectedIndex(testId).then((result) => {
                             const actual = result;
                             const expected = 1;
