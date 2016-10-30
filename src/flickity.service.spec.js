@@ -364,6 +364,47 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`selectCell()`, () => {
+
+        it(`should select a slide with a selector string`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure
+                        class="slide{{ $index }}"
+                        data-ng-repeat="slide in slides track by $index"
+                    >
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+
+            this.FlickityService.create(this.element[0], testId).then((instance) => {
+                this.FlickityService.selectedIndex(testId).then((result) => {
+                    const actual = result;
+                    const expected = 0;
+
+                    // Verify the index '0' is selected
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.selectCell(testId, '.slide3').then(() => {
+                        this.FlickityService.selectedIndex(testId).then((result) => {
+                            const actual = result;
+                            const expected = 3;
+
+                            // Verify the index '3' is selected
+                            expect(actual).toEqual(expected);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+    });
+
+
 
 
 });
