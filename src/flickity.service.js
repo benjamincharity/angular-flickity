@@ -446,9 +446,10 @@ export class FlickityService {
 
 
     /**
-     * Get the elements of the cells
+     * Remove cells by element
      *
      * @param {String} id
+     * @param {Object|Array|Element} element(s)
      * @return {Object} instance
      */
     remove(id, elements) {
