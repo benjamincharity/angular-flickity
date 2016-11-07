@@ -113,7 +113,7 @@ describe('FlickityService', () => {
             this.compileDirective(template);
             const testId = 'myTest';
 
-            this.FlickityService.create(this.element[0], testId).then((instance) => {
+            this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.getAll().then((results) => {
                     const actual = results.length;
                     const expected = 1;
@@ -121,7 +121,7 @@ describe('FlickityService', () => {
                     // Verify an instance was created
                     expect(actual).toEqual(expected);
 
-                    this.FlickityService.destroy(testId).then((result) => {
+                    this.FlickityService.destroy(testId).then(() => {
                         this.FlickityService.getAll().then((results) => {
                             const actual = results.length;
                             const expected = 0;
@@ -152,7 +152,7 @@ describe('FlickityService', () => {
             const idOne = 'testIdOne';
             const idTwo = 'testIdTwo';
 
-            this.FlickityService.create(this.element[0], idOne).then((instance) => {
+            this.FlickityService.create(this.element[0], idOne).then(() => {
                 this.FlickityService.getAll().then((results) => {
                     const actual = results.length;
                     const expected = 1;
@@ -190,7 +190,7 @@ describe('FlickityService', () => {
             this.compileDirective(template);
             const testId = 'myTest';
 
-            this.FlickityService.create(this.element[0], testId).then((instance) => {
+            this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 0;
@@ -226,7 +226,7 @@ describe('FlickityService', () => {
                 initialIndex: 3,
             };
 
-            this.FlickityService.create(this.element[0], testId, options).then((instance) => {
+            this.FlickityService.create(this.element[0], testId, options).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 3;
@@ -267,7 +267,7 @@ describe('FlickityService', () => {
                 initialIndex: 2,
             };
 
-            this.FlickityService.create(this.element[0], testId, options).then((instance) => {
+            this.FlickityService.create(this.element[0], testId, options).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 2;
@@ -300,7 +300,7 @@ describe('FlickityService', () => {
             this.compileDirective(template);
             const testId = 'myTest';
 
-            this.FlickityService.create(this.element[0], testId).then((instance) => {
+            this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 0;
@@ -339,7 +339,7 @@ describe('FlickityService', () => {
             const testId = 'myTest';
             const newIndex = 2;
 
-            this.FlickityService.create(this.element[0], testId).then((instance) => {
+            this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 0;
@@ -380,7 +380,7 @@ describe('FlickityService', () => {
             this.compileDirective(template);
             const testId = 'myTest';
 
-            this.FlickityService.create(this.element[0], testId).then((instance) => {
+            this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 0;
@@ -421,7 +421,7 @@ describe('FlickityService', () => {
                 initialIndex: 1,
             };
 
-            this.FlickityService.create(this.element[0], testId, options).then((instance) => {
+            this.FlickityService.create(this.element[0], testId, options).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
                     const actual = result;
                     const expected = 1;
@@ -444,6 +444,106 @@ describe('FlickityService', () => {
         });
 
     });
+
+
+    describe(`resize()`, () => {
+
+        it(`should call resize() on the current instance`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                spyOn(flickityInstance, 'resize');
+
+                this.FlickityService.resize(customID).then((result) => {
+                    expect(flickityInstance.resize).toHaveBeenCalled();
+                    done();
+                });
+            });
+
+        });
+
+    });
+
+
+    describe(`reposition()`, () => {
+
+        it(`should call reposition() on the current instance`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                spyOn(flickityInstance, 'reposition');
+
+                this.FlickityService.reposition(customID).then((result) => {
+                    expect(flickityInstance.reposition).toHaveBeenCalled();
+                    done();
+                });
+            });
+
+        });
+
+    });
+
+
+    describe(`reloadCells()`, () => {
+
+        it(`should call reloadCells() on the current instance`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                spyOn(flickityInstance, 'reloadCells');
+
+                this.FlickityService.reloadCells(customID).then((result) => {
+                    expect(flickityInstance.reloadCells).toHaveBeenCalled();
+                    done();
+                });
+            });
+
+        });
+
+    });
+
 
 
 });

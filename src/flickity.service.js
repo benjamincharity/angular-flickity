@@ -262,7 +262,7 @@ export class FlickityService {
             if (flickityIndex < 0) {
                 return reject('Instance ' + id + ' not found');
             } else {
-                // Trigger the resize
+                // Trigger the reposition
                 this.instances[flickityIndex].instance.reposition();
 
                 // Return the instance
