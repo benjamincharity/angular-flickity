@@ -749,6 +749,7 @@ describe('FlickityService', () => {
             this.$scope.$digest();
 
             const customID = 'myId';
+            const insertIndex = 3;
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -759,7 +760,7 @@ describe('FlickityService', () => {
 
                 spyOn(flickityInstance, 'insert');
 
-                this.FlickityService.insert(customID, this.newElement, 3).then(() => {
+                this.FlickityService.insert(customID, this.newElement, insertIndex).then(() => {
                     expect(flickityInstance.insert.calls.argsFor(0)[0]).toEqual(this.newElement);
                     done();
                 });
