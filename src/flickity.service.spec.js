@@ -21,7 +21,7 @@ describe('FlickityService', () => {
                 'http://cdn.benjamincharity.com/codepen/angular-flickity/slide4.jpg',
             ];
             this.$scope.extraSlide =
-                'http://cdn.benjamincharity.com/codepen/angular-flickity/slide4.jpg';
+                'http://cdn.benjamincharity.com/codepen/angular-flickity/slide5.jpg';
         });
 
     });
@@ -574,7 +574,6 @@ describe('FlickityService', () => {
                     done();
                 });
             });
-
         });
 
     });
@@ -613,10 +612,8 @@ describe('FlickityService', () => {
                         expect(actual).toEqual(expected);
                         done();
                     });
-
                 });
             });
-
         });
 
     });
@@ -641,7 +638,6 @@ describe('FlickityService', () => {
                     done();
                 });
             });
-
         });
 
     });
@@ -684,7 +680,48 @@ describe('FlickityService', () => {
                     done();
                 });
             });
+        });
 
+    });
+
+
+    describe(`append()`, () => {
+
+        it(`should call append() on the current instance with the new elements`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+
+            const slide = angular.element(`
+                <figure>
+                    <img data-ng-src="{{ extraSlide }}" alt="" />
+                </figure>
+            `);
+
+            this.newElement = this.$compile(slide)(this.$scope);
+            this.$scope.$digest();
+
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                spyOn(flickityInstance, 'append');
+
+                this.FlickityService.append(customID, this.newElement).then(() => {
+                    expect(flickityInstance.append.calls.argsFor(0)[0]).toEqual(this.newElement);
+                    done();
+                });
+            });
         });
 
     });
