@@ -620,6 +620,31 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`getByElement()`, () => {
+
+        it(`should return the instance attached to the element`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((created) => {
+                this.FlickityService.getByElement(this.element[0]).then((instance) => {
+                    expect(instance).toEqual(jasmine.any(Object));
+                    done();
+                });
+            });
+
+        });
+
+    });
+
+
 
 });
 
