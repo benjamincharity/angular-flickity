@@ -727,6 +727,48 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`insert()`, () => {
+
+        it(`should call insert() on the current instance with the new elements`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+
+            const slide = angular.element(`
+                <figure>
+                    <img data-ng-src="{{ extraSlide }}" alt="" />
+                </figure>
+            `);
+
+            this.newElement = this.$compile(slide)(this.$scope);
+            this.$scope.$digest();
+
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                spyOn(flickityInstance, 'insert');
+
+                this.FlickityService.insert(customID, this.newElement, 3).then(() => {
+                    expect(flickityInstance.insert.calls.argsFor(0)[0]).toEqual(this.newElement);
+                    done();
+                });
+            });
+        });
+
+    });
+
+
 
 });
 
