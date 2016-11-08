@@ -40,7 +40,7 @@ describe('FlickityService', () => {
         }
     });
 
-    describe('create()', () => {
+    describe(`create()`, () => {
 
         it(`should instantiate a Flickity instance with a custom ID`, function(done) {
             const template = angular.element(`
@@ -103,7 +103,7 @@ describe('FlickityService', () => {
     });
 
 
-    describe('destroy()', () => {
+    describe(`destroy()`, () => {
 
         it(`should destroy a Flickity instance`, function(done) {
             const template = angular.element(`
@@ -141,7 +141,7 @@ describe('FlickityService', () => {
     });
 
 
-    describe('getAll()', () => {
+    describe(`getAll()`, () => {
 
         it(`should return all instances`, function(done) {
             const template = angular.element(`
