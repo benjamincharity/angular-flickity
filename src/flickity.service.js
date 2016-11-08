@@ -96,7 +96,7 @@ export class FlickityService {
      * @return {Array} instances
      */
     getAll() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             resolve(this.instances);
         });
     }
