@@ -875,6 +875,39 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`cells()`, () => {
+
+        it(`should return an array containing all cells`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                this.FlickityService.cells(customID).then((cells) => {
+                    const actual = cells.length;
+                    const expected = 4;
+
+                    expect(actual).toEqual(expected);
+                    done();
+                });
+            });
+        });
+
+    });
+
+
 
 });
 
