@@ -1,4 +1,3 @@
-/* global set, loadFixtures */
 describe('FlickityService', () => {
     let $compile;
     let $rootScope;
