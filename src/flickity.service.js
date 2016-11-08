@@ -1,5 +1,4 @@
 import Flickity from 'flickity';
-import 'imagesLoaded';
 
 export class FlickityService {
 
