@@ -43,7 +43,7 @@ export class FlickityService {
             // Check to see if the ID is already in use
             if (this._findObjectById(this.instances, id)) {
                 const index = this._getFlickityIndex(id);
-                this.$log.error('This ID is already in use: ', this.instances[index]);
+                this.$log.error(`This ID is already in use: `, this.instances[index]);
 
                 reject(`This ID is already in use.`);
             }
@@ -76,7 +76,7 @@ export class FlickityService {
             const flickityIndex = this._getFlickityIndex(id);
 
             if (flickityIndex < 0) {
-                return reject('Instance ' + id + ' not found');
+                return reject(`Instance ${id} not found.`);
             }
 
             // Destroy the Flickity instance
@@ -520,16 +520,10 @@ export class FlickityService {
      * @return {Integer} flickityIndex
      */
     _getFlickityIndex(id) {
-        let foundIndex;
-        const NOT_FOUND = -1;
+        let foundIndex = -1;
 
-        // If no instances exist
-        if (!this.instances.length) {
-
-            foundIndex = NOT_FOUND;
-
-        } else {
-            // if instances do exist
+        // Verify at least one instance exists
+        if (this.instances.length > 0) {
 
             // Check the ID of each instance
             this.instances.forEach((instance, index) => {
