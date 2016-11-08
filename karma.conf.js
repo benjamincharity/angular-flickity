@@ -20,6 +20,7 @@ module.exports = function(config) {
         files: [
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
+            'node_modules/flickity/dist/flickity.pkgd.js',
             'src/index.js',
             'src/*.spec.js',
         ],

@@ -1,5 +1,5 @@
-import Flickity from 'flickity';
-
+//import Flickity from 'flickity';
+/* global Flickity */
 export class FlickityService {
 
     constructor(
