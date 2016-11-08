@@ -51,7 +51,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'create';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const actual = instance.id;
@@ -109,7 +109,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'createReject';
 
             this.FlickityService.create(this.element[0], testId).then((instance) => {
                 const actual = instance.id;
@@ -120,7 +120,6 @@ describe('FlickityService', () => {
                 this.FlickityService.create(this.element[0], testId).catch((error) => {
                     const actual = error;
                     const expected = `This ID is already in use.`;
-                    console.log('Item: ', actual, expected);
 
                     expect(actual).toEqual(expected);
                     done();
@@ -142,7 +141,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'destroy';
 
             this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.getAll().then((results) => {
@@ -166,6 +165,36 @@ describe('FlickityService', () => {
             });
         });
 
+        it(`should reject if destroying an instance that doesn't exist`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'destroyReject';
+            const fakeId = 'destroyRejectFake';
+
+            this.FlickityService.create(this.element[0], testId).then(() => {
+                this.FlickityService.getAll().then((results) => {
+                    const actual = results.length;
+                    const expected = 1;
+
+                    expect(actual).toEqual(expected);
+
+                    this.FlickityService.destroy(fakeId).catch((error) => {
+                        const actual = error;
+                        const expected = `Instance ${fakeId} not found.`;
+
+                        expect(actual).toEqual(expected);
+                        done();
+                    });
+                });
+            });
+        });
+
     });
 
 
@@ -180,8 +209,8 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const idOne = 'testIdOne';
-            const idTwo = 'testIdTwo';
+            const idOne = 'getAllOne';
+            const idTwo = 'getAllTwo';
 
             this.FlickityService.create(this.element[0], idOne).then(() => {
                 this.FlickityService.getAll().then((results) => {
@@ -219,7 +248,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'next';
 
             this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
@@ -252,7 +281,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'nextWrap';
             const options = {
                 initialIndex: 3,
             };
@@ -293,7 +322,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'previous';
             const options = {
                 initialIndex: 2,
             };
@@ -329,7 +358,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'previousWrap';
 
             this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
@@ -367,7 +396,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'select';
             const newIndex = 2;
 
             this.FlickityService.create(this.element[0], testId).then(() => {
@@ -409,7 +438,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'selectCell';
 
             this.FlickityService.create(this.element[0], testId).then(() => {
                 this.FlickityService.selectedIndex(testId).then((result) => {
@@ -447,7 +476,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const testId = 'myTest';
+            const testId = 'selectedIndex';
             const options = {
                 initialIndex: 1,
             };
@@ -488,7 +517,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'resize';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -521,7 +550,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'reposition';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -554,7 +583,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'reloadCells';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -587,7 +616,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'get';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const actual = instance.id;
@@ -619,8 +648,8 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
-            const customIDTwo = 'mySecondId';
+            const customID = 'getFirst';
+            const customIDTwo = 'getFirstSecond';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const actual = instance.id;
@@ -659,7 +688,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'getByElement';
 
             this.FlickityService.create(this.element[0], customID).then((created) => {
                 this.FlickityService.getByElement(this.element[0]).then((instance) => {
@@ -693,7 +722,7 @@ describe('FlickityService', () => {
             this.newElement = this.$compile(slide)(this.$scope);
             this.$scope.$digest();
 
-            const customID = 'myId';
+            const customID = 'prepend';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -735,7 +764,7 @@ describe('FlickityService', () => {
             this.newElement = this.$compile(slide)(this.$scope);
             this.$scope.$digest();
 
-            const customID = 'myId';
+            const customID = 'append';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -777,7 +806,7 @@ describe('FlickityService', () => {
             this.newElement = this.$compile(slide)(this.$scope);
             this.$scope.$digest();
 
-            const customID = 'myId';
+            const customID = 'insert';
             const insertIndex = 3;
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
@@ -810,7 +839,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'getCellElements';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -853,7 +882,7 @@ describe('FlickityService', () => {
             this.newElement = this.$compile(slide)(this.$scope);
             this.$scope.$digest();
 
-            const customID = 'myId';
+            const customID = 'remove';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -885,7 +914,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'selectedElement';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -915,7 +944,7 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
+            const customID = 'cells';
 
             this.FlickityService.create(this.element[0], customID).then((instance) => {
                 const flickityInstance = instance.instance;
@@ -948,8 +977,8 @@ describe('FlickityService', () => {
                 </div>
             `);
             this.compileDirective(template);
-            const customID = 'myId';
-            const customIDTwo = 'secondId';
+            const customID = '_getFlickityIndex';
+            const customIDTwo = '_getFlickityIndex2';
 
             this.FlickityService.create(this.element[0], customID).then(() => {
                 const actual = this.FlickityService._getFlickityIndex(customID);
