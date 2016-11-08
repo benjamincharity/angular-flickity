@@ -908,6 +908,38 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`_getFlickityIndex()`, () => {
+
+        it(`should return the index for a Flickity instance`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+            const customIDTwo = 'secondId';
+
+            this.FlickityService.create(this.element[0], customID).then(() => {
+                const actual = this.FlickityService._getFlickityIndex(customID);
+                const expected = 0;
+
+                expect(actual).toEqual(expected);
+
+                this.FlickityService.create(this.element[0], customIDTwo).then((instance) => {
+                    const actual = this.FlickityService._getFlickityIndex(customIDTwo);
+                    const expected = 1;
+
+                    expect(actual).toEqual(expected);
+                    done();
+                });
+            });
+        });
+
+    });
+
 
 });
 
