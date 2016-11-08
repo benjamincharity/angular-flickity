@@ -1,5 +1,5 @@
-//import Flickity from 'flickity';
-/* global Flickity */
+import Flickity from 'flickity';
+
 export class FlickityService {
 
     constructor(
@@ -45,7 +45,7 @@ export class FlickityService {
                 const index = this._getFlickityIndex(id);
                 this.$log.error('This ID is already in use: ', this.instances[index]);
 
-                reject();
+                reject(`This ID is already in use.`);
             }
 
             // Define the new instance
