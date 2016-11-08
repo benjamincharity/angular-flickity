@@ -845,6 +845,36 @@ describe('FlickityService', () => {
     });
 
 
+    describe(`selectedElement()`, () => {
+
+        it(`should return the currently selected element`, function(done) {
+            const template = angular.element(`
+                <div id="js_demo">
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const customID = 'myId';
+
+            this.FlickityService.create(this.element[0], customID).then((instance) => {
+                const flickityInstance = instance.instance;
+                const actual = instance.id;
+                const expected = customID;
+
+                expect(actual).toEqual(expected);
+
+                this.FlickityService.selectedElement(customID).then((element) => {
+                    expect(element.outerHTML).toContain('slide1.jpg');
+                    done();
+                });
+            });
+        });
+
+    });
+
+
 
 });
 
