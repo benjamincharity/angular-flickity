@@ -36,7 +36,9 @@ describe('FlickityService', () => {
 
 
     afterEach(function() {
-        this.element.remove();
+        if (this.element) {
+            this.element.remove();
+        }
     });
 
     describe('create()', () => {
@@ -936,6 +938,40 @@ describe('FlickityService', () => {
                     done();
                 });
             });
+        });
+
+    });
+
+
+    describe(`_findObjectById()`, () => {
+
+        it(`should return an object with a matching ID if one exists`, function(done) {
+            const objectsArray = [
+                {
+                    id: 'foo',
+                    attr: 'object1',
+                },
+                {
+                    id: 'bar',
+                    attr: 'object2',
+                },
+                {
+                    id: 'baz',
+                    attr: 'object3',
+                },
+            ];
+
+            const object = this.FlickityService._findObjectById(objectsArray, 'foo');
+            const actual = object.attr;
+            const expected = 'object1';
+            expect(actual).toEqual(expected);
+
+            const object2 = this.FlickityService._findObjectById(objectsArray, 'baz');
+            const actual2 = object2.attr;
+            const expected2 = 'object3';
+            expect(actual2).toEqual(expected2);
+
+            done();
         });
 
     });
