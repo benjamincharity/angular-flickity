@@ -100,6 +100,34 @@ describe('FlickityService', () => {
             });
         });
 
+        it(`should reject creation if the ID is already in use`, function(done) {
+            const template = angular.element(`
+                <div>
+                    <figure data-ng-repeat="slide in slides track by $index">
+                        <img data-ng-src="{{ slide }}" alt="" />
+                    </figure>
+                </div>
+            `);
+            this.compileDirective(template);
+            const testId = 'myTest';
+
+            this.FlickityService.create(this.element[0], testId).then((instance) => {
+                const actual = instance.id;
+                const expected = testId;
+
+                expect(actual).toEqual(expected);
+
+                this.FlickityService.create(this.element[0], testId).catch((error) => {
+                    const actual = error;
+                    const expected = `This ID is already in use.`;
+                    console.log('Item: ', actual, expected);
+
+                    expect(actual).toEqual(expected);
+                    done();
+                });
+            });
+        });
+
     });
 
 
