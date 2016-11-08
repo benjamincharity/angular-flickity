@@ -2,7 +2,7 @@
 
 <img src="http://cdn.benjamincharity.com/open_source/angular-flickity/mark.png" align="right" alt="angular-flickity">
 
-[![MIT License][license_image]][license_url] [![NPM version][npm_version_image]][npm_url]
+[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url] [![CircleCI][circle_badge]][circle_link]
 
 An AngularJS module that exposes a directive and service to create and control multiple
 [Flickity][flickity] instances.
@@ -974,7 +974,10 @@ The `$on` call should always be assigned to a variable. This allows it to be des
   - Produces uncompressed (`.js`) and minified (`.min.js`) versions of the library under the `dist` folder.
 * `npm run watch`
   - Watches for changes inside `/src` and calls `npm run build` when changes are detected.
-
+* `npm run test`
+  - Runs all tests.
+* `npm run watch:tests`
+  - Watch for changes and re-run tests.
 
 ## About Flickity
 
@@ -1016,4 +1019,7 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/angular-flickity
 [npm_version_image]: http://img.shields.io/npm/v/angular-flickity.svg
-
+[coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-flickity/badge.svg
+[coverage_url]: https://coveralls.io/github/benjamincharity/angular-flickity
+[circle_badge]: https://circleci.com/gh/benjamincharity/angular-flickity/tree/master.svg?style=svg
+[circle_link]: https://circleci.com/gh/benjamincharity/angular-flickity/tree/master
