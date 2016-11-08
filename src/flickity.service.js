@@ -565,30 +565,30 @@ export class FlickityService {
             const ID = this.instances[flickityIndex].id;
 
             this.instances[flickityIndex].instance.on('select', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':select', this.instances[flickityIndex]);
+                this.$rootScope.$emit(`Flickity:${ID}:select`, this.instances[flickityIndex]);
             });
 
             this.instances[flickityIndex].instance.on('settle', () => {
-                this.$rootScope.$emit('Flickity:' + ID + ':settle',
+                this.$rootScope.$emit(`Flickity:${ID}:settle`,
                                       this.instances[flickityIndex]);
             });
 
             this.instances[flickityIndex].instance.on('scroll', (progress, positionX) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':scroll', {
+                this.$rootScope.$emit(`Flickity:${ID}:scroll`, {
                     progress: progress,
                     positionX: positionX,
                 });
             });
 
             this.instances[flickityIndex].instance.on('dragStart', (event, pointer) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragStart', {
+                this.$rootScope.$emit(`Flickity:${ID}:dragStart`, {
                     event: event,
                     pointer: pointer,
                 });
             });
 
             this.instances[flickityIndex].instance.on('dragMove', (event, pointer, moveVector) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragMove', {
+                this.$rootScope.$emit(`Flickity:${ID}:dragMove`, {
                     event: event,
                     pointer: pointer,
                     moveVector: moveVector,
@@ -596,14 +596,14 @@ export class FlickityService {
             });
 
             this.instances[flickityIndex].instance.on('dragEnd', (event, pointer) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':dragEnd', {
+                this.$rootScope.$emit(`Flickity:${ID}:dragEnd`, {
                     event: event,
                     pointer: pointer,
                 });
             });
 
             this.instances[flickityIndex].instance.on('pointerDown', (event, pointer) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerDown', {
+                this.$rootScope.$emit(`Flickity:${ID}:pointerDown`, {
                     event: event,
                     pointer: pointer,
                 });
@@ -611,7 +611,7 @@ export class FlickityService {
 
             this.instances[flickityIndex].instance.on('pointerMove',(event, pointer,
                                                                      moveVector) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerMove', {
+                this.$rootScope.$emit(`Flickity:${ID}:pointerMove`, {
                     event: event,
                     pointer: pointer,
                     moveVector: moveVector,
@@ -619,7 +619,7 @@ export class FlickityService {
             });
 
             this.instances[flickityIndex].instance.on('pointerUp', (event, pointer) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':pointerUp', {
+                this.$rootScope.$emit(`Flickity:${ID}:pointerUp`, {
                     event: event,
                     pointer: pointer,
                 });
@@ -627,7 +627,7 @@ export class FlickityService {
 
             this.instances[flickityIndex].instance.on('staticClick', (event, pointer, cellElement,
                                                                       cellIndex) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':staticClick', {
+                this.$rootScope.$emit(`Flickity:${ID}:staticClick`, {
                     event: event,
                     pointer: pointer,
                     cellElement: cellElement,
@@ -636,7 +636,7 @@ export class FlickityService {
             });
 
             this.instances[flickityIndex].instance.on('lazyLoad', (event, cellElement) => {
-                this.$rootScope.$emit('Flickity:' + ID + ':lazyLoad', {
+                this.$rootScope.$emit(`Flickity:${ID}:lazyLoad`, {
                     event: event,
                     cellElement: cellElement,
                 });
