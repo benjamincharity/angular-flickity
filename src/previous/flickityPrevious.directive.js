@@ -37,8 +37,8 @@ export function FlickityPreviousDirective(
         const ID = $controller.flickityId;
 
         // Define the broadcast names to listen for
-        const selectEvent = 'Flickity:' + ID + ':cellSelect';
-        const settleEvent = 'Flickity:' + $controller.flickityId + ':settle';
+        const selectEvent = `Flickity:${ID}:cellSelect`;
+        const settleEvent = `Flickity:${ID}:settle`;
 
         // Listen
         const cellSelect = $rootScope.$on(selectEvent, (event, data) => {
@@ -52,7 +52,11 @@ export function FlickityPreviousDirective(
         $element.on('click', () => {
 
             // Move to the next cell
-            FlickityService.previous($controller.flickityId, $controller.wrapAround);
+            FlickityService.previous($controller.flickityId, $controller.wrapAround)
+                .then((instance) => {
+                    _disableButtonIfNeeded(instance.instance.selectedIndex);
+                })
+            ;
 
         });
 
@@ -62,7 +66,7 @@ export function FlickityPreviousDirective(
         /**
          * Disable button if needed
          *
-         * @param {Int} index
+         * @param {number} index
          */
         function _disableButtonIfNeeded(index) {
             // Disable button if at the beginning and we shouldn't wrap

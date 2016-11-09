@@ -39,8 +39,8 @@ export function FlickityNextDirective(
         const ID = $controller.flickityId;
 
         // Define the broadcast names to listen for
-        const selectEvent = 'Flickity:' + ID + ':cellSelect';
-        const settleEvent = 'Flickity:' + $controller.flickityId + ':settle';
+        const selectEvent = `Flickity:${ID}:cellSelect`;
+        const settleEvent = `Flickity:${ID}:settle`;
 
         // Listen
         const cellSelect = $rootScope.$on(selectEvent, (event, data) => {
@@ -54,7 +54,11 @@ export function FlickityNextDirective(
         $element.on('click', () => {
 
             // Move to the next cell
-            FlickityService.next($controller.flickityId, $controller.wrapAround);
+            FlickityService.next($controller.flickityId, $controller.wrapAround)
+                .then((instance) => {
+                    _disableButtonIfNeeded(instance.instance.selectedIndex);
+                })
+            ;
 
         });
 
