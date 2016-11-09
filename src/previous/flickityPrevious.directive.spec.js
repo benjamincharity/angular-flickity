@@ -44,7 +44,7 @@ describe('FlickityPreviousDirective', () => {
         }
     });
 
-    describe(`wrapping set to false`, () => {
+    describe(`when wrapping is set to false`, () => {
 
         it(`should disable button when at the beginning`, function(done) {
             const template = angular.element(`
@@ -65,12 +65,10 @@ describe('FlickityPreviousDirective', () => {
             // We must wrap in a $timeout since create() is also in a $timeout
             this.$timeout(() => {
                 const button = this.element.find('button');
-                const isDisabled = button.attr('disabled');
-                const actual = isDisabled;
+                const actual = button.attr('disabled');
                 const expected = 'disabled';
 
                 expect(actual).toEqual(expected);
-
                 done();
             }, DELAY);
 
