@@ -21,13 +21,12 @@ export class NextController {
 
 
     _activate() {
-        // Assign or fall back to default
+        // Assign or fall back to a default
         this.wrapAround = this.bcFlickityNext || this.FlickityConfig.wrapAround || true;
         this.flickityId = null;
 
         // Make sure we have an ID
         this._setId();
-
     }
 
 
@@ -37,8 +36,7 @@ export class NextController {
      * @return {String} flickityId
      */
     _setId() {
-
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
             if (this.bcFlickityId) {
                 this.flickityId = this.bcFlickityId;
@@ -59,7 +57,6 @@ export class NextController {
             }
 
         });
-
     }
 
 
