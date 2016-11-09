@@ -22,7 +22,7 @@ module.exports = function(config) {
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/flickity/dist/flickity.pkgd.js',
             'src/index.js',
-            'src/*.spec.js',
+            'src/**/*.spec.js',
         ],
 
 
