@@ -22,7 +22,7 @@ export class PreviousController {
 
     _activate() {
         // Assign or fall back to default
-        this.wrapAround = this.bcFlickityPrevious || this.FlickityConfig.wrapAround;
+        this.wrapAround = this.bcFlickityPrevious || this.FlickityConfig.wrapAround || true;
         this.flickityId = null;
 
         // Make sure we have an ID
