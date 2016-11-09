@@ -46,17 +46,17 @@ export class PreviousController {
 
             if (this.bcFlickityId) {
                 this.flickityId = this.bcFlickityId;
-                resolve(this.flickityId);
+                return resolve(this.flickityId);
             } else {
                 this.$timeout(() => {
                     this.FlickityService.getFirst()
                         .then((instance) => {
                             this.flickityId = instance.id;
-                            resolve(this.flickityId);
+                            return resolve(this.flickityId);
                         })
                         .catch((error) => {
                             this.$log.warn(error);
-                            reject(error);
+                            return reject(error);
                         })
                     ;
                 });
