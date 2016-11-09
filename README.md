@@ -2,7 +2,7 @@
 
 <img src="http://cdn.benjamincharity.com/open_source/angular-flickity/mark.png" align="right" alt="angular-flickity">
 
-[![MIT License][license_image]][license_url] [![NPM version][npm_version_image]][npm_url]
+[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url] [![CircleCI][circle_badge]][circle_link]
 
 An AngularJS module that exposes a directive and service to create and control multiple
 [Flickity][flickity] instances.
@@ -16,7 +16,7 @@ _[Comments and pull requests welcome!][issues]_
 ## Contents
 
 - [Installation](#installation)
-- [Dependencies](#dependencies)
+  - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Options](#options)
 - [ID](#id)
@@ -62,14 +62,50 @@ _[Comments and pull requests welcome!][issues]_
 
 ## Installation
 
+#### Dependencies
+
+- [AngularJS `(^1.4.0)`][angular]
+- [Flickity `(^2.0.3)`][flickity_docs]
+- [flickity-imagesloaded `(^2.0.0)`][flickity_imagesloaded] (if using the [imagesloaded option][flickity_options])
+
+
 #### NPM
+
 ```bash
+npm install flickity --save
+npm install flickity-imagesloaded --save # if using the imagesloaded option
 npm install angular-flickity --save
 ```
 
 #### Bower
+
 ```bash
+bower install flickity --save
+bower install flickity-imagesloaded --save # if using the imagesloaded option
 bower install angular-flickity --save
+```
+
+### Include the scripts
+
+Include `Flickity` (and `flickity-imagesloaded` if needed):
+
+#### Webpack
+
+```
+import Flickity from 'flickity';
+import 'flickity-imagesloaded';
+import 'angular-flickity';
+
+angular.module('myProject', ['bc.Flickity']);
+```
+
+#### Manually
+
+```
+<!-- Include the module -->
+<script src="path/to/lib/flickity.js"></script>
+<script src="path/to/lib/flickity-imagesloaded.js"></script>
+<script src="path/to/angular-flickity/dist/angular-flickity.js"></script>
 ```
 
 
@@ -95,12 +131,6 @@ The trick is to specify which files bower should use in your own `bower.json`.
   }
 }
 ```
-
-
-## Dependencies
-
-- [Flickity.js (^2.0.3)][flickity_docs]
-- [Angular.js (^1.5.8)][angular]
 
 
 ## Usage
@@ -226,15 +256,15 @@ pass the ID in directly as a string using `bc-flickity-id`.
 
 This module exposes `FlickityConfigProvider` which can be used to set project-wide defaults for
 Flickity. Simply set any options here using options that match the original [Flickity
-Options](http://flickity.metafizzy.co/options.html).
+options](http://flickity.metafizzy.co/options.html).
 
 ```javascript
 // ES6 Config Example
 export function config(FlickityConfigProvider) {
     'ngInject';
 
-    FlickityConfigProvider.prevNextButtons = false;
-    FlickityConfigProvider.draggable = false;
+    FlickityConfigProvider.prevNextButtons = true;
+    FlickityConfigProvider.setGallerySize = false;
 
 }
 ```
@@ -242,13 +272,13 @@ export function config(FlickityConfigProvider) {
 ```javascript
 // ES5 Config Example
 angular.module('myModule')
-  .config((FlickityConfigProvider) => {
-    'ngInject';
+    .config((FlickityConfigProvider) => {
+        'ngInject';
 
-    FlickityConfigProvider.prevNextButtons = false;
-    FlickityConfigProvider.draggable = false;
+        FlickityConfigProvider.prevNextButtons = true;
+        FlickityConfigProvider.setGallerySize = false;
 
-  })
+    })
 ;
 ```
 
@@ -300,8 +330,8 @@ that the control should be linked to.
 
 > _More on setting the ID using a [directive](#id) or [service](#initialize)._
 
-If no ID is set, the directive will assume that only one instance exists and grab the first
-instance.
+If no ID is set, the directive will assume that only one instance exists and grab the ID from the
+first instance.
 
 #### Looping
 
@@ -346,8 +376,8 @@ that the control should be linked to.
 
 > _More on setting the ID using a [directive](#id) or [service](#initialize)._
 
-If no ID is set, the directive will assume that only one instance exists and grab the first
-instance.
+If no ID is set, the directive will assume that only one instance exists and grab the ID from the
+first instance.
 
 #### Looping
 
@@ -974,7 +1004,10 @@ The `$on` call should always be assigned to a variable. This allows it to be des
   - Produces uncompressed (`.js`) and minified (`.min.js`) versions of the library under the `dist` folder.
 * `npm run watch`
   - Watches for changes inside `/src` and calls `npm run build` when changes are detected.
-
+* `npm run test`
+  - Runs all tests.
+* `npm run watch:tests`
+  - Watch for changes and re-run tests.
 
 ## About Flickity
 
@@ -1003,6 +1036,15 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [isotope]: http://isotope.metafizzy.co/
 [flickity_license]: http://flickity.metafizzy.co/license.html
 [angular]: https://angularjs.org
+[flickity_imagesloaded]: https://github.com/metafizzy/flickity-imagesloaded
+
+[demo_collection]: http://codepen.io/collection/nNzQxk/
+[demo_basic]: http://codepen.io/benjamincharity/pen/amxVaV?editors=1000
+[demo_multiple_instances]: http://codepen.io/benjamincharity/pen/dpEqoj?editors=1000
+[demo_events]: http://codepen.io/benjamincharity/pen/yaWxor?editors=0010
+[demo_service_select]: http://codepen.io/benjamincharity/pen/KgLxRW?editors=0010
+[demo_create_remote_docready]: http://codepen.io/benjamincharity/pen/NRVLEb?editors=0010
+[demo_inject_slide]: http://codepen.io/benjamincharity/pen/qaGJmW?editors=0010
 
 [demo_collection]: http://codepen.io/collection/nNzQxk/
 [demo_basic]: http://codepen.io/benjamincharity/pen/amxVaV?editors=1000
@@ -1016,4 +1058,7 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/angular-flickity
 [npm_version_image]: http://img.shields.io/npm/v/angular-flickity.svg
-
+[coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-flickity/badge.svg
+[coverage_url]: https://coveralls.io/github/benjamincharity/angular-flickity
+[circle_badge]: https://circleci.com/gh/benjamincharity/angular-flickity/tree/master.svg?style=svg
+[circle_link]: https://circleci.com/gh/benjamincharity/angular-flickity/tree/master

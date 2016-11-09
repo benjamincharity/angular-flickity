@@ -21,13 +21,18 @@ export class NextController {
 
 
     _activate() {
-        // Assign or fall back to default
-        this.wrapAround = this.bcFlickityNext || this.FlickityConfig.wrapAround;
+        // Assign wrap around or fall back to a default
+        if (typeof this.bcFlickityNext !== 'undefined') {
+            this.wrapAround = this.bcFlickityNext;
+        } else if (typeof this.FlickityConfig.wrapAround !== 'undefined') {
+            this.wrapAround = this.FlickityConfig.wrapAround;
+        } else {
+            this.wrapAround = false;
+        }
         this.flickityId = null;
 
         // Make sure we have an ID
         this._setId();
-
     }
 
 
@@ -37,29 +42,27 @@ export class NextController {
      * @return {String} flickityId
      */
     _setId() {
-
-        return this.$q((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
             if (this.bcFlickityId) {
                 this.flickityId = this.bcFlickityId;
-                resolve(this.flickityId);
+                return resolve(this.flickityId);
             } else {
                 this.$timeout(() => {
                     this.FlickityService.getFirst()
                         .then((instance) => {
                             this.flickityId = instance.id;
-                            resolve(this.flickityId);
+                            return resolve(this.flickityId);
                         })
                         .catch((error) => {
                             this.$log.warn(error);
-                            reject(error);
+                            return reject(error);
                         })
                     ;
                 });
             }
 
         });
-
     }
 
 

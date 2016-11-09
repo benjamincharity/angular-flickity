@@ -19,6 +19,9 @@ const config = {
         libraryTarget: 'umd',
         umdNamedDefine: true,
     },
+    externals: {
+        'flickity': 'Flickity',
+    },
     module: {
         preLoaders: [
             {
