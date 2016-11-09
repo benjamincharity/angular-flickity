@@ -64,7 +64,7 @@ export function FlickityNextDirective(
         /**
          * Disable button if needed
          *
-         * @param {Int} index
+         * @param {number} index
          */
         function _disableButtonIfNeeded(index, cellCount) {
 
