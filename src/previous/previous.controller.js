@@ -21,8 +21,14 @@ export class PreviousController {
 
 
     _activate() {
-        // Assign or fall back to a default
-        this.wrapAround = this.bcFlickityPrevious || this.FlickityConfig.wrapAround || true;
+        // Assign wrap around or fall back to a default
+        if (typeof this.bcFlickityPrevious !== 'undefined') {
+            this.wrapAround = this.bcFlickityPrevious;
+        } else if (typeof this.FlickityConfig.wrapAround !== 'undefined') {
+            this.wrapAround = this.FlickityConfig.wrapAround;
+        } else {
+            this.wrapAround = false;
+        }
         this.flickityId = null;
 
         // Make sure we have an ID

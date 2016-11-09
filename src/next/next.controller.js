@@ -21,8 +21,14 @@ export class NextController {
 
 
     _activate() {
-        // Assign or fall back to a default
-        this.wrapAround = this.bcFlickityNext || this.FlickityConfig.wrapAround || true;
+        // Assign wrap around or fall back to a default
+        if (typeof this.bcFlickityNext !== 'undefined') {
+            this.wrapAround = this.bcFlickityNext;
+        } else if (typeof this.FlickityConfig.wrapAround !== 'undefined') {
+            this.wrapAround = this.FlickityConfig.wrapAround;
+        } else {
+            this.wrapAround = false;
+        }
         this.flickityId = null;
 
         // Make sure we have an ID
