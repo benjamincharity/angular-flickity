@@ -20,7 +20,6 @@ describe('PreviousController', () => {
                 'http://cdn.benjamincharity.com/codepen/angular-flickity/slide4.jpg',
             ];
             this.$scope.flickityOptions = {
-                cellSelector: '.flickity__slide',
                 prevNextButtons: false,
                 wrapAround: false,
             };
