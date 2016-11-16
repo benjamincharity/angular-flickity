@@ -74,6 +74,7 @@ _[Comments and pull requests welcome!][issues]_
 ```bash
 npm install flickity --save
 npm install flickity-imagesloaded --save # if using the imagesloaded option
+npm install flickity-bg-lazyload --save # if using the bg-lazyload option
 npm install angular-flickity --save
 ```
 
@@ -82,18 +83,20 @@ npm install angular-flickity --save
 ```bash
 bower install flickity --save
 bower install flickity-imagesloaded --save # if using the imagesloaded option
+bower install flickity-bg-lazyload --save # if using the bg-lazyload option
 bower install angular-flickity --save
 ```
 
 ### Include the scripts
 
-Include `Flickity` (and `flickity-imagesloaded` if needed):
+Include `Flickity` (and `flickity-imagesloaded`/`flickity-bg-lazyload` if needed):
 
 #### Webpack
 
 ```
 import Flickity from 'flickity';
 import 'flickity-imagesloaded';
+import 'flickity-bg-lazyload';
 import 'angular-flickity';
 
 angular.module('myProject', ['bc.Flickity']);
@@ -105,6 +108,7 @@ angular.module('myProject', ['bc.Flickity']);
 <!-- Include the module -->
 <script src="path/to/lib/flickity.js"></script>
 <script src="path/to/lib/flickity-imagesloaded.js"></script>
+<script src="path/to/lib/flickity-bg-lazyload.js"></script>
 <script src="path/to/angular-flickity/dist/angular-flickity.js"></script>
 ```
 
@@ -996,6 +1000,7 @@ The `$on` call should always be assigned to a variable. This allows it to be des
 - [Using the service and selecting a cell][demo_service_select]
 - [Create via the service and loading remote data][demo_create_remote_docready]
 - [Inject a slide][demo_inject_slide]
+- [bgLazyLoad][demo_bglazyload]
 
 
 ## Development
@@ -1037,6 +1042,7 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [flickity_license]: http://flickity.metafizzy.co/license.html
 [angular]: https://angularjs.org
 [flickity_imagesloaded]: https://github.com/metafizzy/flickity-imagesloaded
+[flickity-bg-lazyload]: https://github.com/metafizzy/flickity-bg-lazyload
 
 [demo_collection]: http://codepen.io/collection/nNzQxk/
 [demo_basic]: http://codepen.io/benjamincharity/pen/amxVaV?editors=1000
@@ -1045,6 +1051,7 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [demo_service_select]: http://codepen.io/benjamincharity/pen/KgLxRW?editors=0010
 [demo_create_remote_docready]: http://codepen.io/benjamincharity/pen/NRVLEb?editors=0010
 [demo_inject_slide]: http://codepen.io/benjamincharity/pen/qaGJmW?editors=0010
+[demo_bglazyload]: http://codepen.io/kukac7/pen/vyXjBp
 
 [demo_collection]: http://codepen.io/collection/nNzQxk/
 [demo_basic]: http://codepen.io/benjamincharity/pen/amxVaV?editors=1000
@@ -1053,6 +1060,7 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [demo_service_select]: http://codepen.io/benjamincharity/pen/KgLxRW?editors=0010
 [demo_create_remote_docready]: http://codepen.io/benjamincharity/pen/NRVLEb?editors=0010
 [demo_inject_slide]: http://codepen.io/benjamincharity/pen/qaGJmW?editors=0010
+[demo_bglazyload]: http://codepen.io/kukac7/pen/vyXjBp
 
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
