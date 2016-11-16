@@ -1054,15 +1054,6 @@ Made by [Metafizzy][metafizzy] who make seriously [awesome][packery], [stuff][is
 [demo_inject_slide]: http://codepen.io/benjamincharity/pen/qaGJmW?editors=0010
 [demo_bglazyload]: http://codepen.io/kukac7/pen/vyXjBp
 
-[demo_collection]: http://codepen.io/collection/nNzQxk/
-[demo_basic]: http://codepen.io/benjamincharity/pen/amxVaV?editors=1000
-[demo_multiple_instances]: http://codepen.io/benjamincharity/pen/dpEqoj?editors=1000
-[demo_events]: http://codepen.io/benjamincharity/pen/yaWxor?editors=0010
-[demo_service_select]: http://codepen.io/benjamincharity/pen/KgLxRW?editors=0010
-[demo_create_remote_docready]: http://codepen.io/benjamincharity/pen/NRVLEb?editors=0010
-[demo_inject_slide]: http://codepen.io/benjamincharity/pen/qaGJmW?editors=0010
-[demo_bglazyload]: http://codepen.io/kukac7/pen/vyXjBp
-
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/angular-flickity
