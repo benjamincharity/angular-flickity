@@ -67,6 +67,7 @@ _[Comments and pull requests welcome!][issues]_
 - [AngularJS `(^1.4.0)`][angular]
 - [Flickity `(^2.0.5)`][flickity_docs]
 - [flickity-imagesloaded `(^2.0.0)`][flickity_imagesloaded] (if using the [imagesloaded option][flickity_options])
+- [flickity-bg-lazyload `(^1.0.0)`][flickity-bg-lazyload] (if using the [bgLazyLoad option][flickity_options])
 
 
 #### NPM
