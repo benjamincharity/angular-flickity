@@ -65,7 +65,7 @@ _[Comments and pull requests welcome!][issues]_
 #### Dependencies
 
 - [AngularJS `(^1.4.0)`][angular]
-- [Flickity `(^2.0.3)`][flickity_docs]
+- [Flickity `(^2.0.5)`][flickity_docs]
 - [flickity-imagesloaded `(^2.0.0)`][flickity_imagesloaded] (if using the [imagesloaded option][flickity_options])
 
 
