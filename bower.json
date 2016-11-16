@@ -25,7 +25,7 @@
     ],
     "dependencies": {
         "angular": "^1.4.0",
-        "flickity": "^2.0.3",
+        "flickity": "^2.0.5",
         "imagesloaded": "^4.1.1"
     },
     "ignore": [
