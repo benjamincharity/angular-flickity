@@ -33,7 +33,7 @@
     "watch:tests": "karma start"
   },
   "dependencies": {
-    "angular": "^1.4.0",
+    "angular": ">= 1.4.0",
     "flickity": "^2.0.5"
   },
   "devDependencies": {
