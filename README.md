@@ -170,7 +170,7 @@ Use the directive on the parent element containing your slides.
 
 ## Options
 
-This module supports all options for Flickity version `2.0.3`. A full list of options can be
+This module supports all options for Flickity version `2.0.5`. A full list of options can be
 found here: [Flickity Options](http://flickity.metafizzy.co/options.html).
 
 Simply pass in an object containing any options you'd like to set.
