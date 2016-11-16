@@ -53,6 +53,7 @@ const config = {
         new webpack.optimize.UglifyJsPlugin({
             include: /\.min\.js$/,
             minimize: true,
+            sourceMap: false,
         }),
     ],
 };
