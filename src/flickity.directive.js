@@ -1,9 +1,9 @@
 /* global Flickity */
-import { FlickityController } from './flickity.controller';
 
 export function FlickityDirective(
     $timeout,
-    FlickityService
+    FlickityService,
+    FlickityConfig
 ) {
     'ngInject';
 
@@ -20,7 +20,7 @@ export function FlickityDirective(
                 post: postLinkFunction,
             };
         },
-        controller: FlickityController,
+        controller: () => {},
         controllerAs: 'vm',
     };
 
@@ -29,6 +29,11 @@ export function FlickityDirective(
 
     function preLinkFunction($scope, $element, $attrs, $controller) {
         'ngInject';
+
+        // Get the user's options or start with an empty object
+        const userOptions = angular.fromJson($controller.bcFlickity || {});
+        // Combine the user options with the default options
+        $controller.options = angular.extend({}, FlickityConfig, userOptions);
 
         // If no ID was passed in
         if (!$controller.bcFlickityId) {
