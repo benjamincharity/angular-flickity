@@ -43,25 +43,27 @@ export class PreviousController {
      */
     _setId() {
         return new Promise((resolve, reject) => {
+            this.$timeout(() => {
 
-            if (this.bcFlickityId) {
-                this.flickityId = this.bcFlickityId;
-                return resolve(this.flickityId);
-            } else {
-                this.$timeout(() => {
-                    this.FlickityService.getFirst()
-                        .then((instance) => {
-                            this.flickityId = instance.id;
-                            return resolve(this.flickityId);
-                        })
-                        .catch((error) => {
-                            this.$log.warn(error);
-                            return reject(error);
-                        })
-                    ;
-                });
-            }
+                if (this.bcFlickityId) {
+                    this.flickityId = this.bcFlickityId;
+                    return resolve(this.flickityId);
+                } else {
+                    this.$timeout(() => {
+                        this.FlickityService.getFirst()
+                            .then((instance) => {
+                                this.flickityId = instance.id;
+                                return resolve(this.flickityId);
+                            })
+                            .catch((error) => {
+                                this.$log.warn(error);
+                                return reject(error);
+                            })
+                        ;
+                    });
+                }
 
+            });
         });
     }
 
