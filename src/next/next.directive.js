@@ -44,10 +44,10 @@ export function FlickityNextDirective(
 
         // Listen
         const cellSelect = $rootScope.$on(selectEvent, (event, data) => {
-            _disableButtonIfNeeded(data.instance.cells.length, data.instance.selectedIndex + 1);
+            _disableButtonIfNeeded(data.instance.slides.length, data.instance.selectedIndex + 1);
         });
         const settle = $rootScope.$on(settleEvent, (event, data) => {
-            _disableButtonIfNeeded(data.instance.cells.length, data.instance.selectedIndex + 1);
+            _disableButtonIfNeeded(data.instance.slides.length, data.instance.selectedIndex + 1);
         });
 
 
