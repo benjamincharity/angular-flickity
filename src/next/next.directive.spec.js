@@ -21,6 +21,7 @@ describe('FlickityNextDirective', () => {
                 'http://cdn.benjamincharity.com/codepen/angular-flickity/slide4.jpg',
             ];
             this.$scope.flickityOptions = {
+                groupCells: 2,
                 prevNextButtons: true,
                 wrapAround: false,
             };
@@ -54,24 +55,25 @@ describe('FlickityNextDirective', () => {
                         </figure>
                     </div>
                     <button id="next" bc-flickity-next bc-flickity-id="js_demo">
-                        Previous
+                        Next
                     </button>
                 </div>
             `);
             this.compileDirective(template);
             const customID = 'js_demo';
-            const INDEX = 3;
             const DELAY = 300;
 
             // We must wrap in a $timeout since create() is also in a $timeout
             this.$timeout(() => {
-                this.FlickityService.select(customID, INDEX).then((instance) => {
-                    const button = this.element.find('button');
-                    const actual = button.attr('disabled');
+                Array.apply(null, Array(this.$scope.slides.length / 2 - 1))
+                    .reduce((acc) => acc.then(() => this.FlickityService.next(customID)), Promise.resolve())
+                    .then((data) => {
+                        const button = angular.element(data.instance.element.querySelector('button.next'));
+                        const actual = button.attr('disabled');
 
-                    expect(actual).toBeUndefined();
-                    done();
-                });
+                        expect(actual).toBeTruthy();
+                        done();
+                    });
             }, DELAY);
 
             this.$timeout.flush();
