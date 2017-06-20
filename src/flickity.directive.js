@@ -1,4 +1,4 @@
-/* global Flickity */
+/* global flickity */
 
 export function FlickityDirective(
     $timeout,
