@@ -20,7 +20,7 @@ const config = {
         umdNamedDefine: true,
     },
     externals: {
-        'flickity': 'Flickity',
+        'flickity': 'flickity',
     },
     module: {
         preLoaders: [
@@ -59,4 +59,3 @@ const config = {
 };
 
 module.exports = config;
-
