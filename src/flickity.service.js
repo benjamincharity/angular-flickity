@@ -1,4 +1,4 @@
-import flickity from 'flickity';
+import flickity from 'flickity-as-nav-for';
 
 export class FlickityService {
 

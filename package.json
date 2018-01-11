@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "angular": "^1.4.0",
-    "flickity": "^2.0.5"
+    "flickity": "^2.0.5",
+    "flickity-as-nav-for": "^2.0.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.8",
