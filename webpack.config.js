@@ -20,7 +20,7 @@ const config = {
         umdNamedDefine: true,
     },
     externals: {
-        'flickity': 'flickity',
+        'flickity-as-nav-for': 'flickity-as-nav-for',
     },
     module: {
         preLoaders: [
