@@ -27,7 +27,7 @@
   ],
   "main": "dist/angular-flickity.js",
   "scripts": {
-    "build": "WEBPACK_ENV=build webpack && osx-notifier --type \"pass\" --title \"Build successful\" --message \"gg\" --group \"npmBuild\"",
+    "build": "cross-env WEBPACK_ENV=build webpack && osx-notifier --type \"pass\" --title \"Build successful\" --message \"gg\" --group \"npmBuild\"",
     "watch": "npm run build && onchange 'src/**/*.js' -- npm run build",
     "test": "karma start --singleRun=true",
     "watch:tests": "karma start"
@@ -44,6 +44,7 @@
     "babel-loader": "6.1.0",
     "babel-plugin-add-module-exports": "0.1.2",
     "babel-preset-es2015": "6.3.13",
+    "cross-env": "^5.1.4",
     "eslint": "^3.8.1",
     "eslint-config-moment": "^2.1.4",
     "eslint-loader": "^1.6.1",
