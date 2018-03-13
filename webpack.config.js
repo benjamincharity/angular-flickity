@@ -20,7 +20,12 @@ const config = {
         umdNamedDefine: true,
     },
     externals: {
-        'flickity': 'Flickity',
+        flickity: {
+            commonjs: 'flickity',
+            commonjs2: 'flickity',
+            amd: 'flickity',
+            root: 'Flickity',
+        },
     },
     module: {
         preLoaders: [
