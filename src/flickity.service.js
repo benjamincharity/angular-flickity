@@ -556,7 +556,11 @@ export class FlickityService {
             }
 
             const ID = this.instances[flickityIndex].id;
-
+            
+            _this21.instances[flickityIndex].instance.on('change', function () {
+                _this21.$rootScope.$emit('Flickity:' + ID + ':change', _this21.instances[flickityIndex]);
+            });
+            
             this.instances[flickityIndex].instance.on('select', () => {
                 this.$rootScope.$emit(`Flickity:${ID}:select`, this.instances[flickityIndex]);
             });
